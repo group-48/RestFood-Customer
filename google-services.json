@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "439104730157-op7gj27cbevnmvr2bnmfobpdh2t2gcs0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.dash.restfood_customer",
-            "certificate_hash": "eeea10a09a4a3d3dad0cc701dabdaa1a54d89d62"
-          }
-        },
-        {
           "client_id": "439104730157-o0j040qk4bfl2d61ivhmk4i2s1dvm9f2.apps.googleusercontent.com",
           "client_type": 3
         }
