@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.w3c.dom.Text;
 
@@ -64,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(LoginActivity.this,"successful",Toast.LENGTH_SHORT).show();
+                    FirebaseUser user=firebaseAuth.getCurrentUser();
+                    updateUI(user);
                 }
                 else{
                     FirebaseAuthException e = (FirebaseAuthException )task.getException();
@@ -82,5 +85,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent=new Intent(LoginActivity.this,SignUpActivity.class);
             startActivity(intent);
         }
+    }
+
+    private void updateUI(FirebaseUser user){
+        String username=user.getEmail();
+        Intent intent=new Intent(this,HomeActivity.class);
+        intent.putExtra("userName",username);
+        finish();
+        startActivity(intent);
     }
 }
