@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "439104730157",
+    "firebase_url": "https://restfood-3a1fc.firebaseio.com",
+    "project_id": "restfood-3a1fc",
+    "storage_bucket": "restfood-3a1fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439104730157:android:dfb136e84d7d7d26",
+        "android_client_info": {
+          "package_name": "com.dash.restfood_customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439104730157-o0j040qk4bfl2d61ivhmk4i2s1dvm9f2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRITGOjoT79HZP8XRdZt56gJ2-jTC_uLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439104730157-o0j040qk4bfl2d61ivhmk4i2s1dvm9f2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
