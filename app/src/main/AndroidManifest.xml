@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dash.restfood_customer">
-<<<<<<< HEAD
 
-    <uses-permission android:name="android.permission.INTERNET" />
-=======
->>>>>>> 16bf02dc42303e9febfe641961e0b5f66c83c93a
 
     <application
         android:allowBackup="true"
