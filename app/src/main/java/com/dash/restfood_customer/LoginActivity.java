@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         firebaseAuth=FirebaseAuth.getInstance();
 
+        getSupportActionBar().hide();
+
         btn_login=(Button) findViewById(R.id.btn_login);
         et_email=(EditText)findViewById(R.id.et_email);
         et_password=(EditText)findViewById(R.id.et_password);

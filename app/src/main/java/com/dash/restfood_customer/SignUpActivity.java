@@ -49,9 +49,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     //firebase auth
     private FirebaseAuth firebaseAuth;
 
-    //firebase database
+    /*firebase database
 
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference;*/
 
     //firestore
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -62,10 +62,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        getSupportActionBar().hide();
+
         FirebaseApp.initializeApp(this);
         firebaseAuth=FirebaseAuth.getInstance();
 
-        databaseReference=FirebaseDatabase.getInstance().getReference();
+        //databaseReference=FirebaseDatabase.getInstance().getReference();
 
         progressDialog=new ProgressDialog(this);
 
