@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
@@ -47,19 +49,25 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     //firebase auth
     private FirebaseAuth firebaseAuth;
 
-    //firebase database
+    /*firebase database
 
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference;*/
+
+    //firestore
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        getSupportActionBar().hide();
+
         FirebaseApp.initializeApp(this);
         firebaseAuth=FirebaseAuth.getInstance();
 
-        databaseReference=FirebaseDatabase.getInstance().getReference();
+        //databaseReference=FirebaseDatabase.getInstance().getReference();
 
         progressDialog=new ProgressDialog(this);
 
@@ -86,20 +94,36 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         FirebaseUser user=firebaseAuth.getCurrentUser();
         Customer customer=new Customer(email,fname,lname,phone,dob);
-        databaseReference.child("Users").child("Customers").child(user.getUid()).setValue(customer).addOnSuccessListener(new OnSuccessListener<Void>() {
+        /*databaseReference.child("Users").child("Customers").child(user.getUid()).setValue(customer).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(SignUpActivity.this,"User Updated",Toast.LENGTH_SHORT).show();
-                finish();
-                Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
-                startActivity(intent);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(SignUpActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+
             }
-        }) ;
+        }) ;*/
+
+
+        db.collection("users")
+                .add(customer)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(SignUpActivity.this,"User Updated",Toast.LENGTH_SHORT).show();
+                        finish();
+                        Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SignUpActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
     }
