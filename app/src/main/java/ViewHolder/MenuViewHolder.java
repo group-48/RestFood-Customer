@@ -7,7 +7,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dash.restfood_customer.Interface.ItemClickListener;
-import com.dash.restfood_customer.MainActivity;
 import com.dash.restfood_customer.R;
 
 public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

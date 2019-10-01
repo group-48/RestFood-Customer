@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import ViewHolder.MenuViewHolder;
 
-public class MainActivity extends AppCompatActivity {
+public class FoodCategory extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
     FirebaseDatabase database;
@@ -29,14 +29,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_food_category);
         database=FirebaseDatabase.getInstance();
         mDatabase= database.getReference("Category");
         mDatabase.keepSynced(true);
 
         mRecyclerView=(RecyclerView)findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,1 );
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(FoodCategory.this,1 );
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
         loadMenu();
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadMenu() {
 
         firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Category, MenuViewHolder>
-                (Category.class,R.layout.recycler_row_item,MenuViewHolder.class, mDatabase) {
+                (Category.class,R.layout.food_item,MenuViewHolder.class, mDatabase) {
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
                     viewHolder.txtMenuName.setText(model.getName());
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
                      @Override
                      public void onclick(View view, int position, boolean isLongClick) {
-                         Intent foodList=new Intent(MainActivity.this,FoodList.class);
+                         Intent foodList=new Intent(FoodCategory.this,FoodList.class);
                          foodList.putExtra("CategoryId",firebaseRecyclerAdapter.getRef(position).getKey());
                          startActivity(foodList);
                      }
