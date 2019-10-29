@@ -1,43 +1,60 @@
 package com.dash.restfood_customer;
 
+import ViewHolder.CategoryViewHolder;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.dash.restfood_customer.Interface.ItemClickListener;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+
 import com.squareup.picasso.Picasso;
-
-import ViewHolder.MenuViewHolder;
 
 public class FoodCategory extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
-    FirebaseDatabase database;
-    DatabaseReference mDatabase;
-    FirebaseRecyclerAdapter <Category,MenuViewHolder> firebaseRecyclerAdapter;
+
+
+    //FirebaseRecyclerAdapter<Category,CategoryViewHolder> firebaseRecyclerAdapter;
+
+    FirestoreRecyclerAdapter <Category, CategoryViewHolder> firestoreRecyclerAdapter;
+    FirebaseFirestore db=FirebaseFirestore.getInstance();
+    private CollectionReference categoryRef=db.collection("Category");
+    private Query query;
+
 
     //List<Category> myFoodList;
     Category mFoodData;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        firestoreRecyclerAdapter.startListening();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_category);
-        database=FirebaseDatabase.getInstance();
-        mDatabase= database.getReference("Category");
-        mDatabase.keepSynced(true);
+
 
         mRecyclerView=(RecyclerView)findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(FoodCategory.this,1 );
         mRecyclerView.setLayoutManager(gridLayoutManager);
+
+        query = categoryRef;
 
         loadMenu();
 
@@ -46,10 +63,10 @@ public class FoodCategory extends AppCompatActivity {
 
     private void loadMenu() {
 
-        firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Category, MenuViewHolder>
-                (Category.class,R.layout.food_item,MenuViewHolder.class, mDatabase) {
+        /*firebaseRecyclerAdapter =new FirebaseRecyclerAdapter<Category, CategoryViewHolder>
+                (Category.class,R.layout.food_item,CategoryViewHolder.class, mDatabase) {
             @Override
-            protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
+            protected void populateViewHolder(CategoryViewHolder viewHolder, Category model, int position) {
                     viewHolder.txtMenuName.setText(model.getName());
                     Picasso.get().load(model.getImage()).into(viewHolder.imageView);
 
@@ -66,12 +83,44 @@ public class FoodCategory extends AppCompatActivity {
                      }
                  });
             }
+        };*/
+
+        FirestoreRecyclerOptions<Category> options = new FirestoreRecyclerOptions.Builder<Category>()
+                .setQuery(query, Category.class)
+                .build();
+
+        firestoreRecyclerAdapter = new FirestoreRecyclerAdapter<Category, CategoryViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull CategoryViewHolder menuViewHolder, int i, @NonNull Category category) {
+                menuViewHolder.txtMenuName.setText(category.getName());
+                Picasso.get().load(category.getImage()).into(menuViewHolder.imageView);
+                Log.d("Error",category.getName());
+            }
+
+            @NonNull
+            @Override
+            public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
+                Log.d("Error","hiiiiiiiii");
+                return new CategoryViewHolder(view);
+            }
+
+            @Override
+            public void onError(FirebaseFirestoreException e) {
+                Log.e("error", e.getMessage());
+            }
         };
 
-        mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
+
+
+
+        mRecyclerView.setAdapter(firestoreRecyclerAdapter);
 
 
     }
+
+
 
 
 

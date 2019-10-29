@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dash.restfood_customer.Interface.ItemClickListener;
 import com.dash.restfood_customer.R;
 
-public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView txtMenuName;
     public ImageView imageView;
@@ -18,7 +18,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
 
 
-    public MenuViewHolder(View itemView){
+    public CategoryViewHolder(View itemView){
         super(itemView);
 
         txtMenuName=(TextView)itemView.findViewById(R.id.tvTitle);
