@@ -6,18 +6,22 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
+    FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +43,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void checkAuth() {
-
+        firebaseAuth= FirebaseAuth.getInstance();
+        FirebaseUser user=firebaseAuth.getCurrentUser();
+        if(user==null){
+            Toast.makeText(this,"no user",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this,user.getUid(),Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -59,7 +70,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this,"This is Home",Toast.LENGTH_SHORT).show();
         }
         else if(id==R.id.logOut){
-
+            FirebaseAuth.getInstance().signOut();
+            Intent intent=new Intent(this,LoginActivity.class);
+            startActivity(intent);
         }
         return false;
     }
