@@ -15,7 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawerLayout;
+    public DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
@@ -34,8 +34,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView=(NavigationView)findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        checkAuth();
     }
 
+    private void checkAuth() {
+
+    }
 
 
     @Override
@@ -52,6 +57,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         if(id==R.id.home){
             Toast.makeText(this,"This is Home",Toast.LENGTH_SHORT).show();
+        }
+        else if(id==R.id.logOut){
+
         }
         return false;
     }
