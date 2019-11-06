@@ -2,59 +2,62 @@ package com.dash.restfood_customer;
 
 public class Food {
 
-    private String Name,Image,Description,Price,MenuId;
+    private String category;
+    private String foodName;
+    private String description;
+    private Integer price;
+    private String image;
 
-    public Food(String name, String image, String description, String price, String menuId) {
-        Name = name;
-        Image = image;
-        Description = description;
-        Price = price;
-        MenuId = menuId;
+
+    public Food(String category, String foodName, String description, String image) {
+        this.category = category;
+        this.foodName = foodName;
+        this.description = description;
+        this.price=price;
+        this.image = image;
     }
 
-    public String getName() {
-        return Name;
+    public String getCategory() {
+        return category;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getImage() {
-        return Image;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setImage(String image) {
-        Image = image;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
-    public String getPrice() {
-        return Price;
+    public Integer getPrice() {
+        return price;
     }
 
-    public void setPrice(String price) {
-        Price = price;
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
-    public String getMenuId() {
-        return MenuId;
+    public String getImage() {
+        return image;
     }
 
-    public void setMenuId(String menuId) {
-        MenuId = menuId;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public Food(){
-
-    }
+    public Food(){}
 
 
 }

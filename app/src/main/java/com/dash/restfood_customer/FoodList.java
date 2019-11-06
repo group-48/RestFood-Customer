@@ -1,86 +1,96 @@
+
 package com.dash.restfood_customer;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.dash.restfood_customer.Interface.ItemClickListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
 import ViewHolder.FoodViewHolder;
 
-public class FoodList extends AppCompatActivity {
+public class FoodList extends AppCompatActivity
+{
 
-    RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-
-    FirebaseDatabase database;
-    DatabaseReference foodList;
-    FirebaseRecyclerAdapter<Food, FoodViewHolder> firebaseRecyclerAdapter;
-
-    String categoryId="";
-
+    FirebaseFirestore db=FirebaseFirestore.getInstance();
+    String category;
+    private  FoodAdapter adapter;
+    private CollectionReference ref=db.collection("shop").document("dILfWEqZh7fN5LBtiWMFMoeCShe2").collection("FoodList");
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
-
-        //firebase
-        database=FirebaseDatabase.getInstance();
-        foodList=database.getReference("Food");
-        //foodList.keepSynced(true);
-
-        recyclerView=(RecyclerView)findViewById(R.id.recycler_food);
-         recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        //Get the intent
-
-        if (getIntent()!=null)
-            categoryId=getIntent().getStringExtra("CategoryId");
-        if (!categoryId.isEmpty() && categoryId!=null) {
-            loadListFood(categoryId);
+        if(getIntent()!=null)
+        //Intent catInt=getIntent();
+        category=getIntent().getStringExtra("Category");
+        if(!category.isEmpty() && category!=null){
+            loadListFood(category);
         }
+
+    }
+
+    private void loadListFood(String category) {
+
+        Query query=ref.whereEqualTo("category",category).orderBy("foodName",Query.Direction.ASCENDING);
+
+        FirestoreRecyclerOptions<Food>options=new FirestoreRecyclerOptions.Builder<Food>().setQuery(query,Food.class).build();
+        adapter=new FoodAdapter(options);
+
+        RecyclerView recyclerView=findViewById(R.id.recycler_food);
+        recyclerView.setHasFixedSize(true);
+        layoutManager=new LinearLayoutManager(this);
+       recyclerView.setLayoutManager(layoutManager);
+
+
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Food obj=documentSnapshot.toObject(Food.class);
+                //Toast.makeText(getApplicationContext(),obj.getName(),Toast.LENGTH_LONG).show();
+                Intent inta=new Intent(FoodList.this, FoodDetail.class);
+                inta.putExtra("Food",obj.getFoodName());
+                inta.putExtra("docId",documentSnapshot.getId());
+                startActivity(inta);
+            }
+        });
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }
 
-    private void loadListFood(String categoryId) {
-         firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Food, FoodViewHolder>(Food.class,
-                 R.layout.menu_item,
-                 FoodViewHolder.class,
-                 foodList.orderByChild("MenuId").equalTo(categoryId)){
-             @Override
-             protected void populateViewHolder(FoodViewHolder viewHolder, Food model, int position) {
-
-                 viewHolder.food_name.setText(model.getName());
-                 Picasso.get().load(model.getImage()).into(viewHolder.food_image);
-
-             final Food local=model;
-             viewHolder.setItemClickListener(new ItemClickListener(){
 
 
-                 @Override
-                 public void onclick(View view, int position, boolean isLongClick) {
-                     Intent foodDetail=new Intent(FoodList.this,FoodDetail.class);
-                     foodDetail.putExtra("FoodId",firebaseRecyclerAdapter.getRef(position).getKey());
-                     startActivity(foodDetail);
-                 }
-             });
-
-             }
-         };
-
-         recyclerView.setAdapter(firebaseRecyclerAdapter);
-         Log.d("TAG",""+firebaseRecyclerAdapter.getItemCount());
-    }
-    }
