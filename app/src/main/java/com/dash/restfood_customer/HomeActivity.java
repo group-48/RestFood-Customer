@@ -38,8 +38,7 @@ import android.widget.Button;
       @Override
       public void onClick(View view) {
           if(view==btn_menu){
-              Intent intent=new Intent(this,FoodCategory.class);
-              startActivity(intent);
+
           }
       }
   }

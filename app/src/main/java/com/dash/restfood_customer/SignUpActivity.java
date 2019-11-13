@@ -3,6 +3,7 @@ package com.dash.restfood_customer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
+import java.util.Calendar;
+
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     //declaring ui components
@@ -42,6 +45,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText et_lname;
     private EditText et_dob;
     private EditText et_phone;
+    private DatePickerDialog.OnDateSetListener dateSetListener;
+
 
     //progressbar
     private ProgressDialog progressDialog;
@@ -83,6 +88,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         btn_signup.setOnClickListener(this);
         tv_login.setOnClickListener(this);
+        et_dob.setOnClickListener(this);
     }
 
     private void saveUserInfo() {
@@ -174,6 +180,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if(view==tv_login){
             Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
             startActivity(intent);
+        }
+
+        if(view==et_dob){
+
         }
     }
 }
