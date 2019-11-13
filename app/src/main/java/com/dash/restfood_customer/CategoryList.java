@@ -16,7 +16,10 @@ import com.google.firebase.firestore.Query;
 public class CategoryList extends AppCompatActivity {
 
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
-    private CollectionReference ref=db.collection("shop").document("dILfWEqZh7fN5LBtiWMFMoeCShe2").collection("Category");
+    String shop;
+    String id;
+    //String id=db.collection("shop").document().getId();
+    private CollectionReference ref;
     public MenuAdapter adapter;
 
     @Override
@@ -24,14 +27,23 @@ public class CategoryList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
 
-        loadMenu();
+        if(getIntent()!=null)
+            //Intent catInt=getIntent();
+            shop=getIntent().getStringExtra("shop");
+            id=getIntent().getStringExtra("id");
+            ref=db.collection("shop").document(id).collection("Category");
+        if(!shop.isEmpty() && shop!=null){
+            loadMenu(shop);
+        }
+
+
 
     }
 
-    private void loadMenu() {
+    private void loadMenu(String shop) {
 
 
-        Query query=ref.orderBy("Name",Query.Direction.ASCENDING);
+          Query query=ref.orderBy("Name",Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<Category> options=new FirestoreRecyclerOptions.Builder<Category>().setQuery(query,Category.class).build();
 
@@ -55,6 +67,7 @@ public class CategoryList extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(),obj.getName(),Toast.LENGTH_LONG).show();
                 Intent inta=new Intent(CategoryList.this, FoodList.class);
                 inta.putExtra("Category",obj.getName());
+                inta.putExtra("docId",id);
                 startActivity(inta);
             }
         });

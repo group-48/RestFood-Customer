@@ -32,8 +32,9 @@ public class FoodList extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     String category;
+    String docId;
     private  FoodAdapter adapter;
-    private CollectionReference ref=db.collection("shop").document("dILfWEqZh7fN5LBtiWMFMoeCShe2").collection("FoodList");
+    private CollectionReference ref;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class FoodList extends AppCompatActivity
         if(getIntent()!=null)
         //Intent catInt=getIntent();
         category=getIntent().getStringExtra("Category");
+        docId=getIntent().getStringExtra("docId");
+        ref=db.collection("shop").document(docId).collection("FoodList");
+
         if(!category.isEmpty() && category!=null){
             loadListFood(category);
         }
@@ -71,6 +75,7 @@ public class FoodList extends AppCompatActivity
                 Intent inta=new Intent(FoodList.this, FoodDetail.class);
                 inta.putExtra("Food",obj.getFoodName());
                 inta.putExtra("docId",documentSnapshot.getId());
+                inta.putExtra("shopdoc",docId);
                 startActivity(inta);
             }
         });

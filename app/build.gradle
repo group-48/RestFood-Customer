@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.dash.restfood_customer"
         minSdkVersion 22
-        // multiDexEnabled true//
+        //multiDexEnabled true
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -25,13 +25,39 @@ dependencies {
 
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.firebase:firebase-firestore:21.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    //not default 
+    //not default
     //implementation 'com.google.firebase:firebase-analytics:17.0.1'
+
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.firebaseui:firebase-ui-database:1.2.0'
+    //implementation 'com.google.firebase:firebase-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-core:10.2.0'
+
+
+    implementation 'com.google.firebase:firebase-database:19.0.0'
+    implementation 'com.google.firebase:firebase-storage:10.2.1'
+    //implementation 'com.google.firebase:firebase-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-firestore:21.0.0'
+
+    implementation 'com.android.support:design:28.0.0'
+
+    implementation 'com.google.firebase:firebase-auth:19.0.0'
+    //implementation 'com.google.firebase:firebase-database:19.0.0'
+
+
+    //navigation
+    /*def nav_version = "2.1.0-rc01"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    implementation "androidx.navigation:navigation-ui:$nav_version"*/
 
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
@@ -42,14 +68,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:10.2.1'
     implementation 'com.google.firebase:firebase-core:10.2.0'
     //implementation 'com.google.firebase:firebase-auth:19.0.0'
-    //implementation 'com.google.firebase:firebase-firestore:21.0.0'
+    implementation 'com.google.firebase:firebase-firestore:21.0.0'
 
     implementation 'com.android.support:design:28.0.0'
 
-    //navigation
-    /*def nav_version = "2.1.0-rc01"
-    implementation "androidx.navigation:navigation-fragment:$nav_version"
-    implementation "androidx.navigation:navigation-ui:$nav_version"*/
+    implementation 'com.google.firebase:firebase-auth:19.0.0'
+
 }
 
 

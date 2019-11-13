@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity  {
 
     public void sublit(View v)
     {
-        Intent inta=new Intent(MainActivity.this, CategoryList.class);
+        Intent inta=new Intent(MainActivity.this, shoplist.class);
         startActivity(inta);
     }
 

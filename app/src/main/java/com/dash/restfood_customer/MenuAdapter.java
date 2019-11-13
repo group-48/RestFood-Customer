@@ -32,12 +32,7 @@ public class MenuAdapter extends FirestoreRecyclerAdapter<Category, MenuAdapter.
         Picasso.get().load(category.getImage()).into(menuHolder.food_image);
 
 
-
-
-
-
-
-        }
+    }
 
     @NonNull
     @Override

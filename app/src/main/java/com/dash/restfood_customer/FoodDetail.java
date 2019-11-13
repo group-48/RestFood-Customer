@@ -36,10 +36,11 @@ public class FoodDetail extends AppCompatActivity {
 
     String food;
     String docId;
+    String shopDoc;
     Food foodObj;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference ref = db.collection("shop").document("dILfWEqZh7fN5LBtiWMFMoeCShe2").collection("FoodList");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +59,16 @@ public class FoodDetail extends AppCompatActivity {
 
 
         if (getIntent() != null)
+        {
             food = getIntent().getStringExtra("Food");
-        docId = getIntent().getStringExtra("docId");
-        Log.d("Nameof:", food);
+            docId = getIntent().getStringExtra("docId");
+            shopDoc=getIntent().getStringExtra("shopdoc");
+
+
+            Log.d("Nameof:", food);
+
+        }
+
 
         if (!food.isEmpty()) {
             getDetailFood(food);
@@ -70,7 +78,7 @@ public class FoodDetail extends AppCompatActivity {
 
     private void getDetailFood(final String food) {
         db.collection("shop")
-                .document("dILfWEqZh7fN5LBtiWMFMoeCShe2")
+                .document(shopDoc)
                 .collection("FoodList")
                 .document(docId)
                 .get()
