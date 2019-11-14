@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".FoodDetail"></activity>
+        <activity android:name=".FoodList" />
+        <activity android:name=".MainActivity">
+        </activity>
+
         <activity android:name=".BaseActivity">
 
         </activity>
@@ -29,6 +34,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".shoplist"></activity>
+
+        <activity android:name=".CategoryList" />
+
     </application>
 
 </manifest>
