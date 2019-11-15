@@ -113,11 +113,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }) ;*/
 
 
-        db.collection("users")
-                .add(customer)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("users").document(user.getUid())
+                .set(customer)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void aVoid) {
                         Toast.makeText(SignUpActivity.this,"User Updated",Toast.LENGTH_SHORT).show();
                         finish();
                         Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);

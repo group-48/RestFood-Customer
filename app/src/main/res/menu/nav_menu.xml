@@ -10,6 +10,16 @@
 
     </item>
 
+    <item android:id="@+id/viewOrders"
+        android:title="View Orders">
+
+    </item>
+
+    <item android:id="@+id/editProfile"
+        android:title="Edit Profile">
+
+    </item>
+
     <item android:id="@+id/logOut"
         android:title="Log Out">
 

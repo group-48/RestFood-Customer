@@ -74,6 +74,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             Intent intent=new Intent(this,LoginActivity.class);
             startActivity(intent);
         }
+        else if(id==R.id.editProfile){
+            Intent intent=new Intent(this,EditProfile.class);
+            startActivity(intent);
+
+        }
         return false;
     }
 }
