@@ -10,12 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dash.restfood_customer.Interface.ItemClickListener;
+import com.dash.restfood_customer.models.Category;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
-
-import ViewHolder.MenuViewHolder;
 
 public class MenuAdapter extends FirestoreRecyclerAdapter<Category, MenuAdapter.MenuHolder> {
     private OnItemClickListener listener;

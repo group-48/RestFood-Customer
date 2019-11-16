@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
+
         firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }) ;
     }
+
 
     public void onClick(View view){
         if(view==btn_login){

@@ -79,6 +79,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
 
         }
+        else if(id==R.id.cart){
+            Intent intent=new Intent(this,CartActivity.class);
+            startActivity(intent);
+
+        }
         return false;
     }
 }
