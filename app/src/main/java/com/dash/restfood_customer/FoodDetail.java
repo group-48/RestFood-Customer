@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.dash.restfood_customer.models.CartItem;
 import com.dash.restfood_customer.models.Food;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,7 +33,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
 
     TextView food_name, food_description, food_price;
     ImageView food_image, btn_Cart;
-
+    ElegantNumberButton et_qty;
 
     String food;
     String docId;
@@ -62,7 +64,8 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
         food_price=(TextView)findViewById(R.id.food_price);
         food_image = (ImageView) findViewById(R.id.food_image);
         btn_Cart = (ImageView) findViewById(R.id.btn_cart);
-
+        et_qty= findViewById(R.id.eb_qty);
+        et_qty.setNumber("1");
 
         if (getIntent() != null)
         {
@@ -111,7 +114,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
         if(v==btn_Cart){
             Log.d("Clicked","yes");
 
-            final CartItem cartItem=new CartItem(foodObj.getFoodName(),foodObj.getImage(),getIntent().getStringExtra("shopdoc"),getIntent().getStringExtra("docId"),"1",foodObj.getPrice());
+            final CartItem cartItem=new CartItem(foodObj.getFoodName(),foodObj.getImage(),getIntent().getStringExtra("shopdoc"),getIntent().getStringExtra("docId"),et_qty.getNumber(),foodObj.getPrice());
 
             db.collection("users")
                     .document(FirebaseAuth.getInstance().getUid())
