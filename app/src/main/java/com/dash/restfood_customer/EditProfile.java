@@ -52,7 +52,6 @@ public class EditProfile extends BaseActivity implements View.OnClickListener {
         btn_edit=(Button)findViewById(R.id.btn_edit);
 
         btn_edit.setOnClickListener(this);
-
         getUserData();
     }
 

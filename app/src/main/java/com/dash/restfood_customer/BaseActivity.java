@@ -67,7 +67,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         int id=menuItem.getItemId();
 
         if(id==R.id.home){
-            Toast.makeText(this,"This is Home",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(this,MainActivity.class);
+            startActivity(intent);
         }
         else if(id==R.id.logOut){
             FirebaseAuth.getInstance().signOut();
