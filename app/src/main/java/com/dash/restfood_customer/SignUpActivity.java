@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import static android.telephony.PhoneNumberUtils.isGlobalPhoneNumber;
+
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     //declaring ui components
@@ -128,19 +130,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void registerUser(){
+        if(!validate()){
+            return;
+        }
         String email=et_email.getText().toString().trim();
         String password=et_password.getText().toString().trim();
 
-        if(TextUtils.isEmpty((email))){
-            Toast.makeText(this,"Please enter your email",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(TextUtils.isEmpty((password))){
-            Toast.makeText(this,"Please enter a password",Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        progressDialog.setMessage("Reistration in progress");
+        progressDialog.setMessage("Registration in progress");
         progressDialog.show();
 
         firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -161,6 +158,53 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         });
 
 
+    }
+
+    private boolean validate() {
+        String email=et_email.getText().toString().trim();
+        String fname=et_fname.getText().toString().trim();
+        String lname=et_lname.getText().toString().trim();
+        String dob=et_dob.getText().toString().trim();
+        String phone=et_phone.getText().toString().trim();
+        String password=et_password.getText().toString().trim();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if(TextUtils.isEmpty((email))){
+            Toast.makeText(this,"Please enter your email",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!email.matches(emailPattern)){
+            Toast.makeText(this,"Please enter a valid email",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty((password))){
+            Toast.makeText(this,"Please enter a password",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty((fname))){
+            Toast.makeText(this,"Please enter your First Name",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty((lname))){
+            Toast.makeText(this,"Please enter your Last Name",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty((dob))){
+            Toast.makeText(this,"Please enter Your DOB",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty((phone))){
+            Toast.makeText(this,"Please enter your Contact No.",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (!isGlobalPhoneNumber(phone)){
+            Toast.makeText(this,"Please enter a valid Contact No.",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+
+        return true;
     }
 
 
