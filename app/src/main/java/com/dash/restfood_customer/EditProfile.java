@@ -3,6 +3,7 @@ package com.dash.restfood_customer;
 import androidx.annotation.NonNull;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +31,7 @@ public class EditProfile extends BaseActivity implements View.OnClickListener {
 
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-
+    private ProgressDialog progressDialog;
     Customer customer;
 
     @Override
@@ -51,12 +52,16 @@ public class EditProfile extends BaseActivity implements View.OnClickListener {
         et_phone=(EditText)findViewById(R.id.et_phone);
         btn_edit=(Button)findViewById(R.id.btn_edit);
 
+        progressDialog=new ProgressDialog(this);
+
         btn_edit.setOnClickListener(this);
         getUserData();
     }
 
     private void getUserData() {
         String uid=user.getUid();
+        progressDialog.setMessage("Getting user Profile info");
+        progressDialog.show();
         DocumentReference documentReference=db.collection("users").document(uid);
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -69,6 +74,7 @@ public class EditProfile extends BaseActivity implements View.OnClickListener {
                     et_lname.setText(document.get("lName").toString());
                     et_fname.setText(document.get("fName").toString());
                     et_phone.setText(document.get("phone").toString());
+                    progressDialog.hide();
                 } else {
                     Log.d("Document", "No such document");
                 }

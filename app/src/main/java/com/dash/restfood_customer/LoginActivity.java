@@ -3,6 +3,7 @@ package com.dash.restfood_customer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     FirebaseAuth firebaseAuth;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tv_signup.setOnClickListener(this);
         tv_forgot.setOnClickListener(this);
 
+        progressDialog=new ProgressDialog(this);
 
     }
 
@@ -72,10 +76,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(LoginActivity.this,"successful",Toast.LENGTH_SHORT).show();
+                    progressDialog.hide();
                     FirebaseUser user=firebaseAuth.getCurrentUser();
                     updateUI(user);
                 }
                 else{
+                    progressDialog.hide();
                     FirebaseAuthException e = (FirebaseAuthException )task.getException();
                     Toast.makeText(LoginActivity.this,"failed"+e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
@@ -86,6 +92,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void onClick(View view){
         if(view==btn_login){
+            progressDialog.setMessage("Verifying user");
+            progressDialog.show();
             signInUser();
         }
 

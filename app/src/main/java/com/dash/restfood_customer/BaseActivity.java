@@ -6,10 +6,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -20,6 +22,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     public DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private ProgressDialog progressDialog;
 
     FirebaseAuth firebaseAuth;
     @Override
@@ -40,6 +43,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         checkAuth();
+        progressDialog=new ProgressDialog(this);
     }
 
     private void checkAuth() {
@@ -71,9 +75,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
         else if(id==R.id.logOut){
+            progressDialog.setMessage("Logging out");
+            progressDialog.show();
             FirebaseAuth.getInstance().signOut();
             Intent intent=new Intent(this,LoginActivity.class);
+            progressDialog.hide();
             startActivity(intent);
+            this.finish();
         }
         else if(id==R.id.editProfile){
             Intent intent=new Intent(this,EditProfile.class);
