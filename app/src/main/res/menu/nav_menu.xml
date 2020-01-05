@@ -16,7 +16,10 @@
     </item>
 
     <item android:id="@+id/viewOrders"
-        android:title="View Orders">
+        android:title="View Orders"/>
+
+    <item android:id="@+id/trackOrders"
+        android:title="Track Order">
 
     </item>
 
