@@ -4,16 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 
+import com.dash.restfood_customer.models.Category;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class CategoryList extends AppCompatActivity {
+public class CategoryList extends BaseActivity {
 
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
     String shop;
@@ -25,7 +30,14 @@ public class CategoryList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_list);
+
+        //inflate begin
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //inflate your activity layout here!
+        @SuppressLint("InflateParams")
+        View contentView = inflater.inflate(R.layout.activity_category_list, null, false);
+        drawerLayout.addView(contentView, 0);
+        //inflate end
 
         if(getIntent()!=null)
             //Intent catInt=getIntent();

@@ -4,35 +4,36 @@ package com.dash.restfood_customer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.Image;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.dash.restfood_customer.models.CartItem;
+import com.dash.restfood_customer.models.Food;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
 
-
-public class FoodDetail extends AppCompatActivity {
+public class FoodDetail extends BaseActivity implements View.OnClickListener {
 
     TextView food_name, food_description, food_price;
-    ImageView food_image, btnCart;
+    ImageView food_image, btn_Cart;
+    ElegantNumberButton et_qty;
 
     String food;
     String docId;
@@ -46,7 +47,14 @@ public class FoodDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_detail);
+
+        //inflate begin
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //inflate your activity layout here!
+        @SuppressLint("InflateParams")
+        View contentView = inflater.inflate(R.layout.activity_food_detail, null, false);
+        drawerLayout.addView(contentView, 0);
+        //inflate end
 
 
         //initialise view
@@ -55,8 +63,9 @@ public class FoodDetail extends AppCompatActivity {
         food_description = (TextView) findViewById(R.id.food_description);
         food_price=(TextView)findViewById(R.id.food_price);
         food_image = (ImageView) findViewById(R.id.food_image);
-        btnCart = (ImageView) findViewById(R.id.btn_cart);
-
+        btn_Cart = (ImageView) findViewById(R.id.btn_cart);
+        et_qty= findViewById(R.id.eb_qty);
+        et_qty.setNumber("1");
 
         if (getIntent() != null)
         {
@@ -73,6 +82,8 @@ public class FoodDetail extends AppCompatActivity {
         if (!food.isEmpty()) {
             getDetailFood(food);
         }
+
+        btn_Cart.setOnClickListener(this);
 
     }
 
@@ -96,6 +107,44 @@ public class FoodDetail extends AppCompatActivity {
                     }
 
                 });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v==btn_Cart){
+            Log.d("Clicked","yes");
+
+            final CartItem cartItem=new CartItem(foodObj.getFoodName(),foodObj.getImage(),getIntent().getStringExtra("shopdoc"),getIntent().getStringExtra("docId"),et_qty.getNumber(),foodObj.getPrice());
+
+            db.collection("users")
+                    .document(FirebaseAuth.getInstance().getUid())
+                    .collection("cart")
+                    .document(cartItem.getFoodId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if(documentSnapshot.exists()){
+                        Toast.makeText(FoodDetail.this,"Item Already in Cart",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        db.collection("users")
+                                .document(FirebaseAuth.getInstance().getUid())
+                                .collection("cart")
+                                .document(cartItem.getFoodId())
+                                .set(cartItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(FoodDetail.this,"Item Added to Cart",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+
+                }
+            });
+
+
+
+
+        }
     }
 }
 

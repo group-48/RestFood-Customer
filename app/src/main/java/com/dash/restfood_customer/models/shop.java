@@ -1,4 +1,4 @@
-package com.dash.restfood_customer;
+package com.dash.restfood_customer.models;
 
 public class shop {
 
