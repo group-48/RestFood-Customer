@@ -23,9 +23,9 @@ import com.google.firebase.auth.FirebaseUser;
 import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener  {
-    //hey
+
     private Button btn_login;
-    //yo mama
+    private Button btn_login;
     private EditText et_email;
     private EditText et_password;
     private TextView tv_signup;
