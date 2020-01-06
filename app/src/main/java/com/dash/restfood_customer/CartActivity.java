@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.dash.restfood_customer.models.CartItem;
 import com.dash.restfood_customer.models.shop;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +55,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     public CartAdapter adapter;
     int[] total = new int[1];
     List<String> food_list = new ArrayList<String>();
+    List<String> qty=new ArrayList<String>();
     public String[] shopId = new String[1];
 
     @Override
@@ -104,6 +107,9 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v==btn_checkout){
+            SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
+            SharedPreferences.Editor editor = sharedPref.edit();
+
 
             db.collection("users").document(user.getUid()).collection("cart")
                     .get()
@@ -115,16 +121,22 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                                     Log.d("CartActvity", document.getId() + " => " + document.getData());
                                     Log.d("CartActvity", document.getId() + " => " + document.get("foodId"));
                                     food_list.add(document.get("foodId").toString());
-                                    total[0] += Integer.parseInt(document.get("price").toString());
+                                    qty.add(document.get("qty").toString());
+                                    total[0] =total[0]+(Integer.parseInt(document.get("price").toString())*Integer.parseInt(document.get("qty").toString()));
                                     shopId[0] =document.get("shopId").toString();
                                 }
                                 String[] foods = new String[ food_list.size() ];
                                 food_list.toArray( foods);
 
+                                String[] quantity = new String[ qty.size() ];
+                                qty.toArray( quantity);
+
+
                                 Log.d("CartActvity", shopId[0]);
                                 Map<String,Object> order=new HashMap<>();
                                 order.put("Total",total[0]);
                                 order.put("Food_List", Arrays.asList(foods));
+                                order.put("Qty_List", Arrays.asList(quantity));
                                 order.put("Date","");
                                 order.put("Time","");
                                 order.put("User",user.getUid());
@@ -136,17 +148,36 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         final String docId=documentReference.getId();
+                                        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
+                                        SharedPreferences.Editor editor = sharedPref.edit();
+                                        editor.remove("OrderId");
+                                        editor.commit();
+                                        editor.putString("OrderId", docId);
+                                        editor.commit();
+                                        Log.d("Track", "Error getting documents: ");
+                                        startActivity(new Intent(CartActivity.this,TrackOrder.class));
+                                    }
 
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("Track", "Error getting documents: ", e);
                                     }
                                 });
                                 //db.collection("users").document(user.getUid()).collection("Orders").document(docId).set(order);
 
                             } else {
-                                Log.d("CartActivity", "Error getting documents: ", task.getException());
+                                Log.d("Track", "Error getting documents: ", task.getException());
                             }
                         }
                     });
-            startActivity(new Intent(this,TrackOrder.class));
+
+
+            String orderId=sharedPref.getString("OrderId",null);
+            Log.w("Track","Order id is"+orderId);
+
+
+            //startActivity(new Intent(this,TrackOrder.class));
 
         }
     }
