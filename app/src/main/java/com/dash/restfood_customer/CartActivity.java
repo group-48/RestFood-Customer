@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -59,7 +60,10 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     int[] total = new int[1];
     List<String> food_list = new ArrayList<String>();
     List<String> qty=new ArrayList<String>();
+    List<String> food_name = new ArrayList<String>();
     public String[] shopId = new String[1];
+    int c=0;
+    CartItem[] cartItem=new CartItem[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +163,11 @@ Log.d(TAG, document.getId() + " => " + document.getData());
                                     qty.add(document.get("qty").toString());
                                     total[0] =total[0]+(Integer.parseInt(document.get("price").toString())*Integer.parseInt(document.get("qty").toString()));
                                     shopId[0] =document.get("shopId").toString();
+                                    food_name.add(document.get("name").toString());
+                                    Log.d("CartActvity", "doc reference" + document.getDocumentReference(document.getId()));
+                                    cartItem[c]=document.toObject(CartItem.class);
+                                    c++;
+                                    Log.d("CartActvity", "c is"+c);
                                 }
                                 String[] foods = new String[ food_list.size() ];
                                 food_list.toArray( foods);
@@ -166,14 +175,21 @@ Log.d(TAG, document.getId() + " => " + document.getData());
                                 String[] quantity = new String[ qty.size() ];
                                 qty.toArray( quantity);
 
+                                String[] fName = new String[ food_name.size() ];
+                                food_name.toArray(fName);
+
+
+
+
+
 
                                 Log.d("CartActvity", shopId[0]);
                                 Map<String,Object> order=new HashMap<>();
                                 order.put("Total",total[0]);
                                 order.put("Food_List", Arrays.asList(foods));
                                 order.put("Qty_List", Arrays.asList(quantity));
-                                order.put("Date","");
-                                order.put("Time","");
+                                order.put("Food_Names", Arrays.asList(fName));
+                                order.put("Timestamp", FieldValue.serverTimestamp());
                                 order.put("User",user.getUid());
                                 order.put("Shop",shopId[0]);
                                 order.put("Status","Pending");
@@ -190,6 +206,13 @@ Log.d(TAG, document.getId() + " => " + document.getData());
                                         editor.putString("OrderId", docId);
                                         editor.commit();
                                         Log.d("Track", "Error getting documents: ");
+
+                                        for(int i=0;i<c;i++){
+                                            Log.d("CartActvity", "food id is "+cartItem[i].getFoodId());
+                                            db.collection("orders").document(docId).collection("foods").document(cartItem[i].getFoodId()).set(cartItem[i]);
+                                        }
+
+
                                         startActivity(new Intent(CartActivity.this,TrackOrder.class));
                                     }
 
