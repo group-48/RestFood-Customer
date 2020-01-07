@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_success"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="ORDER CONFIRMATION"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="30dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/image_check"
+            android:layout_width="214dp"
+            android:layout_height="298dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="359dp"
+            android:backgroundTint="#0821AF"
+            android:src="@drawable/ic_check_circle_black_24dp"
+
+            />
+
+
+        <TextView
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="410dp"
+            android:textAlignment="center"
+            android:textColorHint="#000000"
+            android:textSize="20dp"
+            android:text="Thank you for placing your order with us"
+            android:textColor="#000000"></TextView>
+
+        <TextView
+            android:id="@+id/layout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your order Id is 123"
+            android:layout_below="@+id/layout1"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="135dp"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="We usually deliver our orders within an hour. We will keep you informed throughout the process.For any questions please contact our customer support."
+            android:textSize="18dp"
+            android:layout_below="@+id/layout2"
+            android:layout_marginTop="40dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="15dp"></TextView>
+
+
+    </RelativeLayout>
+</RelativeLayout>

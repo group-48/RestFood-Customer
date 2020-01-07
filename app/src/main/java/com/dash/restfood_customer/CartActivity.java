@@ -16,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dash.restfood_customer.models.CartItem;
+import com.dash.restfood_customer.models.OrderFood;
 import com.dash.restfood_customer.models.shop;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,6 +54,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
 
     private Button btn_checkout;
     private TextView tv_total;
+    private int tot;
 
     public CartAdapter adapter;
     int[] total = new int[1];
@@ -79,6 +82,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
 
         btn_checkout.setOnClickListener(this);
         loadCart();
+        getTotal();
     }
 
     private void loadCart() {
@@ -94,6 +98,37 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.setAdapter(adapter);
+    }
+
+    private void getTotal() {
+        tot=0;
+        ref
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                /*
+                                price=Integer.valueOf((Integer) document.getData().get("price"));
+Log.d(TAG, document.getId() + " => " + document.getData());
+                                qty=Integer.valueOf(String.valueOf(document.getData().get("qty")));
+*/
+
+                                OrderFood obj=document.toObject(OrderFood.class);
+                                tot=tot+(obj.getPrice()*Integer.valueOf(obj.getQty()));
+                                Toast.makeText(getApplicationContext(),String.valueOf(tot), Toast.LENGTH_LONG).show();
+
+
+//                                tv_total.setText(String.valueOf(document.getData().get("price")));
+                            }
+                            tv_total.setText("Total is:"+String.valueOf(tot));
+                        } else {
+                            //Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     @Override
