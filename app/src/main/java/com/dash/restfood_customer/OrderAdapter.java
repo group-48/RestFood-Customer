@@ -9,11 +9,14 @@ import android.widget.TextView;
 import com.dash.restfood_customer.models.Order;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class OrderAdapter extends FirestoreRecyclerAdapter<Order, OrderAdapter.OrderHolder> {
+
+    private FoodAdapter.OnItemClickListener listener;
 
     public OrderAdapter(@NonNull FirestoreRecyclerOptions<Order> options) {
         super(options);
@@ -43,6 +46,25 @@ public class OrderAdapter extends FirestoreRecyclerAdapter<Order, OrderAdapter.O
             tv_orderId=itemView.findViewById(R.id.tv_order_id);
             tv_amount=itemView.findViewById(R.id.tv_amount);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                    }
+                }
+            });
+
         }
+    }
+
+
+    public  interface OnItemClickListener{
+        void  onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public  void setOnItemClickListener(FoodAdapter.OnItemClickListener listener){
+        this.listener=listener;
     }
 }

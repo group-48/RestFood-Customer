@@ -75,7 +75,8 @@ public class TrackOrder extends BaseActivity {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
         SharedPreferences.Editor editor = sharedPref.edit();
         final String orderId=sharedPref.getString("OrderId",null);
-
+        editor.remove("Done");
+        editor.commit();
         Log.w(TAG,"Order id is"+orderId);
 
         db.collection("orders").document(orderId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -84,31 +85,32 @@ public class TrackOrder extends BaseActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot snapshot = task.getResult();
                     if (snapshot.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + snapshot.getData());
-
-                        tv_order.setText("Order id: "+orderId);
-                        tv_status.setText("Order Status: "+snapshot.get("Status"));
-                        tv_total.setText("Order Total: "+snapshot.get("Total"));
-
-                        List<String> foods = (List<String>) snapshot.get("Food_List");
-                        final List<String> qty = (List<String>) snapshot.get("Qty_List");
-
-                        et_food.setText("Foods:\n");
-
-
-                        for (int i=0;i<foods.size();i++) {
-
-                            db.collection("shop").document(snapshot.get("Shop").toString()).collection("FoodList").document(foods.get(i)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    Log.d(TAG, documentSnapshot.get("foodName").toString());
-
-                                    et_food.setText(et_food.getText().toString()+"\n"+documentSnapshot.get("foodName").toString()+": "+qty.get(x));
-
-                                }
-                            });
-                            et_food.setText(et_food.getText().toString()+": "+qty.get(i));
+                        if(Objects.equals("Done",snapshot.getString("Status"))){
+                            tv_order.setText("No pending Orders");
+                            tv_status.setText("");
+                            tv_total.setText("");
+                            et_food.setText("");
                         }
+                        else{
+
+                            Log.d(TAG, "DocumentSnapshot data: " + snapshot.getData());
+
+                            tv_order.setText("Order id: "+orderId);
+                            //tv_status.setText("Order Status: "+snapshot.get("Status"));
+                            tv_total.setText("Order Total: "+snapshot.get("Total"));
+
+                            List<String> foods = (List<String>) snapshot.get("Food_Names");
+                            final List<String> qty = (List<String>) snapshot.get("Qty_List");
+
+                            et_food.setText("Foods:\n");
+
+
+                            for (int i=0;i<foods.size();i++) {
+                                et_food.setText(et_food.getText().toString()+"\n"+foods.get(i)+": "+qty.get(i));
+
+                            }
+                        }
+
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -173,11 +175,11 @@ public class TrackOrder extends BaseActivity {
 
                     Log.d(TAG, "food: " + foods);
                     */
-                    if(Objects.equals("Done",snapshot.getString("Status"))){
+                    if(Objects.equals("Done",snapshot.getString("Status")) && Objects.equals("false",snapshot.get("Done").toString())){
                         tv_order.setText("No pending Orders");
                         tv_status.setText("");
                         tv_total.setText("");
-
+                        et_food.setText("");
                         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("Done", "1");

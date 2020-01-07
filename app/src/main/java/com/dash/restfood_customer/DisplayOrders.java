@@ -61,18 +61,20 @@ public class DisplayOrders extends BaseActivity {
 
         recyclerView.setAdapter(adapter);
 
-        /*adapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Food obj=documentSnapshot.toObject(Food.class);
+                //Food obj=documentSnapshot.toObject(Food.class);
                 //Toast.makeText(getApplicationContext(),obj.getName(),Toast.LENGTH_LONG).show();
-                Intent inta=new Intent(FoodList.this, FoodDetail.class);
-                inta.putExtra("Food",obj.getFoodName());
-                inta.putExtra("docId",documentSnapshot.getId());
-                inta.putExtra("shopdoc",docId);
+                Intent inta=new Intent(DisplayOrders.this, HomeActivity.class);
+                //inta.putExtra("Food",obj.getFoodName());
+                //inta.putExtra("docId",documentSnapshot.getId());
+                //inta.putExtra("shopdoc",docId);
                 startActivity(inta);
             }
-        });*/
+        });
+
+
 
     }
 
