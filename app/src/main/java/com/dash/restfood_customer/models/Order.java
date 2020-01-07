@@ -1,7 +1,7 @@
 package com.dash.restfood_customer.models;
 
 public class Order {
-    private String Status,amount,state;
+    private String Status,amount,OrderId;
     private int Total;
 
     public Order(String oid,String amt){
@@ -11,10 +11,16 @@ public class Order {
 
     public Order(int total,String oid) {
         Total = total;
-        Status=oid;
+        OrderId=oid;
     }
 
+    public String getOrderId() {
+        return OrderId;
+    }
 
+    public void setOrderId(String orderId) {
+        OrderId = orderId;
+    }
 
     public Order(){}
 
@@ -42,11 +48,5 @@ public class Order {
         this.amount = amount;
     }
 
-    public String getState() {
-        return state;
-    }
 
-    public void setState(String state) {
-        this.state = state;
-    }
 }

@@ -29,6 +29,7 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".shoplist" />
         <activity android:name=".CategoryList" />
+        <activity android:name=".ViewOrders"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
