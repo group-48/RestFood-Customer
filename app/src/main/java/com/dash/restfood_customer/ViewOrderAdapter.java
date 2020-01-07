@@ -1,6 +1,5 @@
 package com.dash.restfood_customer;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.dash.restfood_customer.models.OrderFood;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
@@ -47,7 +45,7 @@ public class ViewOrderAdapter extends FirestoreRecyclerAdapter<OrderFood, ViewOr
         @NonNull
         @Override
         public ViewOrderHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.orderitem,parent,false);
+            View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.order_item,parent,false);
             return new ViewOrderHolder(v);
         }
 

@@ -184,7 +184,7 @@ Log.d(TAG, document.getId() + " => " + document.getData());
 
 
                                 Log.d("CartActvity", shopId[0]);
-                                Map<String,Object> order=new HashMap<>();
+                                final Map<String,Object> order=new HashMap<>();
                                 order.put("Total",total[0]);
                                 order.put("Food_List", Arrays.asList(foods));
                                 order.put("Qty_List", Arrays.asList(quantity));
@@ -211,7 +211,7 @@ Log.d(TAG, document.getId() + " => " + document.getData());
                                             Log.d("CartActvity", "food id is "+cartItem[i].getFoodId());
                                             db.collection("orders").document(docId).collection("foods").document(cartItem[i].getFoodId()).set(cartItem[i]);
                                         }
-
+                                        db.collection("orders").document(docId).update("OrderId",docId);
 
                                         startActivity(new Intent(CartActivity.this,TrackOrder.class));
                                     }

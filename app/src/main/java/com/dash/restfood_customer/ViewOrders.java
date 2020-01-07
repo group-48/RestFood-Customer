@@ -32,12 +32,16 @@ public class ViewOrders extends BaseActivity {
     RecyclerView recyclerView;
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-    private CollectionReference ref=db.collection("users").document(user.getUid()).collection("cart");
-
+    private CollectionReference ref;
+    //private CollectionReference ref=db.collection("users").document(user.getUid()).collection("cart");
     private int tot;
     public int price;
     public int qty;
-    private TextView total;
+    String orderId;
+
+    private TextView tv_total;
+    private TextView tv_orderId;
+    private TextView tv_userName;
     public ViewOrderAdapter adapter;
 
     @Override
@@ -51,10 +55,26 @@ public class ViewOrders extends BaseActivity {
         drawerLayout.addView(contentView, 0);
         //inflate end
 
-        total=(TextView)findViewById(R.id.tot);
+        tv_total=(TextView)findViewById(R.id.tot);
+        tv_orderId=(TextView)findViewById(R.id.tv_order_id);
+        tv_userName=(TextView)findViewById(R.id.tv_userName);
 
-        loadOrders();
-        getTotal();
+
+        tv_userName.setText(FirebaseAuth.getInstance().getUid());
+
+        if(getIntent()!=null)
+            //Intent catInt=getIntent();
+            orderId=getIntent().getStringExtra("OrderId");
+            tv_orderId.setText(orderId);
+
+            ref=db.collection("orders").document(orderId).collection("foods");
+
+        if(!orderId.isEmpty() && orderId!=null){
+            loadOrders();
+            getTotal();
+        }
+
+
 
     }
 
@@ -94,7 +114,7 @@ public class ViewOrders extends BaseActivity {
 
 
                             }
-                            total.setText("Rs:"+String.valueOf(tot));
+                            tv_total.setText("Rs:"+String.valueOf(tot));
                         } else {
                             //Log.d(TAG, "Error getting documents: ", task.getException());
                         }

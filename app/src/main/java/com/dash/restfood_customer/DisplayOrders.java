@@ -66,11 +66,11 @@ public class DisplayOrders extends BaseActivity {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 //Food obj=documentSnapshot.toObject(Food.class);
                 //Toast.makeText(getApplicationContext(),obj.getName(),Toast.LENGTH_LONG).show();
-                Intent inta=new Intent(DisplayOrders.this, HomeActivity.class);
-                //inta.putExtra("Food",obj.getFoodName());
+                Intent intent=new Intent(DisplayOrders.this, ViewOrders.class);
+                intent.putExtra("OrderId",documentSnapshot.get("OrderId").toString());
                 //inta.putExtra("docId",documentSnapshot.getId());
                 //inta.putExtra("shopdoc",docId);
-                startActivity(inta);
+                startActivity(intent);
             }
         });
 

@@ -24,7 +24,7 @@ public class OrderAdapter extends FirestoreRecyclerAdapter<Order, OrderAdapter.O
 
     @Override
     protected void onBindViewHolder(@NonNull OrderHolder orderHolder, int i, @NonNull Order order) {
-        orderHolder.tv_orderId.setText(order.getStatus());
+        orderHolder.tv_orderId.setText(order.getOrderId());
         Log.d("Order",String.valueOf(order.getTotal()));
         orderHolder.tv_amount.setText(String.valueOf(order.getTotal()));
     }
