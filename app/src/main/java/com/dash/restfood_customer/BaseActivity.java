@@ -97,6 +97,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             Intent intent=new Intent(this,TrackOrder.class);
             startActivity(intent);
         }
+        else if(id==R.id.viewOrders){
+            Intent intent=new Intent(this,DisplayOrders.class);
+            startActivity(intent);
+        }
         return false;
     }
 }

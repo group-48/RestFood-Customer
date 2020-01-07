@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TrackOrder"></activity>
+        <activity android:name=".DisplayOrders"></activity>
+        <activity android:name=".TrackOrder" />
         <activity android:name=".CartActivity" />
         <activity android:name=".EditProfile" />
         <activity android:name=".ForgotPassword" />

@@ -51,7 +51,7 @@ public class TrackOrder extends BaseActivity {
     private TextView tv_total;
     private EditText et_food;
 
-    public int i=0;
+    public int x=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +78,46 @@ public class TrackOrder extends BaseActivity {
 
         Log.w(TAG,"Order id is"+orderId);
 
+        db.collection("orders").document(orderId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot snapshot = task.getResult();
+                    if (snapshot.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + snapshot.getData());
+
+                        tv_order.setText("Order id: "+orderId);
+                        tv_status.setText("Order Status: "+snapshot.get("Status"));
+                        tv_total.setText("Order Total: "+snapshot.get("Total"));
+
+                        List<String> foods = (List<String>) snapshot.get("Food_List");
+                        final List<String> qty = (List<String>) snapshot.get("Qty_List");
+
+                        et_food.setText("Foods:\n");
+
+
+                        for (int i=0;i<foods.size();i++) {
+
+                            db.collection("shop").document(snapshot.get("Shop").toString()).collection("FoodList").document(foods.get(i)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    Log.d(TAG, documentSnapshot.get("foodName").toString());
+
+                                    et_food.setText(et_food.getText().toString()+"\n"+documentSnapshot.get("foodName").toString()+": "+qty.get(x));
+
+                                }
+                            });
+                            et_food.setText(et_food.getText().toString()+": "+qty.get(i));
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
         createNotificationChannel();
 
         final DocumentReference docRef = db.collection("orders").document(orderId)  ;
@@ -93,15 +133,16 @@ public class TrackOrder extends BaseActivity {
                 if (snapshot != null && snapshot.exists()) {
                     Log.d(TAG, "Current data: " + snapshot.getData());
                     Log.d(TAG, "Current cites in CA: " + snapshot.get("Status"));
-                    tv_order.setText("Order id: "+orderId);
                     tv_status.setText("Order Status: "+snapshot.get("Status"));
+                    /*tv_order.setText("Order id: "+orderId);
+
                     tv_total.setText("Order Total: "+snapshot.get("Total"));
 
                     List<String> foods = (List<String>) snapshot.get("Food_List");
                     final List<String> qty = (List<String>) snapshot.get("Qty_List");
 
                     et_food.setText("Foods:\n");
-                    for (final String item : foods) {
+                    /*for (final String item : foods) {
 
                         db.collection("shop").document(snapshot.get("Shop").toString()).collection("FoodList").document(item).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
@@ -115,7 +156,23 @@ public class TrackOrder extends BaseActivity {
 
                     }
 
+                    for (int i=0;i<foods.size();i++) {
+
+                        db.collection("shop").document(snapshot.get("Shop").toString()).collection("FoodList").document(foods.get(i)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Log.d(TAG, documentSnapshot.get("foodName").toString());
+
+                                et_food.setText(et_food.getText().toString()+"\n"+documentSnapshot.get("foodName").toString()+": "+qty.get(x));
+
+                            }
+                        });
+                        et_food.setText(et_food.getText().toString()+": "+qty.get(i));
+                    }
+
+
                     Log.d(TAG, "food: " + foods);
+                    */
                     if(Objects.equals("Done",snapshot.getString("Status"))){
                         tv_order.setText("No pending Orders");
                         tv_status.setText("");
@@ -146,8 +203,7 @@ public class TrackOrder extends BaseActivity {
         });
 
         if(Objects.equals("1",sharedPref.getString("Done",null))){
-            editor.remove("Done");
-            editor.commit();
+
             Log.d(TAG, "reg removed");
             registration.remove();
             tv_order.setText("No pending Orders");
