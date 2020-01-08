@@ -1,6 +1,8 @@
 package com.dash.restfood_customer;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,12 +21,16 @@ import com.dash.restfood_customer.models.OrderFood;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.base.FinalizablePhantomReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.local.IndexedQueryEngine;
 import com.squareup.picasso.Picasso;
 
 public class ViewOrderAdapter extends FirestoreRecyclerAdapter<OrderFood, ViewOrderAdapter.ViewOrderHolder> {
+
+    String reviewId;
 
     private Context context;
         FirebaseFirestore db=FirebaseFirestore.getInstance();
@@ -59,20 +66,58 @@ public class ViewOrderAdapter extends FirestoreRecyclerAdapter<OrderFood, ViewOr
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             if(queryDocumentSnapshots.isEmpty()){
                                 Log.d("select food for review","No Review");
+                                Intent intent=new Intent(context,PlaceReview.class);
+                                intent.putExtra("OrderId",orderFood.getOrderId());
+                                intent.putExtra("FoodId",orderFood.getFoodId());
+                                intent.putExtra("FoodName",orderFood.getName());
+                                intent.putExtra("ShopId",orderFood.getShopId());
+
+                                context.startActivity(intent);
                             }
                             else{
+
+                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                    Log.d("Review id", document.get("reviewId").toString());
+                                    reviewId=document.get("reviewId").toString();
+                                }
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setMessage("You have already placed a review, Do you want to update it?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                //finish();
+                                                Intent intent=new Intent(context,PlaceReview.class);
+                                                intent.putExtra("OrderId",orderFood.getOrderId());
+                                                intent.putExtra("FoodId",orderFood.getFoodId());
+                                                intent.putExtra("FoodName",orderFood.getName());
+                                                intent.putExtra("ShopId",orderFood.getShopId());
+                                                intent.putExtra("Edit","True");
+                                                intent.putExtra("ReviewId",reviewId);
+                                                context.startActivity(intent);
+                                                Toast.makeText(context.getApplicationContext(),"you choose yes action for alertbox",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                //  Action for 'NO' Button
+                                                dialog.cancel();
+                                                //Toast.makeText(context.getApplicationContext(),"you choose no action for alertbox",
+                                                        //Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                //Creating dialog box
+                                AlertDialog alert = builder.create();
+                                //Setting the title manually
+                                alert.setTitle("AlertDialogExample");
+                                alert.show();
                                 Log.d("select food for review","Review Exists");
                             }
                         }
                     });
 
-                    Intent intent=new Intent(context,PlaceReview.class);
-                    intent.putExtra("OrderId",orderFood.getOrderId());
-                    intent.putExtra("FoodId",orderFood.getFoodId());
-                    intent.putExtra("FoodName",orderFood.getName());
-                    intent.putExtra("ShopId",orderFood.getShopId());
 
-                    context.startActivity(intent);
 
                     Log.d("Place Review","Btn clicked");
                 }

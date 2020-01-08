@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class PlaceReview extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "PlaceReview";
@@ -61,15 +62,35 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
 
 
         if(getIntent()!=null){
+            OrderId=getIntent().getStringExtra("OrderId");
             FoodId=getIntent().getStringExtra("FoodId");
             FoodName=getIntent().getStringExtra("FoodName");
             ShopId=getIntent().getStringExtra("ShopId");
+            if(getIntent().getStringExtra("Edit")!=null){
+                Log.d(TAG,"Edit review ");
+                loadReview();
+            }
         }
 
         tv_foodName.setText("How was your "+FoodName+" ?");
 
         btn_review.setOnClickListener(this);
 
+    }
+
+    private void loadReview() {
+        String reviewId=getIntent().getStringExtra("ReviewId");
+        db.collection("reviews").document(reviewId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                et_comments.setText(documentSnapshot.getString("comments"));
+                rb_review.setRating(Float.valueOf(documentSnapshot.get("rating").toString()));
+                if(documentSnapshot.get("userName")!=null){
+                    sw_name.setChecked(true);
+                }
+
+            }
+        });
     }
 
     private void placeReview() {
@@ -96,6 +117,7 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
         db.collection("reviews").add(review).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
+                db.collection("reviews").document(documentReference.getId()).update("reviewId",documentReference.getId());
                 Log.d(TAG,"Done");
             }
         });
@@ -110,4 +132,6 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
             startActivity(intent);
         }
     }
+
+
 }

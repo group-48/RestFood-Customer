@@ -15,6 +15,9 @@ public class Review {
         this.orderId=orderId;
     }
 
+    public Review() {
+    }
+
     public String getFoodId() {
         return foodId;
     }

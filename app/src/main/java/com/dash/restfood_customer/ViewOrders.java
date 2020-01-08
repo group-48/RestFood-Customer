@@ -1,7 +1,6 @@
 package com.dash.restfood_customer;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +55,7 @@ public class ViewOrders extends BaseActivity {
         //inflate end
 
         tv_total=(TextView)findViewById(R.id.tot);
-        tv_orderId=(TextView)findViewById(R.id.tv_order_id);
+        tv_orderId=(TextView)findViewById(R.id.tv);
         tv_userName=(TextView)findViewById(R.id.tv_userName);
 
 
