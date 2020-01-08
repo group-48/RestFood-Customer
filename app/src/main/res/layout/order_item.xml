@@ -15,19 +15,22 @@
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="175dp"
-            android:layout_height="161dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:src="@drawable/download"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_product_name"
-            android:layout_width="136dp"
-            android:layout_height="26dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="28dp"
+            android:layout_width="146dp"
+            android:layout_height="29dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:text="Product Name"
             android:textAlignment="viewEnd"
             android:textColor="#000000"
@@ -40,7 +43,7 @@
             android:id="@+id/tv_product_price"
             android:layout_width="97dp"
             android:layout_height="30dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="28dp"
             android:text="Price"
 
@@ -51,15 +54,20 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_product_name" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_review"
+            android:layout_width="138dp"
+            android:layout_height="48dp"
             android:layout_marginTop="16dp"
-            android:text="Button"
+            android:layout_marginBottom="16dp"
+            android:background="#03A9F4"
+            android:text="Place Review"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.743"
+            app:layout_constraintHorizontal_bias="0.619"
             app:layout_constraintStart_toEndOf="@+id/iv_image"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_price" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_product_price"
+            app:layout_constraintVertical_bias="0.021" />
 
         <!-- <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
              android:id="@+id/btn_qty"

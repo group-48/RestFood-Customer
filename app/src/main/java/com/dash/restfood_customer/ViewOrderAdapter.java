@@ -1,8 +1,12 @@
 package com.dash.restfood_customer;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,11 +17,15 @@ import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.dash.restfood_customer.models.OrderFood;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.local.IndexedQueryEngine;
 import com.squareup.picasso.Picasso;
 
 public class ViewOrderAdapter extends FirestoreRecyclerAdapter<OrderFood, ViewOrderAdapter.ViewOrderHolder> {
 
+    private Context context;
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         public ViewOrderAdapter(@NonNull FirestoreRecyclerOptions<OrderFood> options) {
             super(options);
@@ -40,24 +48,56 @@ public class ViewOrderAdapter extends FirestoreRecyclerAdapter<OrderFood, ViewOr
 
 
             });*/
+            viewOrderHolder.btn_review.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    db.collection("reviews")
+                            .whereEqualTo("foodId",orderFood.getFoodId())
+                            .whereEqualTo("orderId",orderFood.getOrderId()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if(queryDocumentSnapshots.isEmpty()){
+                                Log.d("select food for review","No Review");
+                            }
+                            else{
+                                Log.d("select food for review","Review Exists");
+                            }
+                        }
+                    });
+
+                    Intent intent=new Intent(context,PlaceReview.class);
+                    intent.putExtra("OrderId",orderFood.getOrderId());
+                    intent.putExtra("FoodId",orderFood.getFoodId());
+                    intent.putExtra("FoodName",orderFood.getName());
+                    intent.putExtra("ShopId",orderFood.getShopId());
+
+                    context.startActivity(intent);
+
+                    Log.d("Place Review","Btn clicked");
+                }
+            });
+
         }
 
         @NonNull
         @Override
         public ViewOrderHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.order_item,parent,false);
+            context=parent.getContext();
             return new ViewOrderHolder(v);
         }
 
         class ViewOrderHolder extends RecyclerView.ViewHolder{
 
             TextView tv_name,tv_price;
-            ElegantNumberButton btn_qty;
             ImageView iv_image;
+            Button btn_review;
 
             public ViewOrderHolder(@NonNull View itemView) {
                 super(itemView);
 
+                btn_review=itemView.findViewById(R.id.btn_review);
                 tv_name=itemView.findViewById(R.id.tv_product_name);
                 tv_price=itemView.findViewById(R.id.tv_product_price);
                 //btn_qty=itemView.findViewById(R.id.btn_qty);
