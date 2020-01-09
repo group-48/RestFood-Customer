@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewReviews"></activity>
+        <activity android:name=".ReserveTable"></activity>
+        <activity android:name=".ShopOption" />
+        <activity android:name=".ViewReviews" />
         <activity android:name=".PlaceReview" />
         <activity android:name=".DisplayOrders" />
         <activity android:name=".TrackOrder" />

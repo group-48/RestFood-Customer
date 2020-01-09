@@ -4,13 +4,14 @@ public class OrderFood {
     private String name,image,shopId,foodId,qty,cust_name,orderId;
     private int price;
 
-    public OrderFood(String name, String image, String shopId, String foodId, String qty, int price) {
+    public OrderFood(String name, String image, String shopId, String foodId, String qty, int price,String orderId) {
         this.name = name;
         this.image = image;
         this.shopId = shopId;
         this.foodId = foodId;
         this.qty = qty;
         this.price = price;
+        this.orderId=orderId;
     }
 
     public String getName() {

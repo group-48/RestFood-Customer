@@ -128,7 +128,7 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         if(v==btn_review){
             placeReview();
-            Intent intent=new Intent(PlaceReview.this,HomeActivity.class);
+            Intent intent=new Intent(PlaceReview.this,MainActivity.class);
             startActivity(intent);
         }
     }
