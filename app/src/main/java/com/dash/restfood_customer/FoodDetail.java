@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
     TextView food_name, food_description, food_price;
     ImageView food_image, btn_Cart;
     ElegantNumberButton et_qty;
+    Button btn_review;
 
     String food;
     String docId;
@@ -66,6 +68,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
         btn_Cart = (ImageView) findViewById(R.id.btn_cart);
         et_qty= findViewById(R.id.eb_qty);
         et_qty.setNumber("1");
+        btn_review=findViewById(R.id.btn_reviews);
 
         if (getIntent() != null)
         {
@@ -84,6 +87,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
         }
 
         btn_Cart.setOnClickListener(this);
+        btn_review.setOnClickListener(this);
 
     }
 
@@ -144,6 +148,11 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
 
 
 
+        }
+        else if(v==btn_review){
+            Intent intent=new Intent(FoodDetail.this,ViewReviews.class);
+            intent.putExtra("queryId",food);
+            startActivity(intent);
         }
     }
 }
