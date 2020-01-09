@@ -80,8 +80,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             FirebaseAuth.getInstance().signOut();
             Intent intent=new Intent(this,LoginActivity.class);
             progressDialog.hide();
-            startActivity(intent);
             this.finish();
+            startActivity(intent);
+
         }
         else if(id==R.id.editProfile){
             Intent intent=new Intent(this,EditProfile.class);
