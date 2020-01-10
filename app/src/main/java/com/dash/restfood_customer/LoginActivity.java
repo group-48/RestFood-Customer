@@ -13,14 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dash.restfood_customer.InternetConfig.InternetConfig;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener  {
 
@@ -92,23 +91,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     public void onClick(View view){
-        if(view==btn_login){
-            progressDialog.setMessage("Verifying user");
-            progressDialog.show();
-            signInUser();
+        if(InternetConfig.isConnectedToInternet(getBaseContext())){
+            if(view==btn_login){
+                progressDialog.setMessage("Verifying user");
+                progressDialog.show();
+                signInUser();
+            }
+
+            if(view==tv_signup){
+                Intent intent=new Intent(LoginActivity.this,SignUpActivity.class);
+                startActivity(intent);
+            }
+            if(view==tv_forgot){
+                Intent intent=new Intent(LoginActivity.this,ForgotPassword.class);
+                startActivity(intent);
+            }
+        }
+        else{
+            Toast.makeText(this,"Please Check your Internet Connection",Toast.LENGTH_SHORT).show();
+
         }
 
-        if(view==tv_signup){
-            Intent intent=new Intent(LoginActivity.this,SignUpActivity.class);
-            startActivity(intent);
-        }
-        if(view==tv_forgot){
-            Intent intent=new Intent(LoginActivity.this,ForgotPassword.class);
-            startActivity(intent);
-        }
     }
 
     private void updateUI(FirebaseUser user){
+
         String username=user.getEmail();
         Intent intent=new Intent(this,MainActivity.class);
         intent.putExtra("userName",username);

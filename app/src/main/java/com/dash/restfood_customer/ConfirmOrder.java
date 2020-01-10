@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -72,6 +73,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
     EditText et_notes;
     RadioButton rb_selected;
     RadioGroup radioPayment;
+    private ProgressDialog progressDialog;
 
     int[] total = new int[1];
     List<String> food_list = new ArrayList<String>();
@@ -112,6 +114,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
         btn_checkout=findViewById(R.id.btn_checkout);
         et_notes=findViewById(R.id.et_notes);
         radioPayment=findViewById(R.id.radioPayment);
+        progressDialog=new ProgressDialog(this);
 
         Log.d(TAG,"Total is "+getIntent().getStringExtra("Total"));
         amount=Integer.valueOf(getIntent().getStringExtra("Total"));
@@ -241,6 +244,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
     }
 
     private void placeOrderPayPal() {
+
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
         SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -249,7 +253,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull final Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("CartActvity", document.getId() + " => " + document.getData());
@@ -263,6 +267,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                 cartItem[c]=document.toObject(CartItem.class);
                                 c++;
                                 Log.d("CartActvity", "c is"+c);
+
                             }
                             String[] foods = new String[ food_list.size() ];
                             food_list.toArray( foods);
@@ -305,7 +310,23 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                                 Log.d("CartActvity", "food id is "+cartItem[i].getFoodId());
                                                 db.collection("orders").document(docId).collection("foods").document(cartItem[i].getFoodId()).set(cartItem[i]);
                                             }
+
                                             db.collection("orders").document(docId).update("OrderId",docId);
+                                            /*for (QueryDocumentSnapshot document : task.getResult()) {
+                                                db.collection("users").document(user.getUid()).collection("cart")
+                                                        .document(document.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d("CartActvity", "cdeleted");
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.d("CartActvity", "couldnt delete "+e);
+                                                    }
+                                                });
+                                                Log.d("CartActvity", "cart food"+document.getId());
+                                            }*/
 
                                             startActivity(new Intent(ConfirmOrder.this,TrackOrder.class));
                                         }
@@ -358,6 +379,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                         Log.d(TAG,"Payment ID"+response.getString("id"));
                         paymentId=response.getString("id");
                         placeOrderPayPal();
+
                         /*startActivity(new Intent(this, PaymentDetails.class)
                                 .putExtra("PaymentDetails", paymentDetails)
                                 .putExtra("PaymentAmount", total));*/
