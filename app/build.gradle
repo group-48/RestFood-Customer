@@ -82,6 +82,12 @@ dependencies {
     //paypal
     implementation 'com.paypal.sdk:paypal-android-sdk:2.15.3'
 
+    //qrcode
+    implementation 'com.github.nisrulz:qreader:2.1.2'
+    implementation 'com.karumi:dexter:5.0.0'
+    implementation 'com.google.android.gms:play-services-vision:18.0.0'
+
+
 }
 
 

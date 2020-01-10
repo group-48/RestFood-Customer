@@ -51,7 +51,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v==btn_test){
-
+            Intent intent=new Intent(this, ScanShop.class);
+            startActivity(intent);
 
         }
         else if(v==btn_select){
