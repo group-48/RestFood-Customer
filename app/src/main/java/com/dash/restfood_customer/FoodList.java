@@ -73,11 +73,12 @@ public class FoodList extends BaseActivity {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Food obj=documentSnapshot.toObject(Food.class);
                 //Toast.makeText(getApplicationContext(),obj.getName(),Toast.LENGTH_LONG).show();
-                Intent inta=new Intent(FoodList.this, FoodDetail.class);
-                inta.putExtra("Food",obj.getFoodName());
-                inta.putExtra("docId",documentSnapshot.getId());
-                inta.putExtra("shopdoc",docId);
-                startActivity(inta);
+                Intent intent=new Intent(FoodList.this, FoodDetail.class);
+                intent.putExtra("Food",obj.getFoodName());
+                intent.putExtra("docId",documentSnapshot.getId());
+                intent.putExtra("shopdoc",docId);
+                intent.putExtra("Browse",getIntent().getStringExtra("Browse"));
+                startActivity(intent);
             }
         });
 

@@ -16,7 +16,7 @@
         android:layout_marginEnd="56dp"
         android:background="@color/colorPrimary"
         android:onClick="sublit"
-        android:text="Select Restaurant"
+        android:text="Browse"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.982"
@@ -37,5 +37,18 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <Button
+        android:id="@+id/btn_select"
+        android:layout_width="169dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="48dp"
+        android:background="@color/colorPrimary"
+        android:text="Browse"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_test" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

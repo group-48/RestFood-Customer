@@ -77,10 +77,11 @@ public class CategoryList extends BaseActivity {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Category obj=documentSnapshot.toObject(Category.class);
                 //Toast.makeText(getApplicationContext(),obj.getName(),Toast.LENGTH_LONG).show();
-                Intent inta=new Intent(CategoryList.this, FoodList.class);
-                inta.putExtra("Category",obj.getName());
-                inta.putExtra("docId",id);
-                startActivity(inta);
+                Intent intent=new Intent(CategoryList.this, FoodList.class);
+                intent.putExtra("Category",obj.getName());
+                intent.putExtra("docId",id);
+                intent.putExtra("Browse",getIntent().getStringExtra("Browse"));
+                startActivity(intent);
             }
         });
 

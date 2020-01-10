@@ -51,6 +51,7 @@ public class ShopOption extends BaseActivity implements View.OnClickListener {
         }
         intent.putExtra("shop",shopId);
         intent.putExtra("id",id);
+        intent.putExtra("Browse","True");
         startActivity(intent);
     }
 }

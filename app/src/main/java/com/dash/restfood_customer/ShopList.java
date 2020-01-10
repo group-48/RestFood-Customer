@@ -1,6 +1,5 @@
 package com.dash.restfood_customer;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class shoplist extends BaseActivity {
+public class ShopList extends BaseActivity {
 
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
     private CollectionReference ref=db.collection("shop");
@@ -48,7 +47,7 @@ public class shoplist extends BaseActivity {
 
         RecyclerView recyclerView=findViewById(R.id.recyclerShop);
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(shoplist.this,1);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(ShopList.this,1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.setAdapter(adapter);
@@ -58,10 +57,10 @@ public class shoplist extends BaseActivity {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
 
                 shop obj=documentSnapshot.toObject(shop.class);
-                Intent inta=new Intent(shoplist.this,ShopOption.class);
-                inta.putExtra("shop",obj.getShop_id());
-                inta.putExtra("id",documentSnapshot.getId());
-                startActivity(inta);
+                Intent intent=new Intent(ShopList.this,ShopOption.class);
+                intent.putExtra("shop",obj.getShop_id());
+                intent.putExtra("id",documentSnapshot.getId());
+                startActivity(intent);
 
 
             }

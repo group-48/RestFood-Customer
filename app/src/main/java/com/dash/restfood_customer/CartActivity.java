@@ -1,6 +1,7 @@
 package com.dash.restfood_customer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,8 +31,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -46,6 +49,7 @@ import java.util.Map;
 
 public class CartActivity extends BaseActivity implements View.OnClickListener {
 
+    private static final String TAG = "CartActivity";
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
     FirebaseFirestore db=FirebaseFirestore.getInstance();
@@ -57,13 +61,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     private int tot;
 
     public CartAdapter adapter;
-    int[] total = new int[1];
-    List<String> food_list = new ArrayList<String>();
-    List<String> qty=new ArrayList<String>();
-    List<String> food_name = new ArrayList<String>();
-    public String[] shopId = new String[1];
-    int c=0;
-    CartItem[] cartItem=new CartItem[10];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +100,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
 
     private void getTotal() {
         tot=0;
-        ref
-                .get()
+       /* ref.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
                     @Override
@@ -112,23 +109,42 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 /*
                                 price=Integer.valueOf((Integer) document.getData().get("price"));
-Log.d(TAG, document.getId() + " => " + document.getData());
-                                qty=Integer.valueOf(String.valueOf(document.getData().get("qty")));
-*/
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                 qty=Integer.valueOf(String.valueOf(document.getData().get("qty")));
+
 
                                 OrderFood obj=document.toObject(OrderFood.class);
                                 tot=tot+(obj.getPrice()*Integer.valueOf(obj.getQty()));
                                 Toast.makeText(getApplicationContext(),String.valueOf(tot), Toast.LENGTH_LONG).show();
 
 
-//                                tv_total.setText(String.valueOf(document.getData().get("price")));
+                                //tv_total.setText(String.valueOf(document.getData().get("price")));
                             }
                             tv_total.setText("Total is:"+String.valueOf(tot));
                         } else {
                             //Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
-                });
+                });*/
+
+        ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                List<String> cities = new ArrayList<>();
+                tot=0;
+                for (QueryDocumentSnapshot doc : value) {
+
+                    tot=tot+(Integer.valueOf(doc.get("price").toString())*Integer.valueOf(doc.get("qty").toString()));
+                    Toast.makeText(getApplicationContext(),String.valueOf(tot), Toast.LENGTH_LONG).show();
+                    tv_total.setText("Total is:"+String.valueOf(tot));
+                }
+            }
+        });
     }
 
     @Override
@@ -146,96 +162,8 @@ Log.d(TAG, document.getId() + " => " + document.getData());
     @Override
     public void onClick(View v) {
         if(v==btn_checkout){
-            SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
-            SharedPreferences.Editor editor = sharedPref.edit();
-
-
-            db.collection("users").document(user.getUid()).collection("cart")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d("CartActvity", document.getId() + " => " + document.getData());
-                                    Log.d("CartActvity", document.getId() + " => " + document.get("foodId"));
-                                    food_list.add(document.get("foodId").toString());
-                                    qty.add(document.get("qty").toString());
-                                    total[0] =total[0]+(Integer.parseInt(document.get("price").toString())*Integer.parseInt(document.get("qty").toString()));
-                                    shopId[0] =document.get("shopId").toString();
-                                    food_name.add(document.get("name").toString());
-                                    Log.d("CartActvity", "doc reference" + document.getDocumentReference(document.getId()));
-                                    cartItem[c]=document.toObject(CartItem.class);
-                                    c++;
-                                    Log.d("CartActvity", "c is"+c);
-                                }
-                                String[] foods = new String[ food_list.size() ];
-                                food_list.toArray( foods);
-
-                                String[] quantity = new String[ qty.size() ];
-                                qty.toArray( quantity);
-
-                                String[] fName = new String[ food_name.size() ];
-                                food_name.toArray(fName);
-
-
-
-
-
-
-                                Log.d("CartActvity", shopId[0]);
-                                final Map<String,Object> order=new HashMap<>();
-                                order.put("Total",total[0]);
-                                order.put("Food_List", Arrays.asList(foods));
-                                order.put("Qty_List", Arrays.asList(quantity));
-                                order.put("Food_Names", Arrays.asList(fName));
-                                order.put("Timestamp", FieldValue.serverTimestamp());
-                                order.put("User",user.getUid());
-                                order.put("Shop",shopId[0]);
-                                order.put("Status","Pending");
-                                order.put("Done",false);
-                                db.collection("orders").add(order)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        final String docId=documentReference.getId();
-                                        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
-                                        SharedPreferences.Editor editor = sharedPref.edit();
-                                        editor.remove("OrderId");
-                                        editor.commit();
-                                        editor.putString("OrderId", docId);
-                                        editor.commit();
-                                        Log.d("Track", "Error getting documents: ");
-
-                                        for(int i=0;i<c;i++){
-                                            Log.d("CartActvity", "food id is "+cartItem[i].getFoodId());
-                                            db.collection("orders").document(docId).collection("foods").document(cartItem[i].getFoodId()).set(cartItem[i]);
-                                        }
-                                        db.collection("orders").document(docId).update("OrderId",docId);
-
-                                        startActivity(new Intent(CartActivity.this,TrackOrder.class));
-                                    }
-
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.d("Track", "Error getting documents: ", e);
-                                    }
-                                });
-                                //db.collection("users").document(user.getUid()).collection("Orders").document(docId).set(order);
-
-                            } else {
-                                Log.d("Track", "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
-
-
-            String orderId=sharedPref.getString("OrderId",null);
-            Log.w("Track","Order id is"+orderId);
-
-
-            //startActivity(new Intent(this,TrackOrder.class));
+            startActivity(new Intent(this,ConfirmOrder.class)
+                .putExtra("Total",String.valueOf(tot)));
 
         }
     }

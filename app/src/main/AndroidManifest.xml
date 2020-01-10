@@ -11,11 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".PaymentDetails"></activity>
         <activity android:name=".ConfirmOrder">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ReserveTable" />
         <activity android:name=".ShopOption" />
@@ -27,13 +23,19 @@
         <activity android:name=".EditProfile" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".FoodDetail" />
         <activity android:name=".FoodList" />
         <activity android:name=".BaseActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".shoplist" />
+        <activity android:name=".ShopList" />
         <activity android:name=".CategoryList" />
         <activity android:name=".ViewOrders" />
     </application>
