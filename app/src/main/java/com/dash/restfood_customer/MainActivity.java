@@ -59,29 +59,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v==btn_test){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Do you want to close this application ?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                            Toast.makeText(getApplicationContext(),"you choose yes action for alertbox",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //  Action for 'NO' Button
-                            dialog.cancel();
-                            Toast.makeText(getApplicationContext(),"you choose no action for alertbox",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-            //Creating dialog box
-            AlertDialog alert = builder.create();
-            //Setting the title manually
-            alert.setTitle("AlertDialogExample");
-            alert.show();
+
 
         }
     }

@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReserveTable"></activity>
+        <activity android:name=".PaymentDetails"></activity>
+        <activity android:name=".ConfirmOrder">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ReserveTable" />
         <activity android:name=".ShopOption" />
         <activity android:name=".ViewReviews" />
         <activity android:name=".PlaceReview" />
@@ -19,13 +27,7 @@
         <activity android:name=".EditProfile" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
         <activity android:name=".FoodDetail" />
         <activity android:name=".FoodList" />
         <activity android:name=".BaseActivity" />
