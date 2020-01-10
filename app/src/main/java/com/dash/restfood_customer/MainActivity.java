@@ -1,25 +1,16 @@
 package com.dash.restfood_customer;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.dash.restfood_customer.models.Category;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -27,7 +18,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
    private CollectionReference ref=db.collection("shop").document("dILfWEqZh7fN5LBtiWMFMoeCShe2").collection("Category");
    public MenuAdapter adapter;
 
-   Button btn_test;
+   Button btn_test,btn_select;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +36,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
         btn_test=findViewById(R.id.btn_test);
+        btn_select=findViewById(R.id.btn_select);
         btn_test.setOnClickListener(this);
-
+        btn_select.setOnClickListener(this);
     }
 
     public void sublit(View v)
     {
-        Intent inta=new Intent(MainActivity.this, shoplist.class);
+        Intent inta=new Intent(MainActivity.this, ShopList.class);
         startActivity(inta);
     }
 
@@ -59,30 +51,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v==btn_test){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Do you want to close this application ?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                            Toast.makeText(getApplicationContext(),"you choose yes action for alertbox",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //  Action for 'NO' Button
-                            dialog.cancel();
-                            Toast.makeText(getApplicationContext(),"you choose no action for alertbox",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-            //Creating dialog box
-            AlertDialog alert = builder.create();
-            //Setting the title manually
-            alert.setTitle("AlertDialogExample");
-            alert.show();
+
 
         }
+        else if(v==btn_select){
+            Intent intent=new Intent(this, CategoryList.class);
+            intent.putExtra("shop", "uilyCqrK3iU0U895PIiHZwyouZH3");
+            intent.putExtra("id","uilyCqrK3iU0U895PIiHZwyouZH3");
+            intent.putExtra("Browse","False");
+            startActivity(intent);
+        }
+
     }
 }

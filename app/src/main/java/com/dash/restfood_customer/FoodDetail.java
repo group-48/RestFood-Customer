@@ -29,10 +29,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 
 public class FoodDetail extends BaseActivity implements View.OnClickListener {
 
-    TextView food_name, food_description, food_price;
+    TextView food_name, food_description, food_price,food_qty;
     ImageView food_image, btn_Cart;
     ElegantNumberButton et_qty;
     Button btn_review;
@@ -43,7 +45,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
     Food foodObj;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    Boolean browse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
         //initialise view
 
         food_name = (TextView) findViewById(R.id.food_name);
+        food_qty = (TextView) findViewById(R.id.food_qty);
         food_description = (TextView) findViewById(R.id.food_description);
         food_price=(TextView)findViewById(R.id.food_price);
         food_image = (ImageView) findViewById(R.id.food_image);
@@ -77,7 +80,17 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
             shopDoc=getIntent().getStringExtra("shopdoc");
 
 
-            Log.d("Nameof:", food);
+            Log.d("Name of:", food);
+            Log.d("Browse",getIntent().getStringExtra("Browse"));
+            if(Objects.equals("True",getIntent().getStringExtra("Browse"))){
+                browse=true;
+                btn_Cart.setVisibility(View.GONE);
+                et_qty.setVisibility(View.GONE);
+                food_qty.setVisibility(View.GONE);
+            }
+            else{
+                browse=false;
+            }
 
         }
 

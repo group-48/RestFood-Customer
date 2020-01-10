@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReserveTable"></activity>
+        <activity android:name=".PaymentDetails"></activity>
+        <activity android:name=".ConfirmOrder">
+
+        </activity>
+        <activity android:name=".ReserveTable" />
         <activity android:name=".ShopOption" />
         <activity android:name=".ViewReviews" />
         <activity android:name=".PlaceReview" />
@@ -31,7 +35,7 @@
         <activity android:name=".BaseActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".shoplist" />
+        <activity android:name=".ShopList" />
         <activity android:name=".CategoryList" />
         <activity android:name=".ViewOrders" />
     </application>
