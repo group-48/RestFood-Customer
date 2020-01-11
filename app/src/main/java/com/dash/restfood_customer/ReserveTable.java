@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,10 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTimeSetListener {
+public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTimeSetListener,View.OnClickListener {
 
-    Button selectDate;
-    Button selectTime;
+    Button selectDate,selectTime,btn_done;
+
     TextView date;
     TextView time;
     DatePickerDialog datePickerDialog;
@@ -45,6 +46,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
         selectDate=findViewById(R.id.btn_date);
         date=findViewById(R.id.txt_date);
         selectTime=findViewById(R.id.btn_time);
+        btn_done=findViewById(R.id.btn_done);
 
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,10 +76,26 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
             }
         });
     }
+    private void reserve(){
+
+    }
+
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         time=findViewById(R.id.txt_time);
         time.setText(hour+":"+ minute );
     }
+
+    @Override
+    public void onClick(View v) {
+        if(v==btn_done){
+            reserve();
+            Intent intent=new Intent(ReserveTable.this,MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
+
 }
