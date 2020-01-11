@@ -1,17 +1,25 @@
 package com.dash.restfood_customer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import github.nisrulz.qreader.QRDataListener;
 import github.nisrulz.qreader.QREader;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -21,10 +29,13 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 public class ScanShop extends AppCompatActivity {
 
+    private static final String TAG = "SCanShop";
     private TextView tv_code;
     private SurfaceView surfaceView;
     private QREader qrEader;
 
+    private FirebaseFirestore db=FirebaseFirestore.getInstance();
+    private CollectionReference ref=db.collection("shop");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +95,26 @@ public class ScanShop extends AppCompatActivity {
                     @Override
                     public void run() {
                         tv_code.setText(data);
+                        ref.document(data).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        Log.d(TAG, "Document exists!");
+                                        Intent intent=new Intent(ScanShop.this, CategoryList.class);
+                                        intent.putExtra("shop", data);
+                                        intent.putExtra("id",data);
+                                        intent.putExtra("Browse","False");
+                                        startActivity(intent);
+                                    } else {
+                                        Log.d(TAG, "Document does not exist!");
+                                    }
+                                } else {
+                                    Log.d(TAG, "Failed with: ", task.getException());
+                                }
+                            }
+                        });
                     }
                 });
              }

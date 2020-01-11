@@ -87,6 +87,9 @@ dependencies {
     implementation 'com.karumi:dexter:5.0.0'
     implementation 'com.google.android.gms:play-services-vision:18.0.0'
 
+    //searchbar
+    implementation 'com.github.mancj:materialsearchbar:0.8.3'
+
 
 }
 

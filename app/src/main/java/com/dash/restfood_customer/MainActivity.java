@@ -14,8 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-   private FirebaseFirestore db=FirebaseFirestore.getInstance();
-   private CollectionReference ref=db.collection("shop").document("dILfWEqZh7fN5LBtiWMFMoeCShe2").collection("Category");
+
    public MenuAdapter adapter;
 
    Button btn_test,btn_select;
