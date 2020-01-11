@@ -148,6 +148,7 @@ public class FoodList extends BaseActivity {
                 inta.putExtra("Food",obj.getFoodName());
                 inta.putExtra("docId",documentSnapshot.getId());
                 inta.putExtra("shopdoc",docId);
+                inta.putExtra("Browse", getIntent().getStringExtra("Browse"));
                 startActivity(inta);
             }
         });
