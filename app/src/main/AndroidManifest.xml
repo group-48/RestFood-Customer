@@ -20,18 +20,21 @@
         <activity android:name=".CartActivity" />
         <activity android:name=".EditProfile" />
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"/>
         <activity android:name=".LoginActivity">
+
+        </activity>
+        <activity android:name=".FoodDetail" />
+        <activity android:name=".FoodList" />
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".FoodDetail" />
-        <activity android:name=".FoodList" />
-        <activity android:name=".BaseActivity" />
-        <activity android:name=".HomeActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ShopList" />
         <activity android:name=".CategoryList" />
