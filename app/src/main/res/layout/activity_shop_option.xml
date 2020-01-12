@@ -6,30 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".ShopOption">
 
-    <Button
-        android:id="@+id/btn_reserve"
-        android:layout_width="173dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="140dp"
-        android:background="@color/colorPrimary"
-        android:text="Reserve Tables"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.455"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <Button
-        android:id="@+id/btn_menu"
-        android:layout_width="151dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="188dp"
-        android:background="@color/colorPrimary"
-        android:text="Browse Menu"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_reserve"
-        app:layout_constraintVertical_bias="0.469" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_menu"
+                android:layout_width="151dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="Browse Menu"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_reserve" />
+
+            <Button
+                android:id="@+id/btn_reserve"
+                android:layout_width="173dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="196dp"
+                android:background="@color/colorPrimary"
+                android:text="Reserve Tables"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,11 +12,13 @@ import com.dash.restfood_customer.models.Category;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import androidx.cardview.widget.CardView;
+
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-   private FirebaseFirestore db=FirebaseFirestore.getInstance();
-   private CollectionReference ref=db.collection("shop").document("dILfWEqZh7fN5LBtiWMFMoeCShe2").collection("Category");
+
    public MenuAdapter adapter;
+   CardView cv_browse,cv_test;
 
    Button btn_test,btn_select;
 
@@ -33,32 +35,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         drawerLayout.addView(contentView, 0);
         //inflate end
 
+        cv_browse=findViewById(R.id.cv_browse);
+        cv_test=findViewById(R.id.cv_test);
 
+        cv_test.setOnClickListener(this);
+        cv_browse.setOnClickListener(this);
 
-        btn_test=findViewById(R.id.btn_test);
         btn_select=findViewById(R.id.btn_select);
-        btn_test.setOnClickListener(this);
+
         btn_select.setOnClickListener(this);
     }
 
-    public void sublit(View v)
-    {
-        Intent inta=new Intent(MainActivity.this, ShopList.class);
-        startActivity(inta);
-    }
+
 
 
     @Override
     public void onClick(View v) {
-        if(v==btn_test){
-
-
-        }
-        else if(v==btn_select){
+        if(v==btn_select){
             Intent intent=new Intent(this, CategoryList.class);
             intent.putExtra("shop", "uilyCqrK3iU0U895PIiHZwyouZH3");
             intent.putExtra("id","uilyCqrK3iU0U895PIiHZwyouZH3");
             intent.putExtra("Browse","False");
+            startActivity(intent);
+        }
+        else if(v==cv_browse){
+            Intent inta=new Intent(MainActivity.this, ShopList.class);
+            startActivity(inta);
+
+        }
+        else if(v==cv_test){
+            Intent intent=new Intent(this, ScanShop.class);
             startActivity(intent);
         }
 

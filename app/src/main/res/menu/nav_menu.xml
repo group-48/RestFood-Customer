@@ -24,7 +24,8 @@
     </item>
 
     <item android:id="@+id/editProfile"
-        android:title="Edit Profile">
+        android:title="Edit Profile"
+        android:icon="@drawable/email">
 
     </item>
 

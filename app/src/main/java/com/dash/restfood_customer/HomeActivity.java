@@ -8,11 +8,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
   public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private Button btn_menu;
+    ImageView bgapp,cloverimg;
+    LinearLayout splashText,homeText;
+    Animation fromBottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +37,24 @@ import android.widget.Button;
         //inflate end
 
 
-        btn_menu=(Button)findViewById(R.id.btn_menu);
+        fromBottom= AnimationUtils.loadAnimation(this,R.anim.frombottom);
 
-        btn_menu.setOnClickListener(this);
+        bgapp=findViewById(R.id.bgapp);
+        cloverimg=findViewById(R.id.clover);
+        splashText=findViewById(R.id.splashText);
+        homeText=findViewById(R.id.homeText);
+
+        bgapp.animate().translationY(-1300).setDuration(800).setStartDelay(300);
+        cloverimg.animate().alpha(0).setDuration(800).setStartDelay(600);
+
+        splashText.animate().translationY(140).alpha(0).setDuration(800).setStartDelay(300);
+        homeText.startAnimation(fromBottom);
+
+
     }
 
       @Override
       public void onClick(View view) {
-          if(view==btn_menu){
 
-          }
       }
   }

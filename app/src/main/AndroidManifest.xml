@@ -9,10 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PaymentDetails"></activity>
-        <activity android:name=".ConfirmOrder">
-
-        </activity>
+        <activity android:name=".ScanShop"></activity>
+        <activity android:name=".ConfirmOrder"></activity>
         <activity android:name=".ReserveTable" />
         <activity android:name=".ShopOption" />
         <activity android:name=".ViewReviews" />
@@ -22,7 +20,7 @@
         <activity android:name=".CartActivity" />
         <activity android:name=".EditProfile" />
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,12 +31,16 @@
         <activity android:name=".FoodDetail" />
         <activity android:name=".FoodList" />
         <activity android:name=".BaseActivity" />
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".HomeActivity" >
+
+
+        </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ShopList" />
         <activity android:name=".CategoryList" />
         <activity android:name=".ViewOrders" />
     </application>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
