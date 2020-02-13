@@ -9,27 +9,45 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.dash.restfood_customer.models.Reserve;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.core.Tag;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.sql.Time;
 import java.util.Calendar;
+import java.util.Date;
+
+import static com.dash.restfood_customer.InternetConfig.InternetConfig.user;
 
 public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTimeSetListener,View.OnClickListener {
 
     Button selectDate,selectTime,btn_done;
-
+    String ShopId,bdate,btime;
+    int guestno;
     TextView date;
     TextView time;
+    EditText rval,tableval,guestval;
     DatePickerDialog datePickerDialog;
     int year;
     int month;
     int dayOfMonth;
     Calendar calendar;
 
+    FirebaseFirestore db= FirebaseFirestore.getInstance();
+    FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +65,15 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
         date=findViewById(R.id.txt_date);
         selectTime=findViewById(R.id.btn_time);
         btn_done=findViewById(R.id.btn_done);
+        /*rval=findViewById(R.id.rval);
+        tableval=findViewById(R.id.tableval);*/
+        guestval=findViewById(R.id.guestval);
+
+        if (getIntent()!=null){
+
+            ShopId=getIntent().getStringExtra("shop");
+
+        }
 
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +102,31 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
                 timepicker.show(getSupportFragmentManager(),"time picker");
             }
         });
+        btn_done.setOnClickListener(this);
     }
     private void reserve(){
+        /*custname=rval.getText().toString();
+        tableno=Integer.parseInt(tableval.getText().toString());*/
+        guestno=Integer.parseInt(guestval.getText().toString());
+        bdate=date.getText().toString();
+        btime=time.getText().toString();
+
+        final Reserve reserve=new Reserve(ShopId,user.getUid(),bdate,btime,guestno);
+
+        reserve.setDate(bdate);
+        reserve.setGuestno(guestno);
+        reserve.setTime(btime);
+        reserve.setUserId(user.getUid());
+        reserve.setShopId(ShopId);
+        db.collection("reserve").add(reserve).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                db.collection("reserve").document(documentReference.getId()).update("reserveId",documentReference.getId());
+                Log.d("TAG","Done");
+            }
+        });
+
+
 
     }
 

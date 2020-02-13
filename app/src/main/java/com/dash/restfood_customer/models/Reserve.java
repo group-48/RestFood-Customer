@@ -5,21 +5,27 @@ import java.util.Date;
 
 public class Reserve {
 
-    private String shopId,shopName;
-    private Integer guestno ;
-    private Date date;
-    private Time time;
+    private String userId;
+    private String shopId;
+    private Integer guestno;
+    private String date;
+    private String time;
 
-    public Reserve(String custName, String shopId, String shopName, Integer tableno, Integer guestno, Date date, Time time) {
-
+    public Reserve(String userId, String shopId, Integer guestno, String date, String time) {
+        this.userId = userId;
         this.shopId = shopId;
-        this.shopName = shopName;
         this.guestno = guestno;
         this.date = date;
         this.time = time;
     }
-    public Reserve(){}
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getShopId() {
         return shopId;
@@ -29,15 +35,6 @@ public class Reserve {
         this.shopId = shopId;
     }
 
-    public String getShopName() {
-        return shopName;
-    }
-
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
-    }
-
-
     public Integer getGuestno() {
         return guestno;
     }
@@ -46,19 +43,21 @@ public class Reserve {
         this.guestno = guestno;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Time getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(String time) {
         this.time = time;
     }
+
+    public  Reserve(String shopId, String uid, String bdate, String btime, int guestno){}
 }

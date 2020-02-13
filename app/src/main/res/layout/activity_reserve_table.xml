@@ -111,7 +111,6 @@
             android:id="@+id/guestval"
             android:layout_width="162dp"
             android:layout_height="wrap_content"
-
             android:layout_marginStart="45dp"
             android:layout_marginLeft="43dp"
             android:layout_marginTop="160dp"
@@ -178,7 +177,6 @@
             android:layout_marginLeft="0dp"
             android:layout_marginTop="111dp"
             android:backgroundTint="#020D5A"
-
             android:text="DONE"
             android:textAlignment="center"
             android:textColor="#FFFEFE"
