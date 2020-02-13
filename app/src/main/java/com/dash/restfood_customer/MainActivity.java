@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             startActivity(intent);
         }
         else if(v==cv_test2){
-            Intent intent=new Intent(this, HomeActivity.class);
+            Intent intent=new Intent(this, ProfileActivity.class);
             startActivity(intent);
         }
     }

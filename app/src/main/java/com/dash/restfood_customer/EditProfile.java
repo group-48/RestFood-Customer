@@ -32,7 +32,6 @@ public class EditProfile extends BaseActivity implements View.OnClickListener {
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
     private ProgressDialog progressDialog;
-    Customer customer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

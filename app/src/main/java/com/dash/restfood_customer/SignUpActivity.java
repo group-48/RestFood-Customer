@@ -11,6 +11,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
+
 import static android.telephony.PhoneNumberUtils.isGlobalPhoneNumber;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,6 +44,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText et_dob;
     private EditText et_phone;
     private DatePickerDialog.OnDateSetListener dateSetListener;
+
+    DatePickerDialog datePickerDialog;
+    int year;
+    int month;
+    int dayOfMonth;
+    Calendar calendar;
 
 
     //progressbar
@@ -84,6 +93,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         btn_signup.setOnClickListener(this);
         tv_login.setOnClickListener(this);
         et_dob.setOnClickListener(this);
+
     }
 
     private void saveUserInfo() {
@@ -212,7 +222,20 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if(view==et_dob){
+            calendar= Calendar.getInstance();
+            year=calendar.get(Calendar.YEAR);
+            month=calendar.get(Calendar.MONTH);
+            dayOfMonth=calendar.get(Calendar.DAY_OF_MONTH);
 
+
+            datePickerDialog=new DatePickerDialog(SignUpActivity.this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                            et_dob.setText(day +"/" + (month+1) + "/" + year);
+                        }
+                    },year,month,dayOfMonth);
+            datePickerDialog.show();
         }
     }
 }
