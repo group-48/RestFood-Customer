@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
   public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private Button btn_menu;
-    ImageView bgapp,cloverimg;
+    ImageView bgapp;
     LinearLayout splashText,homeText;
     Animation fromBottom;
 
@@ -40,15 +40,12 @@ import android.widget.LinearLayout;
         fromBottom= AnimationUtils.loadAnimation(this,R.anim.frombottom);
 
         bgapp=findViewById(R.id.bgapp);
-        cloverimg=findViewById(R.id.clover);
+
         splashText=findViewById(R.id.splashText);
         homeText=findViewById(R.id.homeText);
-
-        bgapp.animate().translationY(-1300).setDuration(800).setStartDelay(300);
-        cloverimg.animate().alpha(0).setDuration(800).setStartDelay(600);
-
-        splashText.animate().translationY(140).alpha(0).setDuration(800).setStartDelay(300);
         homeText.startAnimation(fromBottom);
+        splashText.animate().alpha(0).setDuration(1000).setStartDelay(700);
+        bgapp.animate().translationY(-1300).setDuration(1000).setStartDelay(1000);
 
 
     }

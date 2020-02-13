@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -94,17 +95,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         FirebaseUser user=firebaseAuth.getCurrentUser();
         Customer customer=new Customer(email,fname,lname,phone,dob);
-        /*databaseReference.child("Users").child("Customers").child(user.getUid()).setValue(customer).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        }) ;*/
 
 
         db.collection("users").document(user.getUid())
@@ -168,20 +159,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String phone=et_phone.getText().toString().trim();
         String password=et_password.getText().toString().trim();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String namePattern="[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)";
+
 
         if(TextUtils.isEmpty((email))){
-            Toast.makeText(this,"Please enter your email",Toast.LENGTH_SHORT).show();
+            et_email.setError("Email can't be empty");
             return false;
         }
         if (!email.matches(emailPattern)){
-            Toast.makeText(this,"Please enter a valid email",Toast.LENGTH_SHORT).show();
+            et_email.setError("Please enter a valid email");
             return false;
         }
         if(TextUtils.isEmpty((password))){
-            Toast.makeText(this,"Please enter a password",Toast.LENGTH_SHORT).show();
+            et_password.setError(Html.fromHtml("Password cannot be empty"));
             return false;
         }
-        if(TextUtils.isEmpty((fname))){
+        if(!fname.matches(namePattern)){
             Toast.makeText(this,"Please enter your First Name",Toast.LENGTH_SHORT).show();
             return false;
         }
