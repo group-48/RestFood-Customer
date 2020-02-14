@@ -10,13 +10,15 @@ public class Reserve {
     private Integer guestno;
     private String date;
     private String time;
+    private String bookingId;
 
-    public Reserve(String userId, String shopId, Integer guestno, String date, String time) {
+    public Reserve(String userId, String shopId, Integer guestno, String date, String time,String bookingId) {
         this.userId = userId;
         this.shopId = shopId;
         this.guestno = guestno;
         this.date = date;
         this.time = time;
+        this.bookingId=bookingId;
     }
 
     public String getUserId() {
@@ -59,5 +61,13 @@ public class Reserve {
         this.time = time;
     }
 
-    public  Reserve(String shopId, String uid, String bdate, String btime, int guestno){}
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(String bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public  Reserve(){}
 }
