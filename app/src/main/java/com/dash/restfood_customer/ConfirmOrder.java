@@ -85,6 +85,9 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
     String notes,paymentId;
     int amount;
 
+    public int flag=0;
+
+
 
     @Override
     protected void onDestroy() {
@@ -147,6 +150,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
 
                 }
                 else{
+                    progressDialog.show();
                     placeOrderCash();
                 }
             }
@@ -177,6 +181,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                 cartItem[c]=document.toObject(CartItem.class);
                                 c++;
                                 Log.d("CartActvity", "c is"+c);
+                                db.collection("users").document(user.getUid()).collection("cart").document(document.getId()).delete();
                             }
                             String[] foods = new String[ food_list.size() ];
                             food_list.toArray( foods);
@@ -219,8 +224,12 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                                 db.collection("orders").document(docId).collection("foods").document(cartItem[i].getFoodId()).set(cartItem[i]);
                                             }
                                             db.collection("orders").document(docId).update("OrderId",docId);
+                                            clearCart();
 
+
+                                            progressDialog.hide();
                                             startActivity(new Intent(ConfirmOrder.this,TrackOrder.class));
+
                                         }
 
                                     }).addOnFailureListener(new OnFailureListener() {
@@ -240,6 +249,10 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
 
         String orderId=sharedPref.getString("OrderId",null);
         Log.w("Track","Order id is"+orderId);
+
+    }
+
+    private void clearCart() {
 
     }
 

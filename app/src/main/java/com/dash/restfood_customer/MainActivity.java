@@ -58,8 +58,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             startActivity(intent);
         }
         else if(v==cv_browse){
-            Intent inta=new Intent(MainActivity.this, ShopList.class);
-            startActivity(inta);
+            Intent intent=new Intent(MainActivity.this, ShopList.class);
+            startActivity(intent);
 
         }
         else if(v==cv_test){
