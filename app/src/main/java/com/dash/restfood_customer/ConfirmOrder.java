@@ -280,6 +280,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                 cartItem[c]=document.toObject(CartItem.class);
                                 c++;
                                 Log.d("CartActvity", "c is"+c);
+                                db.collection("users").document(user.getUid()).collection("cart").document(document.getId()).delete();
 
                             }
                             String[] foods = new String[ food_list.size() ];

@@ -7,29 +7,40 @@
     android:layout_height="match_parent"
     tools:context=".CartActivity">
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:id="@+id/total">
+        android:layout_height="wrap_content"
+        android:id="@+id/cv_total">
 
-        <TextView
-            android:id="@+id/tv_total"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginTop="10dp"
-            android:text="Cart"/>
-    </RelativeLayout>
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/total">
+
+            <TextView
+                android:id="@+id/tv_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Cart is Empty"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/cart_list"
-        android:layout_below="@+id/total"
+        android:layout_below="@+id/cv_total"
         android:layout_above="@+id/btn_checkout"/>
 
     <Button
+        android:background="#03A9F4"
+        android:textColor="#FFFFFF"
         android:id="@+id/btn_checkout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

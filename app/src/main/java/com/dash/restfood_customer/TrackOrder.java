@@ -114,8 +114,8 @@ public class TrackOrder extends BaseActivity {
             tv_status.setText("");
             tv_total.setText("");
             et_food.setText("");
-            cv2.setVisibility(View.INVISIBLE);
-            cv3.setVisibility(View.INVISIBLE);
+            cv2.setVisibility(View.GONE);
+            cv3.setVisibility(View.GONE);
 
         }
         else{
@@ -130,6 +130,10 @@ public class TrackOrder extends BaseActivity {
                                 tv_status.setText("");
                                 tv_total.setText("");
                                 et_food.setText("");
+                                cv2.setVisibility(View.GONE);
+                                cv3.setVisibility(View.GONE);
+
+
                             }
                             else{
 

@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView tv_forgot;
 
     FirebaseAuth firebaseAuth;
+    FirebaseUser user=firebaseAuth.getInstance().getCurrentUser();
+    private Session session;
 
     private ProgressDialog progressDialog;
 
@@ -42,6 +44,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         firebaseAuth=FirebaseAuth.getInstance();
 
         getSupportActionBar().hide();
+        session = new Session(this);
+        session.setMenu(0);
 
         btn_login=(Button) findViewById(R.id.btn_login);
         et_email=(EditText)findViewById(R.id.et_email);
@@ -54,6 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tv_forgot.setOnClickListener(this);
 
         progressDialog=new ProgressDialog(this);
+        //Toast.makeText(this,user.getUid(),Toast.LENGTH_LONG).show();
 
     }
 
