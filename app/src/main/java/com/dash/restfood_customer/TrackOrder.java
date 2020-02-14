@@ -125,7 +125,7 @@ public class TrackOrder extends BaseActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot snapshot = task.getResult();
                         if (snapshot.exists()) {
-                            if(Objects.equals("Done",snapshot.getString("Status"))){
+                            if(Objects.equals("Done",snapshot.getString("Status")) || Objects.equals("true",snapshot.get("Done").toString())){
                                 tv_order.setText("No pending Orders");
                                 tv_status.setText("");
                                 tv_total.setText("");
@@ -136,6 +136,8 @@ public class TrackOrder extends BaseActivity {
 
                             }
                             else{
+                                cv2.setVisibility(View.VISIBLE);
+                                cv3.setVisibility(View.VISIBLE);
 
                                 Log.d(TAG, "DocumentSnapshot data: " + snapshot.getData());
 
@@ -186,21 +188,31 @@ public class TrackOrder extends BaseActivity {
                             tv_status.setText("");
                             tv_total.setText("");
                             et_food.setText("");
+                            cv2.setVisibility(View.GONE);
+                            cv3.setVisibility(View.GONE);
+
                             SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString("Done", "1");
                             editor.commit();
+                            stepView.setStepsViewIndicatorComplectingPosition(3);
 
+                            db.collection("orders").document(orderId).update("Done",true);
+
+                        }
+                        else if(Objects.equals("Ready",snapshot.getString("Status"))){
+                            stepView.setStepsViewIndicatorComplectingPosition(2);
                             NotificationCompat.Builder builder = new NotificationCompat.Builder(TrackOrder.this, CHANNEL_ID)
                                     .setSmallIcon(R.drawable.food_icon)
                                     .setContentTitle("Order status")
-                                    .setContentText("Your order is complete")
+                                    .setContentText("Your order is ready, Please pick it up")
                                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
                             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(TrackOrder.this);
                             notificationManager.notify(1, builder.build());
-                            db.collection("orders").document(orderId).update("Done",true);
-
+                        }
+                        else if(Objects.equals("Accepted",snapshot.getString("Status"))){
+                            stepView.setStepsViewIndicatorComplectingPosition(1);
                         }
 
 
@@ -217,6 +229,8 @@ public class TrackOrder extends BaseActivity {
                 tv_order.setText("No pending Orders");
                 tv_status.setText("");
                 tv_total.setText("");
+                cv2.setVisibility(View.GONE);
+                cv3.setVisibility(View.GONE);
 
             }
 
