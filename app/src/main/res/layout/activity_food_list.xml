@@ -6,25 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".FoodList">
 
-    <com.mancj.materialsearchbar.MaterialSearchBar
-        android:id="@+id/searchBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-
-        app:mt_speechMode="false"
-        app:mt_hint="Enter your food"
-
-
-
-        />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_food"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchBar"
         android:scrollbars="vertical"
 
         />
