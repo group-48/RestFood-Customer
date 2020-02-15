@@ -126,7 +126,7 @@
                 android:inputType="date"
                 android:paddingTop="8sp"
                 android:paddingBottom="15sp"
-                android:text="Pick Date of Birth"
+                android:text="Date of Birth"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
