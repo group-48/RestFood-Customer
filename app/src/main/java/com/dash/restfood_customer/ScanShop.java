@@ -6,6 +6,7 @@ import github.nisrulz.qreader.QRDataListener;
 import github.nisrulz.qreader.QREader;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,10 +38,27 @@ public class ScanShop extends AppCompatActivity {
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
     private CollectionReference ref=db.collection("shop");
 
+    private Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_shop);
+
+        session = new Session(this);
+
+        if(session.getMenu()==1){
+            Intent intent=new Intent(ScanShop.this, CategoryList.class);
+            intent.putExtra("shop", session.getShop());
+            intent.putExtra("id",session.getShop());
+            intent.putExtra("Browse","False");
+            //Toast.makeText(this,session.getMenu(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this,session.getShop(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this,session.getBrowse(),Toast.LENGTH_LONG).show();
+            startActivity(intent);
+            finish();
+        }
+
 
         Dexter.withActivity(this)
                 .withPermission(Manifest.permission.CAMERA)
@@ -106,6 +124,9 @@ public class ScanShop extends AppCompatActivity {
                                         intent.putExtra("shop", data);
                                         intent.putExtra("id",data);
                                         intent.putExtra("Browse","False");
+                                        session.setMenu(1);
+                                        session.setShop(data);
+                                        session.setBrowse("False");
                                         startActivity(intent);
                                     } else {
                                         Log.d(TAG, "Document does not exist!");

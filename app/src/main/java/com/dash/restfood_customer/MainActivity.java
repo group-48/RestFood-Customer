@@ -18,9 +18,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
    public MenuAdapter adapter;
-   CardView cv_browse,cv_test;
+   CardView cv_browse,cv_test,cv_select,cv_test2;
 
-   Button btn_test,btn_select;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +36,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         cv_browse=findViewById(R.id.cv_browse);
         cv_test=findViewById(R.id.cv_test);
+        cv_select=findViewById(R.id.cv_select);
+        cv_test2=findViewById(R.id.cv_test2);
 
         cv_test.setOnClickListener(this);
+        cv_test2.setOnClickListener(this);
         cv_browse.setOnClickListener(this);
-
-        btn_select=findViewById(R.id.btn_select);
-
-        btn_select.setOnClickListener(this);
+        cv_select.setOnClickListener(this);
     }
 
 
@@ -51,7 +50,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v==btn_select){
+        if(v==cv_select){
             Intent intent=new Intent(this, CategoryList.class);
             intent.putExtra("shop", "uilyCqrK3iU0U895PIiHZwyouZH3");
             intent.putExtra("id","uilyCqrK3iU0U895PIiHZwyouZH3");
@@ -59,14 +58,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             startActivity(intent);
         }
         else if(v==cv_browse){
-            Intent inta=new Intent(MainActivity.this, ShopList.class);
-            startActivity(inta);
+            Intent intent=new Intent(MainActivity.this, ShopList.class);
+            startActivity(intent);
 
         }
         else if(v==cv_test){
             Intent intent=new Intent(this, ScanShop.class);
             startActivity(intent);
         }
-
+        else if(v==cv_test2){
+            Intent intent=new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+        }
     }
 }

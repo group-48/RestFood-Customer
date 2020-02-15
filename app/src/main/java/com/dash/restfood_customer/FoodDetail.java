@@ -25,8 +25,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -133,6 +136,8 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
 
             final CartItem cartItem=new CartItem(foodObj.getFoodName(),foodObj.getImage(),getIntent().getStringExtra("shopdoc"),getIntent().getStringExtra("docId"),et_qty.getNumber(),foodObj.getPrice());
 
+
+            //check whether item is in cart and add it to cart
             db.collection("users")
                     .document(FirebaseAuth.getInstance().getUid())
                     .collection("cart")
@@ -158,6 +163,20 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
                 }
             });
 
+            //remove products from other shops
+            db.collection("users").document(FirebaseAuth.getInstance().getUid()).collection("cart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if(!(Objects.equals(document.get("shopId"),cartItem.getShopId()))){
+                                db.collection("users").document(FirebaseAuth.getInstance().getUid()).collection("cart").document(document.getId()).delete();
+                            }
+
+                        }
+                    }
+                }
+            });
 
 
 

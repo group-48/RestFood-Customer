@@ -90,6 +90,8 @@ dependencies {
     //searchbar
     implementation 'com.github.mancj:materialsearchbar:0.8.3'
 
+    //vertical time
+    implementation 'com.github.baoyachi:StepView:1.9';
 
 }
 
