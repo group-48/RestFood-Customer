@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.dash.restfood_customer.models.Reserve;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,8 +67,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
         date=findViewById(R.id.txt_date);
         selectTime=findViewById(R.id.btn_time);
         btn_done=findViewById(R.id.btn_done);
-        /*rval=findViewById(R.id.rval);
-        tableval=findViewById(R.id.tableval);*/
+        time=findViewById(R.id.txt_time);
         guestval=findViewById(R.id.guestval);
 
         if (getIntent()!=null){
@@ -105,8 +106,10 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
         btn_done.setOnClickListener(this);
     }
     private void reserve(){
-        /*custname=rval.getText().toString();
-        tableno=Integer.parseInt(tableval.getText().toString());*/
+
+        if(!validate()){
+            return;
+        }
         guestno=Integer.parseInt(guestval.getText().toString());
         bdate=date.getText().toString();
         btime=time.getText().toString();
@@ -131,6 +134,36 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
 
     }
 
+    private boolean validate() {
+
+        String guestno=guestval.getText().toString();
+        String bdate=date.getText().toString();
+        String btime=time.getText().toString();
+
+        if(TextUtils.isEmpty((guestno))){
+            Toast.makeText((this), "Please enter the number of guests", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty((bdate)) && (TextUtils.isEmpty((btime)))){
+            Toast.makeText((this), "Please enter the date and time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty((bdate))){
+            Toast.makeText((this), "Please enter the date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty((btime))){
+            Toast.makeText((this), "Please enter the time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+
+    }
+
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
@@ -142,8 +175,8 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
     public void onClick(View v) {
         if(v==btn_done){
             reserve();
-            Intent intent=new Intent(ReserveTable.this,MainActivity.class);
-            startActivity(intent);
+            /*Intent intent=new Intent(ReserveTable.this,MainActivity.class);
+            startActivity(intent);*/
         }
     }
 
