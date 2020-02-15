@@ -25,7 +25,7 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
     protected void onBindViewHolder(@NonNull ReserveHolder reserveHolder, int i, @NonNull Reserve reserve) {
 
         reserveHolder.booking_id.setText(reserve.getBookingId());
-        reserveHolder.shop_id.setText(reserve.getShopId());
+        reserveHolder.shop_name.setText(reserve.getShopName());
         reserveHolder.booking_date.setText(reserve.getDate());
         reserveHolder.booking_time.setText(reserve.getTime());
 
@@ -41,12 +41,12 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
 
     class ReserveHolder extends RecyclerView.ViewHolder{
 
-        TextView booking_id,shop_id,booking_date,booking_time;
+        TextView booking_id,shop_name,booking_date,booking_time;
 
         public ReserveHolder( View itemView) {
             super(itemView);
             booking_id=itemView.findViewById(R.id.tv_booking_id);
-            shop_id=itemView.findViewById(R.id.booking_shop_id);
+            shop_name=itemView.findViewById(R.id.booking_shop_id);
             booking_date=itemView.findViewById(R.id.booking_date);
             booking_time=itemView.findViewById(R.id.booking_time);
 

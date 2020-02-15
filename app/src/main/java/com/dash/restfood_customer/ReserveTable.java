@@ -35,7 +35,7 @@ import static com.dash.restfood_customer.InternetConfig.InternetConfig.user;
 public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTimeSetListener,View.OnClickListener {
 
     Button selectDate,selectTime,btn_done;
-    String ShopId,bdate,btime,ReserveId;
+    String ShopName,bdate,btime,ReserveId;
     int guestno;
     TextView date;
     TextView time;
@@ -71,7 +71,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
 
         if (getIntent()!=null){
 
-            ShopId=getIntent().getStringExtra("shop");
+            ShopName=getIntent().getStringExtra("sName");
 
         }
 
@@ -111,13 +111,13 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
         bdate=date.getText().toString();
         btime=time.getText().toString();
 
-        final Reserve reserve=new Reserve(user.getUid(),ShopId,guestno,bdate,btime,ReserveId);
+        final Reserve reserve=new Reserve(user.getUid(),ShopName,guestno,bdate,btime,ReserveId);
 
         reserve.setDate(bdate);
         reserve.setGuestno(guestno);
         reserve.setTime(btime);
         reserve.setUserId(user.getUid());
-        reserve.setShopId(ShopId);
+        reserve.setShopName(ShopName);
 
         db.collection("reserve").add(reserve).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override

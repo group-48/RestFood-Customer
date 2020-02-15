@@ -59,6 +59,7 @@ public class ShopList extends BaseActivity {
                 shop obj=documentSnapshot.toObject(shop.class);
                 Intent intent=new Intent(ShopList.this,ShopOption.class);
                 intent.putExtra("shop",obj.getShop_id());
+                intent.putExtra("sName",obj.getShopName());
                 intent.putExtra("id",documentSnapshot.getId());
                 startActivity(intent);
 
