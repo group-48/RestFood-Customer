@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import static android.telephony.PhoneNumberUtils.isGlobalPhoneNumber;
 
@@ -41,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private TextView tv_login;
     private EditText et_fname;
     private EditText et_lname;
-    private EditText et_dob;
+    private TextView et_dob;
     private EditText et_phone;
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
@@ -86,8 +87,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         et_password=(EditText) findViewById(R.id.et_password);
         tv_login=(TextView) findViewById(R.id.tv_login);
         et_fname=(EditText)findViewById(R.id.et_fname);
-        et_lname=(EditText)findViewById(R.id.et_lname);
-        et_dob=(EditText)findViewById(R.id.et_dob);
+        et_lname=findViewById(R.id.et_lname);
+        et_dob=findViewById(R.id.et_dob);
         et_phone=(EditText)findViewById(R.id.et_phone);
 
         btn_signup.setOnClickListener(this);
@@ -171,41 +172,70 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         String namePattern="[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)";
 
+        int validity=1;
 
+        //get current year
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        int year = cal.get(Calendar.YEAR);
+
+        if(TextUtils.isEmpty((password))){
+            et_password.requestFocus();
+            et_password.setError("Password cannot be empty");
+            validity=0;
+        }
         if(TextUtils.isEmpty((email))){
+            et_email.requestFocus();
             et_email.setError("Email can't be empty");
-            return false;
+            validity=0;
         }
         if (!email.matches(emailPattern)){
+            et_email.requestFocus();
             et_email.setError("Please enter a valid email");
-            return false;
-        }
-        if(TextUtils.isEmpty((password))){
-            et_password.setError(Html.fromHtml("Password cannot be empty"));
-            return false;
-        }
-        if(!fname.matches(namePattern)){
-            Toast.makeText(this,"Please enter your First Name",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if(TextUtils.isEmpty((lname))){
-            Toast.makeText(this,"Please enter your Last Name",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if(TextUtils.isEmpty((dob))){
-            Toast.makeText(this,"Please enter Your DOB",Toast.LENGTH_SHORT).show();
-            return false;
+            validity=0;
         }
         if(TextUtils.isEmpty((phone))){
-            Toast.makeText(this,"Please enter your Contact No.",Toast.LENGTH_SHORT).show();
-            return false;
+            et_phone.requestFocus();
+            et_phone.setError("Phone No. cannot be empty");
+            validity=0;
         }
-        else if (!isGlobalPhoneNumber(phone)){
-            Toast.makeText(this,"Please enter a valid Contact No.",Toast.LENGTH_SHORT).show();
-            return false;
+        if (!isGlobalPhoneNumber(phone) || phone.length()>10){
+            et_phone.requestFocus();
+            et_phone.setError("Invalid Phone number");
+            validity=0;
+        }
+        if(TextUtils.isEmpty((dob)) || dob.length()>10){
+            et_dob.requestFocus();
+            et_dob.setError("Date of Birth cannot be empty");
+            validity=0;
+        }
+        /*else if(Integer.parseInt(dob.substring(5,9))>(year-2)){
+            et_dob.requestFocus();
+            et_dob.setError("Invalid Date of Birth");
+            validity=0;
+        }*/
+
+        if(!lname.matches(namePattern)){
+            et_lname.requestFocus();
+            et_lname.setError("Invalid Name");
+            validity=0;
+        }
+        if(TextUtils.isEmpty((lname))){
+            et_lname.requestFocus();
+            et_lname.setError("Name cannot be empty");
+            validity=0;
+        }
+        if(!fname.matches(namePattern)){
+            et_fname.requestFocus();
+            et_fname.setError("Invalid Name");
+            validity=0;
         }
 
 
+        if(validity==0){
+            return false;
+        }
 
         return true;
     }
@@ -222,6 +252,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if(view==et_dob){
+            et_dob.setError(null);
             calendar= Calendar.getInstance();
             year=calendar.get(Calendar.YEAR);
             month=calendar.get(Calendar.MONTH);

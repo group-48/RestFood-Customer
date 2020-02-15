@@ -110,7 +110,7 @@ public class ViewOrderAdapter extends FirestoreRecyclerAdapter<OrderFood, ViewOr
                                 //Creating dialog box
                                 AlertDialog alert = builder.create();
                                 //Setting the title manually
-                                alert.setTitle("AlertDialogExample");
+                                alert.setTitle("Place Review");
                                 alert.show();
                                 Log.d("select food for review","Review Exists");
                             }

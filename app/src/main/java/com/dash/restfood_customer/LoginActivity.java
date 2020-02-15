@@ -66,12 +66,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String email = et_email.getText().toString().trim();
         String password=et_password.getText().toString().trim();
 
-        if(TextUtils.isEmpty((email))){
-            Toast.makeText(this,"Please enter your email",Toast.LENGTH_SHORT).show();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if(TextUtils.isEmpty((email)) ||!email.matches(emailPattern)){
+            et_email.requestFocus();
+            et_email.setError("Please enter a valid email");
+            progressDialog.hide();
             return;
         }
         if(TextUtils.isEmpty((password))){
-            Toast.makeText(this,"Please enter a password",Toast.LENGTH_SHORT).show();
+            et_password.requestFocus();
+            et_password.setError("Please enter your password");
+            progressDialog.hide();
             return;
         }
 
@@ -80,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(LoginActivity.this,"successful",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
                     progressDialog.hide();
                     FirebaseUser user=firebaseAuth.getCurrentUser();
                     updateUI(user);
@@ -88,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else{
                     progressDialog.hide();
                     FirebaseAuthException e = (FirebaseAuthException )task.getException();
-                    Toast.makeText(LoginActivity.this,"failed"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             }
         }) ;
@@ -101,6 +107,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 progressDialog.setMessage("Verifying user");
                 progressDialog.show();
                 signInUser();
+
             }
 
             if(view==tv_signup){
