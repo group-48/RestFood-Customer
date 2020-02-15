@@ -5,28 +5,28 @@ import java.util.Date;
 
 public class Reserve {
 
-    private String custName,shopId,shopName;
-    private Integer tableno, guestno ;
-    private Date date;
-    private Time time;
+    private String userId;
+    private String shopId;
+    private Integer guestno;
+    private String date;
+    private String time;
+    private String bookingId;
 
-    public Reserve(String custName, String shopId, String shopName, Integer tableno, Integer guestno, Date date, Time time) {
-        this.custName = custName;
+    public Reserve(String userId, String shopId, Integer guestno, String date, String time,String bookingId) {
+        this.userId = userId;
         this.shopId = shopId;
-        this.shopName = shopName;
-        this.tableno = tableno;
         this.guestno = guestno;
         this.date = date;
         this.time = time;
-    }
-    public Reserve(){}
-
-    public String getCustName() {
-        return custName;
+        this.bookingId=bookingId;
     }
 
-    public void setCustName(String custName) {
-        this.custName = custName;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getShopId() {
@@ -37,22 +37,6 @@ public class Reserve {
         this.shopId = shopId;
     }
 
-    public String getShopName() {
-        return shopName;
-    }
-
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
-    }
-
-    public Integer getTableno() {
-        return tableno;
-    }
-
-    public void setTableno(Integer tableno) {
-        this.tableno = tableno;
-    }
-
     public Integer getGuestno() {
         return guestno;
     }
@@ -61,19 +45,29 @@ public class Reserve {
         this.guestno = guestno;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Time getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(String time) {
         this.time = time;
     }
+
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(String bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public  Reserve(){}
 }

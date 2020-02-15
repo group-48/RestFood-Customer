@@ -29,6 +29,11 @@
 
     </item>
 
+    <item android:id="@+id/viewbooking"
+        android:title="View Booking">
+
+    </item>
+
     <item android:id="@+id/logOut"
         android:title="Log Out">
 
