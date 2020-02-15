@@ -92,6 +92,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
                         date.setText(day +"/" + (month+1) + "/" + year);
                     }
                 },year,month,dayOfMonth);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);//disable the past dates
                 datePickerDialog.show();
             }
         });
