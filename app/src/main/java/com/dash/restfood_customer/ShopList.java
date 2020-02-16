@@ -79,4 +79,12 @@ public class ShopList extends BaseActivity {
         super.onStop();
         adapter.stopListening();
     }
+
+    public void onBackPressed() {
+
+        Intent intent=new Intent(ShopList.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+
+    }
 }

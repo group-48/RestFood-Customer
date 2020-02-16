@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -132,6 +134,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
                     Log.w(TAG, "Listen failed.", e);
+                    tv_total.setText("Empty");
                     return;
                 }
 
@@ -161,10 +164,26 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v==btn_checkout){
+        if(v==btn_checkout && tot!=0){
             startActivity(new Intent(this,ConfirmOrder.class)
                 .putExtra("Total",String.valueOf(tot)));
 
+
+        }
+        else{
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder
+                    .setCancelable(false)
+                    .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            //Creating dialog box
+            AlertDialog alert = builder.create();
+            //Setting the title manually
+            alert.setTitle("No items in cart to checkout");
+            alert.show();
         }
     }
 }

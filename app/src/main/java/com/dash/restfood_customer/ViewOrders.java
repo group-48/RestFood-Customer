@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class ViewOrders extends BaseActivity {
     private TextView tv_orderId;
     public ViewOrderAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,7 @@ public class ViewOrders extends BaseActivity {
 
 
 
+
     }
 
     private void loadOrders() {
@@ -87,6 +90,8 @@ public class ViewOrders extends BaseActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.setAdapter(adapter);
+
+
     }
 
     private void getTotal() {

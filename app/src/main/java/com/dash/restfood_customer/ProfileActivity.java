@@ -138,6 +138,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             if(!validate()){
                 return;
             }
+            progressDialog.setMessage("Updating user profile");
+            progressDialog.show();
             updateUser();
 
         }
@@ -205,17 +207,30 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         int phone=Integer.parseInt(et_phone.getText().toString().trim());
 
         Customer customer=new Customer(user.getEmail(),fname,lname,phone,dob);
+        et_name.setText(customer.getfName()+" "+customer.getlName());
 
         DocumentReference documentReference=db.collection("users").document(user.getUid());
         documentReference.set(customer).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(ProfileActivity.this,"User updated Successfully",Toast.LENGTH_LONG).show();
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+
+                progressDialog.hide();
+                flag=0;
+                et_fname.setEnabled(false);
+                et_lname.setEnabled(false);
+                et_DOB.setEnabled(false);
+                et_phone.setEnabled(false);
+                btn_edit.setText("Edit user");
             }
 
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progressDialog.dismiss();
+    }
+
 }

@@ -51,10 +51,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v==cv_select){
-            Intent intent=new Intent(this, CategoryList.class);
-            intent.putExtra("shop", "uilyCqrK3iU0U895PIiHZwyouZH3");
-            intent.putExtra("id","uilyCqrK3iU0U895PIiHZwyouZH3");
-            intent.putExtra("Browse","False");
+            Intent intent=new Intent(this, CartActivity.class);
             startActivity(intent);
         }
         else if(v==cv_browse){

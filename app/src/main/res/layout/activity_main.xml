@@ -77,7 +77,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="Browse Foods" />
+                            android:text="Restaurants" />
 
                     </LinearLayout>
 
@@ -138,14 +138,14 @@
                         <ImageView
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            android:src="@drawable/help" />
+                            android:src="@drawable/cart" />
 
                         <TextView
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="Select" />
+                            android:text="Cart" />
 
                     </LinearLayout>
 
