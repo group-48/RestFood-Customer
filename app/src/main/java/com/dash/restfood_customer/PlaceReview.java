@@ -107,6 +107,7 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
                     Name=documentSnapshot.get("fName").toString();
                 }
             });
+
         }
         else{
             Name="Anonymous";

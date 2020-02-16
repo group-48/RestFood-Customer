@@ -175,7 +175,7 @@ public class FoodList extends BaseActivity {
 
     private void loadListFood(String category) {
 
-        Query query=ref.whereEqualTo("category",category).orderBy("foodName",Query.Direction.ASCENDING);
+        Query query=ref.whereEqualTo("category",category).whereEqualTo("isAvailable",true).orderBy("foodName",Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<Food>options=new FirestoreRecyclerOptions.Builder<Food>().setQuery(query,Food.class).build();
         adapter=new FoodAdapter(options);
