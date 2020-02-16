@@ -36,6 +36,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalPaymentDetails;
@@ -222,9 +223,11 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                             for(int i=0;i<c;i++){
                                                 Log.d("CartActvity", "food id is "+cartItem[i].getFoodId());
                                                 db.collection("orders").document(docId).collection("foods").document(cartItem[i].getFoodId()).set(cartItem[i]);
+                                                Map<String, Object> order = new HashMap<>();
+                                                order.put("orderId",docId);
+                                                db.collection("orders").document(docId).collection("foods").document(cartItem[i].getFoodId()).set(order, SetOptions.merge());
                                             }
                                             db.collection("orders").document(docId).update("OrderId",docId);
-                                            clearCart();
 
 
                                             progressDialog.hide();
@@ -252,12 +255,10 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
 
     }
 
-    private void clearCart() {
 
-    }
 
     private void placeOrderPayPal() {
-
+        progressDialog.show();
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
         SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -322,7 +323,11 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
 
                                             for(int i=0;i<c;i++){
                                                 Log.d("CartActvity", "food id is "+cartItem[i].getFoodId());
+
                                                 db.collection("orders").document(docId).collection("foods").document(cartItem[i].getFoodId()).set(cartItem[i]);
+                                                Map<String, Object> order = new HashMap<>();
+                                                order.put("orderId",docId);
+                                                db.collection("orders").document(docId).collection("foods").document(cartItem[i].getFoodId()).set(order, SetOptions.merge());
                                             }
 
                                             db.collection("orders").document(docId).update("OrderId",docId);
@@ -341,7 +346,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                                 });
                                                 Log.d("CartActvity", "cart food"+document.getId());
                                             }*/
-
+                                            progressDialog.hide();
                                             startActivity(new Intent(ConfirmOrder.this,TrackOrder.class));
                                         }
 

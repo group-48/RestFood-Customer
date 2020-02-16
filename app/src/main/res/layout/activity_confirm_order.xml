@@ -14,6 +14,7 @@
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="6dp"
+        android:outlineSpotShadowColor="#03A9F4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +56,7 @@
                 android:id="@+id/radioPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,14 +64,14 @@
 
                 <RadioButton
                     android:id="@+id/rb_cash"
-                    android:layout_width="172dp"
-                    android:layout_height="36dp"
+                    android:layout_width="124dp"
+                    android:layout_height="match_parent"
                     android:text="Pay By Cash" />
 
                 <RadioButton
                     android:id="@+id/rb_card"
-                    android:layout_width="171dp"
-                    android:layout_height="36dp"
+                    android:layout_width="122dp"
+                    android:layout_height="wrap_content"
                     android:text="Pay By Card" />
             </RadioGroup>
 
@@ -83,6 +84,7 @@
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.142"
                 app:layout_constraintStart_toEndOf="@+id/textView10"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,7 +92,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="88dp"
+                android:layout_marginStart="112dp"
                 android:layout_marginTop="28dp"
                 android:text="Total Price: "
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"

@@ -72,7 +72,7 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
             }
         }
 
-        tv_foodName.setText("How was your "+FoodName+" ?");
+        tv_foodName.setText("How was your \n"+FoodName+" ?");
 
         btn_review.setOnClickListener(this);
 
@@ -107,6 +107,7 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
                     Name=documentSnapshot.get("fName").toString();
                 }
             });
+
         }
         else{
             Name="Anonymous";
@@ -114,13 +115,20 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
 
         //db.collection("shop").document(ShopId).collection("FoodList").document(FoodId).set();
         Review review=new Review(FoodId,FoodName,ShopId,Comments,Name,user.getUid(),Rating,OrderId);
-        db.collection("reviews").add(review).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                db.collection("reviews").document(documentReference.getId()).update("reviewId",documentReference.getId());
-                Log.d(TAG,"Done");
-            }
-        });
+        if(getIntent().getStringExtra("Edit")!=null){
+            db.collection("reviews").document(getIntent().getStringExtra("ReviewId")).set(review);
+            db.collection("reviews").document(getIntent().getStringExtra("ReviewId")).update("reviewId",getIntent().getStringExtra("ReviewId"));
+        }
+        else{
+            db.collection("reviews").add(review).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    db.collection("reviews").document(documentReference.getId()).update("reviewId",documentReference.getId());
+                    Log.d(TAG,"Done");
+                }
+            });
+        }
+
 
     }
 

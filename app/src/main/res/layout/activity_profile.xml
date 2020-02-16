@@ -5,20 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
+    tools:context=".ProfileActivity"
+    android:background="@color/colorPrimary">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:background="#ffffff">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorPrimaryDark"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp">
+            android:layout_gravity="center">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -27,27 +27,28 @@
                 android:background="@color/colorPrimary">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/firstlayer"
                     android:gravity="center"
-                    android:background="@drawable/firstlayer">
+                    android:orientation="vertical">
 
-                    <ImageView
+                    <!--<ImageView
                         android:layout_marginTop="50px"
                         android:layout_marginBottom="50px"
                         android:layout_width="300px"
                         android:layout_height="300px"
-                        android:src="@drawable/email"/>
+                        android:src="@drawable/email"/>-->
                     <TextView
                         android:id="@+id/et_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
+                        android:layout_marginTop="50px"
+                        android:layout_marginBottom="50px"
                         android:text="User"
                         android:textColor="@color/colorPrimaryDark"
-                        android:layout_marginBottom="50px"/>
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
                     <!--
                     <TextView
                         android:layout_width="wrap_content"
@@ -148,7 +149,7 @@
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="normal"
-
+                        android:enabled="false"
                         android:id="@+id/et_fname"/>
                 </LinearLayout>
                 <View
@@ -174,7 +175,7 @@
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="normal"
-
+                        android:enabled="false"
                         android:id="@+id/et_lname"/>
                 </LinearLayout>
                 <View
@@ -201,7 +202,8 @@
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="normal"
-                        android:id="@+id/et_phone"/>
+                        android:id="@+id/et_phone"
+                        android:enabled="false"/>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -220,14 +222,16 @@
                         android:textColor="#FFFFFF"
                         android:textSize="20sp"
                         android:text="Date of Birth"/>
-                    <EditText
+                    <TextView
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="normal"
-
-                        android:id="@+id/et_dob"/>
+                        android:background="?attr/editTextBackground"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:id="@+id/et_dob"
+                        android:enabled="false"/>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -241,8 +245,9 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
                     android:textColor="#ffffff"
-                    android:text="More"
-                    android:gravity="center"/>
+                    android:text="Edit User"
+                    android:gravity="center"
+                    android:layout_marginBottom="50px"/>
 
             </LinearLayout>
         </LinearLayout>

@@ -40,7 +40,6 @@ public class ViewOrders extends BaseActivity {
 
     private TextView tv_total;
     private TextView tv_orderId;
-    private TextView tv_userName;
     public ViewOrderAdapter adapter;
 
     @Override
@@ -56,10 +55,7 @@ public class ViewOrders extends BaseActivity {
 
         tv_total=(TextView)findViewById(R.id.tot);
         tv_orderId=(TextView)findViewById(R.id.tv);
-        tv_userName=(TextView)findViewById(R.id.tv_userName);
 
-
-        tv_userName.setText(FirebaseAuth.getInstance().getUid());
 
         if(getIntent()!=null)
             //Intent catInt=getIntent();

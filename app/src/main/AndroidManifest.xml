@@ -37,6 +37,7 @@
         <activity android:name=".ShopList" />
         <activity android:name=".CategoryList" />
         <activity android:name=".ViewOrders" />
+        <activity android:name=".Viewbooking" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 
