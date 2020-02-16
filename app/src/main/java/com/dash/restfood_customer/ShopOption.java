@@ -37,6 +37,7 @@ public class ShopOption extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         String shopId=getIntent().getStringExtra("shop");
+        String shopName=getIntent().getStringExtra("sName");
         String id=getIntent().getStringExtra("id");
 
         Intent intent=new Intent(ShopOption.this,CategoryList.class);
@@ -50,6 +51,7 @@ public class ShopOption extends BaseActivity implements View.OnClickListener {
 
         }
         intent.putExtra("shop",shopId);
+        intent.putExtra("sName",shopName);
         intent.putExtra("id",id);
         intent.putExtra("Browse","True");
         startActivity(intent);

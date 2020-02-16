@@ -6,15 +6,15 @@ import java.util.Date;
 public class Reserve {
 
     private String userId;
-    private String shopId;
+    private String shopName;
     private Integer guestno;
     private String date;
     private String time;
     private String bookingId;
 
-    public Reserve(String userId, String shopId, Integer guestno, String date, String time,String bookingId) {
+    public Reserve(String userId, String shopName, Integer guestno, String date, String time,String bookingId) {
         this.userId = userId;
-        this.shopId = shopId;
+        this.shopName = shopName;
         this.guestno = guestno;
         this.date = date;
         this.time = time;
@@ -29,12 +29,12 @@ public class Reserve {
         this.userId = userId;
     }
 
-    public String getShopId() {
-        return shopId;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
     public Integer getGuestno() {

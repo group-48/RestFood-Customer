@@ -39,19 +39,16 @@ import java.util.List;
 public class FoodList extends BaseActivity {
 
     RecyclerView.LayoutManager layoutManager;
-    FirebaseFirestore db=FirebaseFirestore.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     String category;
     String docId;
     RecyclerView recyclerView;
-    private  FoodAdapter adapter;
-    private FoodAdapter searchadapter;
+    private FoodAdapter adapter;
     private CollectionReference ref;
-    List<String> suggestList=new ArrayList<>();
-    MaterialSearchBar materialSearchBar;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
@@ -63,166 +60,69 @@ public class FoodList extends BaseActivity {
         drawerLayout.addView(contentView, 0);
         //inflate end
 
-        if(getIntent()!=null)
-        //Intent catInt=getIntent();
-        category=getIntent().getStringExtra("Category");
-        docId=getIntent().getStringExtra("docId");
-        ref=db.collection("shop").document(docId).collection("FoodList");
+        if (getIntent() != null)
+            //Intent catInt=getIntent();
+            category = getIntent().getStringExtra("Category");
+        docId = getIntent().getStringExtra("docId");
+        ref = db.collection("shop").document(docId).collection("FoodList");
 
-        if(!category.isEmpty() && category!=null){
+        if (!category.isEmpty() && category != null) {
             loadListFood(category);
         }
-        materialSearchBar=(MaterialSearchBar)findViewById(R.id.searchBar);
-        materialSearchBar.setHint("Enter your food");
-        loadSuggest();
-        materialSearchBar.setLastSuggestions(suggestList);
-        materialSearchBar.setCardViewElevation(10);
-        materialSearchBar.addTextChangeListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    }
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                //when user type the text, it will change suggest list
-                List<String> suggest=new ArrayList<String>();
-                for (String search:suggestList){
-                    if (search.toLowerCase().contains(materialSearchBar.getText().toLowerCase()))
-                        suggest.add(search);
+    private void loadListFood (String category){
+
+            Query query = ref.whereEqualTo("category", category).whereEqualTo("isAvailable",true).orderBy("foodName", Query.Direction.ASCENDING);
+
+            FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(query, Food.class).build();
+            adapter = new FoodAdapter(options);
+
+            RecyclerView recyclerView = findViewById(R.id.recycler_food);
+            recyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+
+            adapter.startListening();
+            recyclerView.setAdapter(adapter);
+
+            adapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                    Food obj = documentSnapshot.toObject(Food.class);
+
+                    //Toast.makeText(getApplicationContext(),obj.getName(),Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(FoodList.this, FoodDetail.class);
+                    intent.putExtra("Food", obj.getFoodName());
+                    intent.putExtra("docId", documentSnapshot.getId());
+                    intent.putExtra("shopdoc", docId);
+                    intent.putExtra("Browse", getIntent().getStringExtra("Browse"));
+                    startActivity(intent);
                 }
-                materialSearchBar.setLastSuggestions(suggest);
+            });
 
-            }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
 
-            }
-        });
-        materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
-            @Override
-            public void onSearchStateChanged(boolean enabled) {
-                //when search bar is close
-                //restore original suggest adapter
+        }
+  
+        @Override
+        protected void onStart () {
+            super.onStart();
+            adapter.startListening();
 
-                if (!enabled)
-                    recyclerView.setAdapter(adapter);
-            }
+        }
 
-            @Override
-            public void onSearchConfirmed(CharSequence text) {
-                //when search finish
-                //show result of search adapter
-                startSearch(text);
-            }
+        @Override
+        protected void onStop () {
+            super.onStop();
+            adapter.stopListening();
 
-            @Override
-            public void onButtonClicked(int buttonCode) {
 
-            }
-        });
-
+        }
     }
 
-    private void startSearch(CharSequence text) {
-        Query query1=ref.whereEqualTo("foodName",text.toString());
-
-        FirestoreRecyclerOptions<Food>options=new FirestoreRecyclerOptions.Builder<Food>().setQuery(query1,Food.class).build();
-        searchadapter=new FoodAdapter(options);
-        RecyclerView recyclerView=findViewById(R.id.recycler_food);
-        recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-
-        //recyclerView.setAdapter(searchadapter);
-
-        searchadapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Food obj=documentSnapshot.toObject(Food.class);
-                //Toast.makeText(getApplication Context(),obj.getName(),Toast.LENGTH_LONG).show();
-                Intent inta=new Intent(FoodList.this, FoodDetail.class);
-                inta.putExtra("Food",obj.getFoodName());
-                inta.putExtra("docId",documentSnapshot.getId());
-                inta.putExtra("shopdoc",docId);
-                inta.putExtra("Browse", getIntent().getStringExtra("Browse"));
-
-                startActivity(inta);
-            }
-        });
-
-        searchadapter.startListening();
-        recyclerView.setAdapter(searchadapter);
-
-
-    }
-
-    private void loadSuggest() {
-        ref.whereEqualTo("category",category).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (QueryDocumentSnapshot document :task.getResult()){
-                    Food item=document.toObject(Food.class);
-                    suggestList.add(item.getFoodName());
-                }
-            }
-        });
-
-    }
-
-    private void loadListFood(String category) {
-
-        Query query=ref.whereEqualTo("category",category).whereEqualTo("isAvailable",true).orderBy("foodName",Query.Direction.ASCENDING);
-
-        FirestoreRecyclerOptions<Food>options=new FirestoreRecyclerOptions.Builder<Food>().setQuery(query,Food.class).build();
-        adapter=new FoodAdapter(options);
-
-        RecyclerView recyclerView=findViewById(R.id.recycler_food);
-        recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
-       recyclerView.setLayoutManager(layoutManager);
-
-        adapter.startListening();
-        recyclerView.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(new FoodAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Food obj=documentSnapshot.toObject(Food.class);
-
-                //Toast.makeText(getApplicationContext(),obj.getName(),Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(FoodList.this, FoodDetail.class);
-                intent.putExtra("Food",obj.getFoodName());
-                intent.putExtra("docId",documentSnapshot.getId());
-                intent.putExtra("shopdoc",docId);
-                intent.putExtra("Browse",getIntent().getStringExtra("Browse"));
-                startActivity(intent);
-            }
-        });
-
-
-
-
-    }
-
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
-
-    }*/
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
-        //searchadapter.stopListening();
-
-    }
-}
 
 
 

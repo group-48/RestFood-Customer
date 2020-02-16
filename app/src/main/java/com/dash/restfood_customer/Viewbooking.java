@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import com.dash.restfood_customer.models.Reserve;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -15,6 +17,8 @@ import com.google.firebase.firestore.Query;
 public class Viewbooking extends BaseActivity {
 
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
+
+
     private CollectionReference ref=db.collection("reserve");
     public ReserveAdapter adapter;
 
@@ -29,7 +33,7 @@ public class Viewbooking extends BaseActivity {
 
     private void loadreservation() {
 
-        Query query=ref.orderBy("date",Query.Direction.ASCENDING);
+        Query query=ref.orderBy("date",Query.Direction.ASCENDING).whereEqualTo("userId",FirebaseAuth.getInstance().getUid());
         FirestoreRecyclerOptions<Reserve>options=new FirestoreRecyclerOptions.Builder<Reserve>().setQuery(query,Reserve.class).build();
 
         adapter=new ReserveAdapter(options);
