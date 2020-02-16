@@ -40,7 +40,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView et_DOB;
     private EditText et_phone;
     private Button btn_edit;
-    private TextView et_name;
+    private TextView et_name,tv_order,tv_booking;
 
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
@@ -69,12 +69,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         et_lname=findViewById(R.id.et_lname);
         et_DOB=findViewById(R.id.et_dob);
         et_phone=findViewById(R.id.et_phone);
+        tv_booking=findViewById(R.id.tv_booking);
+        tv_order=findViewById(R.id.tv_order);
         btn_edit=findViewById(R.id.btn_edit);
 
         progressDialog=new ProgressDialog(this);
 
         btn_edit.setOnClickListener(this);
         et_DOB.setOnClickListener(this);
+        tv_order.setOnClickListener(this);
+        tv_booking.setOnClickListener(this);
         getUserData();
 
 
@@ -142,6 +146,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             progressDialog.show();
             updateUser();
 
+        }
+        if(v==tv_booking){
+            Intent intent=new Intent(this,Viewbooking.class);
+            startActivity(intent);
+        }
+        if(v==tv_order){
+            Intent intent=new Intent(this,DisplayOrders.class);
+            startActivity(intent);
         }
     }
 

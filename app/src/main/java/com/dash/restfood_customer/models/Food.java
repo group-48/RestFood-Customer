@@ -1,5 +1,9 @@
 package com.dash.restfood_customer.models;
 
+import android.content.Intent;
+
+import com.google.firebase.firestore.model.value.BooleanValue;
+
 public class Food {
 
     private String category;
@@ -7,6 +11,8 @@ public class Food {
     private String description;
     private Integer price;
     private String image;
+    private Integer maxDuration,minDuration;
+    private Boolean isVeg;
 
 
     public Food(String category, String foodName, String description, String image) {
@@ -15,6 +21,30 @@ public class Food {
         this.description = description;
         this.price=price;
         this.image = image;
+    }
+
+    public Integer getMaxDuration() {
+        return maxDuration;
+    }
+
+    public void setMaxDuration(Integer maxDuration) {
+        this.maxDuration = maxDuration;
+    }
+
+    public Integer getMinDuration() {
+        return minDuration;
+    }
+
+    public void setMinDuration(Integer minDuration) {
+        this.minDuration = minDuration;
+    }
+
+    public Boolean getVeg() {
+        return isVeg;
+    }
+
+    public void setVeg(Boolean veg) {
+        this.isVeg = veg;
     }
 
     public String getCategory() {

@@ -79,7 +79,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             progressDialog.show();
             FirebaseAuth.getInstance().signOut();
             Intent intent=new Intent(this,LoginActivity.class);
-            progressDialog.hide();
+            progressDialog.dismiss();
             this.finish();
             startActivity(intent);
 

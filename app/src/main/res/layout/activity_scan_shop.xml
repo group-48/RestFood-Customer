@@ -35,11 +35,11 @@
             android:id="@+id/tv_code"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Hello"
             android:textColor="@android:color/white"
             android:textSize="20sp"/>
 
         <ToggleButton
+            android:visibility="gone"
             android:id="@+id/btn_toggle"
             android:textOff="STOP"
             android:textOn="Start"

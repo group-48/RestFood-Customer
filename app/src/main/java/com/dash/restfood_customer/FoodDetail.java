@@ -37,7 +37,7 @@ import java.util.Objects;
 
 public class FoodDetail extends BaseActivity implements View.OnClickListener {
 
-    TextView food_name, food_description, food_price,food_qty;
+    TextView food_name, food_description, food_price,food_qty,details;
     ImageView food_image, btn_Cart;
     ElegantNumberButton et_qty;
     Button btn_review;
@@ -72,6 +72,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
         food_price=(TextView)findViewById(R.id.food_price);
         food_image = (ImageView) findViewById(R.id.food_image);
         btn_Cart = (ImageView) findViewById(R.id.btn_cart);
+        details=findViewById(R.id.tv_duartion);
         et_qty= findViewById(R.id.eb_qty);
         et_qty.setNumber("1");
         btn_review=findViewById(R.id.btn_reviews);
@@ -116,11 +117,20 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+
                         foodObj = documentSnapshot.toObject(Food.class);
 
                         food_name.setText(foodObj.getFoodName());
                         food_price.setText("LKR."+String.valueOf(foodObj.getPrice()));
                         food_description.setText(foodObj.getDescription());
+                        String veg;
+                        if((Boolean) documentSnapshot.get("isVeg")){
+                            veg="Yes";
+                        }
+                        else{
+                            veg="No";
+                        }
+                        details.setText("Duration: "+foodObj.getMinDuration()+"-"+foodObj.getMaxDuration()+"  |  "+"Vegetarian: "+veg);
                         Picasso.get().load(foodObj.getImage()).into(food_image);
 
 

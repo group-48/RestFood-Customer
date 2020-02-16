@@ -81,12 +81,13 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/tv_order"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="View Orders"
+                        android:textColor="#FFFFFF"
                         android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"/>
+                        android:textStyle="bold" />
                     <!--
                     <TextView
                         android:layout_width="wrap_content"
@@ -110,12 +111,13 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/tv_booking"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="View Bookings"
+                        android:textColor="#FFFFFF"
                         android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"/>
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>

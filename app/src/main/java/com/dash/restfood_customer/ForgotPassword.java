@@ -36,6 +36,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         etEmail=(EditText)findViewById(R.id.etEmail);
         btnReset=(Button)findViewById(R.id.btnReset);
 
+        progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Sending password reset email");
 
         btnReset.setOnClickListener(this);

@@ -60,6 +60,13 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
         et_comments=findViewById(R.id.et_comments);
         sw_name=findViewById(R.id.sw_name);
 
+        db.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Name=documentSnapshot.get("fName").toString();
+            }
+        });
+
 
         if(getIntent()!=null){
             OrderId=getIntent().getStringExtra("OrderId");
@@ -100,18 +107,10 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
 
         Log.d(TAG,"Review: "+Comments+" Rating "+Rating+" display "+displayName);
 
-        if(displayName==true){
-            db.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    Name=documentSnapshot.get("fName").toString();
-                }
-            });
-
-        }
-        else{
+        if(!displayName==true){
             Name="Anonymous";
         }
+
 
         //db.collection("shop").document(ShopId).collection("FoodList").document(FoodId).set();
         Review review=new Review(FoodId,FoodName,ShopId,Comments,Name,user.getUid(),Rating,OrderId);
