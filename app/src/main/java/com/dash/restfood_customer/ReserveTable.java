@@ -1,5 +1,6 @@
 package com.dash.restfood_customer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -21,6 +22,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.dash.restfood_customer.models.Reserve;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -127,7 +129,17 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 db.collection("reserve").document(documentReference.getId()).update("bookingId",documentReference.getId());
+                Toast.makeText(ReserveTable.this, "Booking successful", Toast.LENGTH_SHORT).show();
+                finish();
+                Intent intent=new Intent(ReserveTable.this,Viewbooking.class);
+                startActivity(intent);
                 Log.d("TAG","Done");
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ReserveTable.this,e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
