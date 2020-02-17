@@ -134,7 +134,7 @@
             android:layout_below="@+id/txt_time"
             android:layout_marginLeft="120dp"
             android:layout_marginTop="40dp"
-            android:backgroundTint="#0E26AA"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="Book the table"
             android:textColor="#FAF8F8"
             android:textSize="20dp"
