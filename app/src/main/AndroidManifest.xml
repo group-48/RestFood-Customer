@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ViewActiveOrders"></activity>
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".ScanShop" />
         <activity android:name=".ConfirmOrder" />
         <activity android:name=".ReserveTable" />
@@ -32,15 +33,15 @@
         <activity android:name=".FoodDetail" />
         <activity android:name=".FoodList" />
         <activity android:name=".BaseActivity" />
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ShopList" />
         <activity android:name=".CategoryList" />
         <activity android:name=".ViewOrders" />
         <activity android:name=".Viewbooking" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

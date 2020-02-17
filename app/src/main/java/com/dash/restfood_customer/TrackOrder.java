@@ -57,6 +57,8 @@ public class TrackOrder extends BaseActivity {
     private VerticalStepView stepView;
     private CardView cv1,cv2,cv3;
 
+    public String orderId;
+
     public int x=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class TrackOrder extends BaseActivity {
         cv1=findViewById(R.id.cardView1);
         cv2=findViewById(R.id.cardView2);
         cv3=findViewById(R.id.cardView3);
+
 
 
         List<String> statuses=new ArrayList<>();
@@ -105,11 +108,11 @@ public class TrackOrder extends BaseActivity {
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref",0);
         SharedPreferences.Editor editor = sharedPref.edit();
-        final String orderId=sharedPref.getString("OrderId",null);
+        orderId=sharedPref.getString("OrderId",null);
         editor.remove("Done");
         editor.commit();
         Log.w(TAG,"Order id is"+orderId);
-        if(orderId==null){
+        if(orderId==null || getIntent().getStringExtra("OrderId").isEmpty()){
             tv_order.setText("No pending Orders");
             tv_status.setText("");
             tv_total.setText("");
@@ -119,6 +122,9 @@ public class TrackOrder extends BaseActivity {
 
         }
         else{
+            if(!getIntent().getStringExtra("OrderId").isEmpty()){
+                orderId=getIntent().getStringExtra("OrderId");
+            }
             db.collection("orders").document(orderId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -211,7 +217,7 @@ public class TrackOrder extends BaseActivity {
                             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(TrackOrder.this);
                             notificationManager.notify(1, builder.build());
                         }
-                        else if(Objects.equals("Accepted",snapshot.getString("Status"))){
+                        else if(Objects.equals("Preparing",snapshot.getString("Status"))){
                             stepView.setStepsViewIndicatorComplectingPosition(1);
                         }
 
