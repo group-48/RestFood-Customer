@@ -3,7 +3,9 @@ package com.dash.restfood_customer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,10 +40,21 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
         return new ReserveHolder(v) ;
     }
 
+    public void deleteItem(int position){
+
+        getSnapshots().getSnapshot(position).getReference().delete();
+
+    }
+
+    /*public void  onsetItem(int position){
+        getSnapshots().getSnapshot(position).getReference().set(10);
+    }*/
+
 
     class ReserveHolder extends RecyclerView.ViewHolder{
 
         TextView booking_id,shop_name,booking_date,booking_time;
+        Button cancel;
 
         public ReserveHolder( View itemView) {
             super(itemView);
@@ -49,6 +62,7 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
             shop_name=itemView.findViewById(R.id.booking_shop_id);
             booking_date=itemView.findViewById(R.id.booking_date);
             booking_time=itemView.findViewById(R.id.booking_time);
+            cancel=itemView.findViewById(R.id.btn_cancel);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,13 +73,24 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
                     }
                 }
             });
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION && listener!=null){
+                        listener.onDeleteClick(position);
+                    }
+                }
+            });
 
         }
     }
 
     public  interface OnItemClickListener{
         void  onItemClick(DocumentSnapshot documentSnapshot, int position);
+        void onDeleteClick(int position);
     }
+
     public  void setOnItemClickListener(ReserveAdapter.OnItemClickListener listener){
         this.listener=listener;
     }
