@@ -16,4 +16,17 @@ public class Customer {
     public Customer(){
 
     }
+
+    public String getfName() {
+        return fName;
+    }
+
+
+    public String getlName() {
+        return lName;
+    }
+
+
+
+
 }

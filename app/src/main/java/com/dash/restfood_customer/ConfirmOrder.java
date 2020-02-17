@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dash.restfood_customer.Config.Config;
+import com.dash.restfood_customer.InternetConfig.InternetConfig;
 import com.dash.restfood_customer.models.CartItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -131,32 +132,39 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v==btn_checkout){
-            notes=et_notes.getText().toString();
-            int selectedId = radioPayment.getCheckedRadioButtonId();
-            Log.d(TAG,"Selected Id"+selectedId);
+        //check if internet connection exists
+        if(InternetConfig.isConnectedToInternet(getBaseContext())){
+            if(v==btn_checkout){
+                notes=et_notes.getText().toString();
+                int selectedId = radioPayment.getCheckedRadioButtonId();
+                Log.d(TAG,"Selected Id"+selectedId);
 
-            if(selectedId==-1){
-                Toast.makeText(this, "Please Select a payment option", Toast.LENGTH_SHORT).show();
-            }else{
-                // find the radiobutton by returned id
-                rb_selected = findViewById(selectedId);
-
-
-                Log.d(TAG,"selected option is"+rb_selected.getText());
-                if(Objects.equals(rb_selected.getText(),"Pay By Card")){
-                    Log.d(TAG,"By card");
-                    processPayment();
+                if(selectedId==-1){
+                    Toast.makeText(this, "Please Select a payment option", Toast.LENGTH_SHORT).show();
+                }else{
+                    // find the radiobutton by returned id
+                    rb_selected = findViewById(selectedId);
 
 
+                    Log.d(TAG,"selected option is"+rb_selected.getText());
+                    if(Objects.equals(rb_selected.getText(),"Pay By Card")){
+                        Log.d(TAG,"By card");
+                        processPayment();
+
+
+                    }
+                    else{
+                        progressDialog.show();
+                        placeOrderCash();
+                    }
                 }
-                else{
-                    progressDialog.show();
-                    placeOrderCash();
-                }
+
             }
-
         }
+        else{
+            Toast.makeText(this,"Please Check your Internet Connection",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void placeOrderCash() {
@@ -232,6 +240,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
 
                                             progressDialog.hide();
                                             startActivity(new Intent(ConfirmOrder.this,TrackOrder.class));
+                                            finish();
 
                                         }
 
@@ -348,6 +357,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                             }*/
                                             progressDialog.hide();
                                             startActivity(new Intent(ConfirmOrder.this,TrackOrder.class));
+                                            finish();
                                         }
 
                                     }).addOnFailureListener(new OnFailureListener() {

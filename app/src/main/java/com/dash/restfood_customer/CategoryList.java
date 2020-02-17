@@ -18,6 +18,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.Objects;
+
 public class CategoryList extends BaseActivity {
 
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
@@ -82,6 +84,7 @@ public class CategoryList extends BaseActivity {
                 intent.putExtra("docId",id);
                 intent.putExtra("Browse",getIntent().getStringExtra("Browse"));
                 startActivity(intent);
+
             }
         });
 
@@ -100,6 +103,22 @@ public class CategoryList extends BaseActivity {
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    public void onBackPressed() {
+        if(Objects.equals(getIntent().getStringExtra("Browse"),"True")){
+            Intent intent=new Intent(CategoryList.this, ShopList.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            Intent intent=new Intent(CategoryList.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
+
     }
 
 }

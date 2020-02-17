@@ -31,6 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.value.BooleanValue;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
@@ -63,9 +64,8 @@ public class FoodList extends BaseActivity {
         if (getIntent() != null)
             //Intent catInt=getIntent();
             category = getIntent().getStringExtra("Category");
-        docId = getIntent().getStringExtra("docId");
-        ref = db.collection("shop").document(docId).collection("FoodList");
-
+            docId = getIntent().getStringExtra("docId");
+            ref = db.collection("shop").document(docId).collection("FoodList");
         if (!category.isEmpty() && category != null) {
             loadListFood(category);
         }
@@ -75,9 +75,9 @@ public class FoodList extends BaseActivity {
 
     private void loadListFood (String category){
 
-            Query query = ref.whereEqualTo("category", category).whereEqualTo("isAvailable",true).orderBy("foodName", Query.Direction.ASCENDING);
-
-            FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(query, Food.class).build();
+            Query query = ref.whereEqualTo("category", category);
+            Query query1=query.whereEqualTo("available","true");
+            FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(query1, Food.class).build();
             adapter = new FoodAdapter(options);
 
             RecyclerView recyclerView = findViewById(R.id.recycler_food);
@@ -118,7 +118,6 @@ public class FoodList extends BaseActivity {
         protected void onStop () {
             super.onStop();
             adapter.stopListening();
-
 
         }
     }

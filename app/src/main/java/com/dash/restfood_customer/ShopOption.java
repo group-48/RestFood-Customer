@@ -1,6 +1,7 @@
 package com.dash.restfood_customer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,7 +13,7 @@ import android.widget.Button;
 
 public class ShopOption extends BaseActivity implements View.OnClickListener {
 
-    private Button btn_reserve,btn_menu;
+    private CardView cv_reserve,cv_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +27,11 @@ public class ShopOption extends BaseActivity implements View.OnClickListener {
         drawerLayout.addView(contentView, 0);
         //inflate end
 
-        btn_menu=findViewById(R.id.btn_menu);
-        btn_reserve=findViewById(R.id.btn_reserve);
+        cv_reserve=findViewById(R.id.cv_reserve);
+        cv_menu=findViewById(R.id.cv_menu);
 
-        btn_reserve.setOnClickListener(this);
-        btn_menu.setOnClickListener(this);
+        cv_menu.setOnClickListener(this);
+        cv_reserve.setOnClickListener(this);
 
     }
 
@@ -41,10 +42,10 @@ public class ShopOption extends BaseActivity implements View.OnClickListener {
         String id=getIntent().getStringExtra("id");
 
         Intent intent=new Intent(ShopOption.this,CategoryList.class);
-        if(v==btn_reserve){
+        if(v==cv_reserve){
             intent=new Intent(ShopOption.this,ReserveTable.class);
         }
-        else if(v==btn_menu){
+        else if(v==cv_menu){
 
             intent=new Intent(ShopOption.this,CategoryList.class);
 

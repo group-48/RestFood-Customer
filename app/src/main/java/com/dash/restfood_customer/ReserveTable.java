@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +54,8 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
     FirebaseFirestore db= FirebaseFirestore.getInstance();
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +74,9 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
         btn_done=findViewById(R.id.btn_done);
         time=findViewById(R.id.txt_time);
         guestval=findViewById(R.id.guestval);
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Placing reservation");
 
         if (getIntent()!=null){
 
@@ -111,6 +117,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
     private void reserve(){
 
         if(!validate()){
+            progressDialog.dismiss();
             return;
         }
         guestno=Integer.parseInt(guestval.getText().toString());
@@ -130,6 +137,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
             public void onSuccess(DocumentReference documentReference) {
                 db.collection("reserve").document(documentReference.getId()).update("bookingId",documentReference.getId());
                 Toast.makeText(ReserveTable.this, "Booking successful", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
                 finish();
                 Intent intent=new Intent(ReserveTable.this,Viewbooking.class);
                 startActivity(intent);
@@ -140,6 +148,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(ReserveTable.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
 
@@ -187,6 +196,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
     @Override
     public void onClick(View v) {
         if(v==btn_done){
+            progressDialog.show();
             reserve();
             /*Intent intent=new Intent(ReserveTable.this,MainActivity.class);
             startActivity(intent);*/

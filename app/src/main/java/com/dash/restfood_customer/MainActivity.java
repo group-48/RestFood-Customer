@@ -18,7 +18,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
    public MenuAdapter adapter;
-   CardView cv_browse,cv_test,cv_select,cv_test2;
+   CardView cv_browse,cv_menu,cv_cart,cv_profile;
 
 
     @Override
@@ -35,14 +35,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         //inflate end
 
         cv_browse=findViewById(R.id.cv_browse);
-        cv_test=findViewById(R.id.cv_test);
-        cv_select=findViewById(R.id.cv_select);
-        cv_test2=findViewById(R.id.cv_test2);
+        cv_menu=findViewById(R.id.cv_menu);
+        cv_cart=findViewById(R.id.cv_cart);
+        cv_profile=findViewById(R.id.cv_profile);
 
-        cv_test.setOnClickListener(this);
-        cv_test2.setOnClickListener(this);
+        cv_menu.setOnClickListener(this);
+        cv_profile.setOnClickListener(this);
         cv_browse.setOnClickListener(this);
-        cv_select.setOnClickListener(this);
+        cv_cart.setOnClickListener(this);
     }
 
 
@@ -50,11 +50,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v==cv_select){
-            Intent intent=new Intent(this, CategoryList.class);
-            intent.putExtra("shop", "uilyCqrK3iU0U895PIiHZwyouZH3");
-            intent.putExtra("id","uilyCqrK3iU0U895PIiHZwyouZH3");
-            intent.putExtra("Browse","False");
+        if(v==cv_cart){
+            Intent intent=new Intent(this, CartActivity.class);
             startActivity(intent);
         }
         else if(v==cv_browse){
@@ -62,11 +59,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             startActivity(intent);
 
         }
-        else if(v==cv_test){
+        else if(v==cv_menu){
             Intent intent=new Intent(this, ScanShop.class);
             startActivity(intent);
         }
-        else if(v==cv_test2){
+        else if(v==cv_profile){
             Intent intent=new Intent(this, ProfileActivity.class);
             startActivity(intent);
         }

@@ -6,6 +6,7 @@ import github.nisrulz.qreader.QRDataListener;
 import github.nisrulz.qreader.QREader;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ public class ScanShop extends AppCompatActivity {
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
     private CollectionReference ref=db.collection("shop");
 
+    ProgressDialog progressDialog;
+
     private Session session;
 
     @Override
@@ -46,6 +49,8 @@ public class ScanShop extends AppCompatActivity {
         setContentView(R.layout.activity_scan_shop);
 
         session = new Session(this);
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Scanning QRCode");
 
         if(session.getMenu()==1){
             Intent intent=new Intent(ScanShop.this, CategoryList.class);
@@ -53,8 +58,8 @@ public class ScanShop extends AppCompatActivity {
             intent.putExtra("id",session.getShop());
             intent.putExtra("Browse","False");
             //Toast.makeText(this,session.getMenu(),Toast.LENGTH_LONG).show();
-            Toast.makeText(this,session.getShop(),Toast.LENGTH_LONG).show();
-            Toast.makeText(this,session.getBrowse(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,session.getShop(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,session.getBrowse(),Toast.LENGTH_LONG).show();
             startActivity(intent);
             finish();
         }
@@ -106,36 +111,46 @@ public class ScanShop extends AppCompatActivity {
     }
 
     private void setUpQReader() {
+        final String idPattern="[A-Za-z0-9]+";
          qrEader=new QREader.Builder(this, surfaceView, new QRDataListener() {
              @Override
              public void onDetected(final String data) {
                 tv_code.post(new Runnable() {
                     @Override
                     public void run() {
+
                         tv_code.setText(data);
-                        ref.document(data).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document.exists()) {
-                                        Log.d(TAG, "Document exists!");
-                                        Intent intent=new Intent(ScanShop.this, CategoryList.class);
-                                        intent.putExtra("shop", data);
-                                        intent.putExtra("id",data);
-                                        intent.putExtra("Browse","False");
-                                        session.setMenu(1);
-                                        session.setShop(data);
-                                        session.setBrowse("False");
-                                        startActivity(intent);
+                        if(data.matches(idPattern)){
+                            progressDialog.show();
+                            ref.document(data).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Log.d(TAG, "Document exists!");
+                                            Intent intent=new Intent(ScanShop.this, CategoryList.class);
+                                            intent.putExtra("shop", data);
+                                            intent.putExtra("id",data);
+                                            intent.putExtra("Browse","False");
+                                            session.setMenu(1);
+                                            session.setShop(data);
+                                            session.setBrowse("False");
+                                            progressDialog.dismiss();
+                                            startActivity(intent);
+                                        } else {
+                                            progressDialog.dismiss();
+                                            Log.d(TAG, "Document does not exist!");
+                                        }
                                     } else {
-                                        Log.d(TAG, "Document does not exist!");
+                                        progressDialog.dismiss();
+                                        Log.d(TAG, "Failed with: ", task.getException());
                                     }
-                                } else {
-                                    Log.d(TAG, "Failed with: ", task.getException());
                                 }
-                            }
-                        });
+                            });
+                        }
+
+
                     }
                 });
              }

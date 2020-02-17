@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class ViewOrders extends BaseActivity {
     private TextView tv_orderId;
     public ViewOrderAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,17 +59,20 @@ public class ViewOrders extends BaseActivity {
         tv_orderId=(TextView)findViewById(R.id.tv);
 
 
-        if(getIntent()!=null)
-            //Intent catInt=getIntent();
+        if(getIntent()!=null){
             orderId=getIntent().getStringExtra("OrderId");
             tv_orderId.setText(orderId);
 
             ref=db.collection("orders").document(orderId).collection("foods");
+        }
+            //Intent catInt=getIntent();
+
 
         if(!orderId.isEmpty() && orderId!=null){
             loadOrders();
             getTotal();
         }
+
 
 
 
@@ -87,6 +92,8 @@ public class ViewOrders extends BaseActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.setAdapter(adapter);
+
+
     }
 
     private void getTotal() {

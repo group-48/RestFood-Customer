@@ -40,7 +40,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView et_DOB;
     private EditText et_phone;
     private Button btn_edit;
-    private TextView et_name;
+    private TextView et_name,tv_order,tv_booking;
 
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
@@ -69,12 +69,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         et_lname=findViewById(R.id.et_lname);
         et_DOB=findViewById(R.id.et_dob);
         et_phone=findViewById(R.id.et_phone);
+        tv_booking=findViewById(R.id.tv_booking);
+        tv_order=findViewById(R.id.tv_order);
         btn_edit=findViewById(R.id.btn_edit);
 
         progressDialog=new ProgressDialog(this);
 
         btn_edit.setOnClickListener(this);
         et_DOB.setOnClickListener(this);
+        tv_order.setOnClickListener(this);
+        tv_booking.setOnClickListener(this);
         getUserData();
 
 
@@ -138,8 +142,18 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             if(!validate()){
                 return;
             }
+            progressDialog.setMessage("Updating user profile");
+            progressDialog.show();
             updateUser();
 
+        }
+        if(v==tv_booking){
+            Intent intent=new Intent(this,Viewbooking.class);
+            startActivity(intent);
+        }
+        if(v==tv_order){
+            Intent intent=new Intent(this,DisplayOrders.class);
+            startActivity(intent);
         }
     }
 
@@ -205,17 +219,30 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         int phone=Integer.parseInt(et_phone.getText().toString().trim());
 
         Customer customer=new Customer(user.getEmail(),fname,lname,phone,dob);
+        et_name.setText(customer.getfName()+" "+customer.getlName());
 
         DocumentReference documentReference=db.collection("users").document(user.getUid());
         documentReference.set(customer).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(ProfileActivity.this,"User updated Successfully",Toast.LENGTH_LONG).show();
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+
+                progressDialog.hide();
+                flag=0;
+                et_fname.setEnabled(false);
+                et_lname.setEnabled(false);
+                et_DOB.setEnabled(false);
+                et_phone.setEnabled(false);
+                btn_edit.setText("Edit user");
             }
 
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progressDialog.dismiss();
+    }
+
 }

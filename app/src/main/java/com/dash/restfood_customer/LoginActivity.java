@@ -127,17 +127,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateUI(FirebaseUser user){
-        progressDialog.hide();
+
         String username=user.getEmail();
         Intent intent=new Intent(this,MainActivity.class);
         intent.putExtra("userName",username);
-        finish();
+
         startActivity(intent);
+        finish();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progressDialog.dismiss();
     }
 }
