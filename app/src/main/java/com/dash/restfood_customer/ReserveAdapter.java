@@ -1,5 +1,7 @@
 package com.dash.restfood_customer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdapter.ReserveHolder>{
 
     private OnItemClickListener listener;
@@ -35,6 +39,10 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
         reserveHolder.booking_date.setText(reserve.getDate());
         reserveHolder.booking_time.setText(reserve.getTime());
         reserveHolder.status.setText(reserve.getStatus());
+
+        if((Objects.equals("Cancelled",reserve.getStatus()))){
+            reserveHolder.cancel.setVisibility(View.GONE);
+        }
 
     }
 
@@ -79,7 +87,7 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
         TextView booking_id,shop_name,booking_date,booking_time,status;
         Button cancel;
 
-        public ReserveHolder( View itemView) {
+        public ReserveHolder(final View itemView) {
             super(itemView);
             booking_id=itemView.findViewById(R.id.tv_booking_id);
             shop_name=itemView.findViewById(R.id.booking_shop_id);
@@ -88,22 +96,38 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
             cancel=itemView.findViewById(R.id.btn_cancel);
             status=itemView.findViewById(R.id.booking_status);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position=getAdapterPosition();
-                    if(position!=RecyclerView.NO_POSITION & listener!=null){
-                        listener.onItemClick(getSnapshots().getSnapshot(position),position);
-                    }
-                }
-            });
+
+
+
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position=getAdapterPosition();
-                    if(position!=RecyclerView.NO_POSITION && listener!=null){
-                        listener.onDeleteClick(position);
-                    }
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(itemView.getContext());
+                    builder
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    int position=getAdapterPosition();
+                                    if(position!=RecyclerView.NO_POSITION && listener!=null){
+                                        listener.onDeleteClick(position);
+                                    }
+                                    cancel.setEnabled(false);
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert = builder.create();
+
+                    alert.setTitle("Are you sure you want to cancel the booking");
+                    alert.show();
+
+
                 }
             });
 

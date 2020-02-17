@@ -100,7 +100,6 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirm_order);
 
         //inflate begin
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -120,6 +119,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
         et_notes=findViewById(R.id.et_notes);
         radioPayment=findViewById(R.id.radioPayment);
         progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Placing order");
 
         Log.d(TAG,"Total is "+getIntent().getStringExtra("Total"));
         amount=Integer.valueOf(getIntent().getStringExtra("Total"));

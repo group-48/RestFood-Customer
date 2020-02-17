@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
                     progressDialog.hide();
                     FirebaseUser user=firebaseAuth.getCurrentUser();
                     updateUI(user);

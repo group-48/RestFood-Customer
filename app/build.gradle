@@ -93,6 +93,9 @@ dependencies {
     //vertical time
     implementation 'com.github.baoyachi:StepView:1.9';
 
+    //slideshow
+    implementation 'com.github.nikhil-sachdeva:SliderViewLibrary:1.0'
+
 }
 
 

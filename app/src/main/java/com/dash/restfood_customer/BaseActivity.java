@@ -50,10 +50,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         firebaseAuth= FirebaseAuth.getInstance();
         FirebaseUser user=firebaseAuth.getCurrentUser();
         if(user==null){
-            Toast.makeText(this,"no user",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"no user",Toast.LENGTH_SHORT).show();
         }
         else{
-            Toast.makeText(this,user.getUid(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,user.getUid(),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -107,6 +107,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         else if (id==R.id.viewbooking){
 
             Intent intent=new Intent(this,Viewbooking.class);
+            startActivity(intent);
+        }
+        else if (id==R.id.help){
+
+            Intent intent=new Intent(this,SelectHelp.class);
             startActivity(intent);
         }
         return false;

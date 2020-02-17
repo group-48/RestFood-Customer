@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -204,6 +205,11 @@ public class TrackOrder extends BaseActivity {
                             stepView.setStepsViewIndicatorComplectingPosition(3);
 
                             db.collection("orders").document(orderId).update("Done",true);
+                            Intent intent=new Intent(TrackOrder.this,ViewOrders.class);
+                            intent.putExtra("OrderId",snapshot.getId());
+                            startActivity(intent);
+                            finish();
+
 
                         }
                         else if(Objects.equals("Ready",snapshot.getString("Status"))){

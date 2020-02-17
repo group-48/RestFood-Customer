@@ -143,7 +143,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                 for (QueryDocumentSnapshot doc : value) {
 
                     tot=tot+(Integer.valueOf(doc.get("price").toString())*Integer.valueOf(doc.get("qty").toString()));
-                    Toast.makeText(getApplicationContext(),String.valueOf(tot), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),String.valueOf(tot), Toast.LENGTH_LONG).show();
                     tv_total.setText("Total is:"+String.valueOf(tot));
                 }
             }

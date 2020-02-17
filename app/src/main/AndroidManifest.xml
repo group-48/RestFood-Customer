@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewActiveOrders"></activity>
+        <activity android:name=".SelectHelp"></activity>
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".ViewActiveOrders" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ScanShop" />
         <activity android:name=".ConfirmOrder" />
