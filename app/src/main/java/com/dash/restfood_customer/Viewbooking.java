@@ -63,6 +63,12 @@ public class Viewbooking extends BaseActivity {
         });
     }
 
+
+    private void setCancel()
+    {
+
+    }
+
     @Override
     protected void onStart() {
         super.onStart();

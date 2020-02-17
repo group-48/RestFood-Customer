@@ -11,6 +11,8 @@ public class Reserve {
     private String date;
     private String time;
     private String bookingId;
+    private String status;
+    private String shopId;
 
     public Reserve(String userId, String shopName, Integer guestno, String date, String time,String bookingId) {
         this.userId = userId;
@@ -19,6 +21,22 @@ public class Reserve {
         this.date = date;
         this.time = time;
         this.bookingId=bookingId;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getUserId() {
