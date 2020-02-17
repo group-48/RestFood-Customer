@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="288dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -114,16 +114,44 @@
             android:text=" 04:30"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/bstatus"
+            android:layout_width="150dp"
+            android:layout_height="33dp"
+            android:layout_below="@+id/btime"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="12dp"
+            android:text="Status : "
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/booking_status"
+            android:layout_width="230dp"
+            android:layout_height="33dp"
+            android:layout_marginLeft="-6dp"
+            android:layout_marginTop="190dp"
+            android:layout_marginEnd="15dp"
+            android:layout_toRightOf="@+id/bstatus"
+            android:text="requested"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#000000" />
+
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/booking_time"
+            android:layout_below="@+id/booking_status"
             android:layout_marginStart="130dp"
+            android:layout_marginTop="11dp"
+            android:textColor="#FAF9F9"
+            android:textStyle="bold" />
             android:text="CANCEL BOOKING"
-            android:textStyle="bold"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="#FAF9F9"/>
+
 
 
     </RelativeLayout>

@@ -13,11 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dash.restfood_customer.models.Reserve;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdapter.ReserveHolder>{
 
     private OnItemClickListener listener;
+    private FirebaseFirestore db=FirebaseFirestore.getInstance();
 
     public ReserveAdapter(@NonNull FirestoreRecyclerOptions<Reserve> options) {
         super(options);
@@ -30,6 +34,7 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
         reserveHolder.shop_name.setText(reserve.getShopName());
         reserveHolder.booking_date.setText(reserve.getDate());
         reserveHolder.booking_time.setText(reserve.getTime());
+        reserveHolder.status.setText(reserve.getStatus());
 
     }
 
@@ -42,7 +47,25 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
 
     public void deleteItem(int position){
 
-        getSnapshots().getSnapshot(position).getReference().delete();
+        //getSnapshots().getSnapshot(position).getReference().delete();
+
+        db.collection("reserve")
+                .document(getSnapshots().getSnapshot(position).getReference().getId())
+                .update("status","Cancelled")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                       // Log.w(TAG, "Error updating document", e);
+
+                    }
+                });
+
 
     }
 
@@ -53,7 +76,7 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
 
     class ReserveHolder extends RecyclerView.ViewHolder{
 
-        TextView booking_id,shop_name,booking_date,booking_time;
+        TextView booking_id,shop_name,booking_date,booking_time,status;
         Button cancel;
 
         public ReserveHolder( View itemView) {
@@ -63,6 +86,7 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
             booking_date=itemView.findViewById(R.id.booking_date);
             booking_time=itemView.findViewById(R.id.booking_time);
             cancel=itemView.findViewById(R.id.btn_cancel);
+            status=itemView.findViewById(R.id.booking_status);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

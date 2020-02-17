@@ -44,12 +44,14 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
     int guestno;
     TextView date;
     TextView time;
+    TextView status;
     EditText rval,tableval,guestval;
     DatePickerDialog datePickerDialog;
     int year;
     int month;
     int dayOfMonth;
     Calendar calendar;
+    String shopId;
 
     FirebaseFirestore db= FirebaseFirestore.getInstance();
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
@@ -74,6 +76,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
         btn_done=findViewById(R.id.btn_done);
         time=findViewById(R.id.txt_time);
         guestval=findViewById(R.id.guestval);
+        status=findViewById(R.id.booking_status);
 
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Placing reservation");
@@ -81,6 +84,7 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
         if (getIntent()!=null){
 
             ShopName=getIntent().getStringExtra("sName");
+            shopId=getIntent().getStringExtra("shop");
 
         }
 
@@ -131,12 +135,14 @@ public class ReserveTable extends BaseActivity implements TimePickerDialog.OnTim
         reserve.setTime(btime);
         reserve.setUserId(user.getUid());
         reserve.setShopName(ShopName);
+        reserve.setStatus("Requested");
+        reserve.setShopId(shopId);
 
         db.collection("reserve").add(reserve).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 db.collection("reserve").document(documentReference.getId()).update("bookingId",documentReference.getId());
-                Toast.makeText(ReserveTable.this, "Booking successful", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ReserveTable.this, "Booking successful", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
                 finish();
                 Intent intent=new Intent(ReserveTable.this,Viewbooking.class);
