@@ -40,7 +40,7 @@ public class ReserveAdapter extends FirestoreRecyclerAdapter<Reserve,ReserveAdap
         reserveHolder.booking_time.setText(reserve.getTime());
         reserveHolder.status.setText(reserve.getStatus());
 
-        if((Objects.equals("Cancelled",reserve.getStatus()))){
+        if((Objects.equals("Cancelled",reserve.getStatus())) || (Objects.equals("Completed",reserve.getStatus()))){
             reserveHolder.cancel.setVisibility(View.GONE);
         }
 

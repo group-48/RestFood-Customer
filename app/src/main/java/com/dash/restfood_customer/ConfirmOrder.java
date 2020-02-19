@@ -238,7 +238,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                             db.collection("orders").document(docId).update("OrderId",docId);
 
 
-                                            progressDialog.hide();
+                                            progressDialog.dismiss();
                                             Intent intent=new Intent(ConfirmOrder.this,TrackOrder.class);
                                             intent.putExtra("OrderId",docId);
                                             startActivity(intent);
@@ -357,7 +357,7 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                                 });
                                                 Log.d("CartActvity", "cart food"+document.getId());
                                             }*/
-                                            progressDialog.hide();
+                                            progressDialog.dismiss();
                                             Intent intent=new Intent(ConfirmOrder.this,TrackOrder.class);
                                             intent.putExtra("OrderId",docId);
                                             startActivity(intent);

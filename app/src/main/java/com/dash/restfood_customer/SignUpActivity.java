@@ -115,6 +115,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(SignUpActivity.this,"User Updated",Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                         finish();
                         Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
                         startActivity(intent);
@@ -153,6 +154,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 else{
                     FirebaseAuthException e = (FirebaseAuthException )task.getException();
+                    progressDialog.dismiss();
                     Toast.makeText(SignUpActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
 
                 }
@@ -200,7 +202,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             et_phone.setError("Phone No. cannot be empty");
             validity=0;
         }
-        if (!isGlobalPhoneNumber(phone) || phone.length()>10){
+        if (!isGlobalPhoneNumber(phone) ||  phone.length()>10 || phone.length()<9){
             et_phone.requestFocus();
             et_phone.setError("Invalid Phone number");
             validity=0;
@@ -266,6 +268,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             et_dob.setText(day +"/" + (month+1) + "/" + year);
                         }
                     },year,month,dayOfMonth);
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis()-10000);
             datePickerDialog.show();
         }
     }

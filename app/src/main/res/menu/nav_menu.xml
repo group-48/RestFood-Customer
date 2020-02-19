@@ -14,12 +14,12 @@
         android:title="View Orders"/>
 
     <item android:id="@+id/trackOrders"
-        android:title="Track Order">
+        android:title="Track Active Orders">
 
     </item>
 
     <item android:id="@+id/viewbooking"
-        android:title="View Booking">
+        android:title="View Reservations">
 
     </item>
 

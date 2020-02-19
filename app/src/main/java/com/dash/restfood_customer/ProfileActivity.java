@@ -216,7 +216,17 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         String fname=et_fname.getText().toString().trim();
         String lname=et_lname.getText().toString().trim();
         String dob=et_DOB.getText().toString().trim();
-        int phone=Integer.parseInt(et_phone.getText().toString().trim());
+
+        int phone=726655224;
+        try
+        {
+            phone=Integer.parseInt(et_phone.getText().toString());
+
+        }
+        catch (NumberFormatException nfe)
+        {
+            System.out.println("NumberFormatException: " + nfe.getMessage());
+        }
 
         Customer customer=new Customer(user.getEmail(),fname,lname,phone,dob);
         et_name.setText(customer.getfName()+" "+customer.getlName());

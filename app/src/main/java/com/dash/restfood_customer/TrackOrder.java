@@ -9,9 +9,11 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -191,7 +193,7 @@ public class TrackOrder extends BaseActivity {
                         tv_status.setText("Order Status: "+snapshot.get("Status"));
 
                         if(Objects.equals("Done",snapshot.getString("Status")) && Objects.equals("false",snapshot.get("Done").toString())){
-                            tv_order.setText("No pending Orders");
+                            tv_order.setText("Order Complete");
                             tv_status.setText("");
                             tv_total.setText("");
                             et_food.setText("");
@@ -204,11 +206,31 @@ public class TrackOrder extends BaseActivity {
                             editor.commit();
                             stepView.setStepsViewIndicatorComplectingPosition(3);
 
-                            db.collection("orders").document(orderId).update("Done",true);
-                            Intent intent=new Intent(TrackOrder.this,ViewOrders.class);
-                            intent.putExtra("OrderId",snapshot.getId());
-                            startActivity(intent);
-                            finish();
+
+
+                            db.collection("orders").document(orderId).update("Done",true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(TrackOrder.this);
+                                    builder
+                                            .setCancelable(false)
+                                            .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                    Intent intent=new Intent(TrackOrder.this,ViewOrders.class);
+                                                    intent.putExtra("OrderId",snapshot.getId());
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            });
+                                    //Creating dialog box
+                                    AlertDialog alert = builder.create();
+                                    //Setting the title manually
+                                    alert.setMessage("Your order is complete, Press Ok to proceed");
+                                    alert.show();
+                                }
+                            });
+
 
 
                         }
@@ -225,6 +247,32 @@ public class TrackOrder extends BaseActivity {
                         }
                         else if(Objects.equals("Preparing",snapshot.getString("Status"))){
                             stepView.setStepsViewIndicatorComplectingPosition(1);
+                        }
+                        else if(Objects.equals("Cancelled",snapshot.getString("Status"))){
+
+                            tv_order.setText("Order cancelled");
+                            tv_status.setText("");
+                            tv_total.setText("");
+                            et_food.setText("");
+                            cv2.setVisibility(View.GONE);
+                            cv3.setVisibility(View.GONE);
+                            db.collection("orders").document(orderId).update("Done",true);
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(TrackOrder.this);
+                            builder
+                                    .setCancelable(false)
+                                    .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            Intent intent=new Intent(TrackOrder.this,MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+                            //Creating dialog box
+                            AlertDialog alert = builder.create();
+                            //Setting the title manually
+                            alert.setMessage("Your order has been cancelled by the restaurant, Sorry for the inconvinience. Please place another order");
+                            alert.show();
                         }
 
 
