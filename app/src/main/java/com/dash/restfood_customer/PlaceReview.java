@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +39,8 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
     TextView tv_foodName;
     EditText et_comments;
     Switch sw_name;
+
+
 
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
@@ -134,9 +138,25 @@ public class PlaceReview extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v==btn_review){
+
             placeReview();
-            Intent intent=new Intent(PlaceReview.this,MainActivity.class);
-            startActivity(intent);
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder
+                    .setCancelable(false)
+                    .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            Intent intent=new Intent(PlaceReview.this,MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+            //Creating dialog box
+            AlertDialog alert = builder.create();
+            //Setting the title manually
+            alert.setTitle("Your review has been placed successfully");
+            alert.show();
+
         }
     }
 

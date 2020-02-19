@@ -46,7 +46,17 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         if (v==btnReset){
             progressDialog.show();
-            String email= etEmail.getText().toString().trim();
+
+            String email=etEmail.getText().toString().trim();
+            String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+            if(email.isEmpty() || !email.matches(emailPattern)){
+                etEmail.setError("Please enter a valid email");
+                etEmail.requestFocus();
+                progressDialog.dismiss();
+                return;
+            }
+
+
             FirebaseAuth.getInstance().sendPasswordResetEmail(email)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -72,7 +82,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
                             }
                             else{
                                 FirebaseException e=(FirebaseException)task.getException();
-                                Toast.makeText(ForgotPassword.this,"failed"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ForgotPassword.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

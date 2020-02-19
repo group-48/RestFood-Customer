@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,6 +48,8 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
     String shopDoc;
     Food foodObj;
 
+    ProgressDialog progressDialog;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Boolean browse;
 
@@ -76,6 +79,9 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
         et_qty= findViewById(R.id.eb_qty);
         et_qty.setNumber("1");
         btn_review=findViewById(R.id.btn_reviews);
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Adding to cart");
 
         if (getIntent() != null)
         {
@@ -142,6 +148,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v==btn_Cart){
+            progressDialog.show();
             Log.d("Clicked","yes");
 
             final CartItem cartItem=new CartItem(foodObj.getFoodName(),foodObj.getImage(),getIntent().getStringExtra("shopdoc"),getIntent().getStringExtra("docId"),et_qty.getNumber(),foodObj.getPrice());
@@ -155,6 +162,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if(documentSnapshot.exists()){
+                        progressDialog.dismiss();
                         Toast.makeText(FoodDetail.this,"Item Already in Cart",Toast.LENGTH_LONG).show();
                     }
                     else {
@@ -165,6 +173,7 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
                                 .set(cartItem).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                progressDialog.dismiss();
                                 Toast.makeText(FoodDetail.this,"Item Added to Cart",Toast.LENGTH_LONG).show();
                             }
                         });

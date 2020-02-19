@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="288dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -22,7 +22,9 @@
             android:id="@+id/tvbid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="8dp"
+            android:layout_marginLeft="5dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Booking Id : "
@@ -59,9 +61,10 @@
             android:id="@+id/booking_shop_id"
             android:layout_width="216dp"
             android:layout_height="33dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="17dp"
             android:layout_marginLeft="17dp"
-            android:layout_marginTop="53dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tv_booking_id"
             android:layout_toRightOf="@+id/bshopid"
             android:text="ABCDEFGH"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -84,8 +87,9 @@
             android:layout_width="216dp"
             android:layout_height="33dp"
             android:layout_marginLeft="0dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="15dp"
+            android:layout_below="@id/booking_shop_id"
             android:layout_toRightOf="@+id/bdate"
             android:text="2020/02/20"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -108,9 +112,10 @@
             android:layout_width="216dp"
             android:layout_height="33dp"
             android:layout_marginLeft="-6dp"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="11dp"
             android:layout_marginEnd="15dp"
             android:layout_toRightOf="@+id/btime"
+            android:layout_below="@+id/booking_date"
             android:text=" 04:30"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
@@ -131,10 +136,11 @@
             android:id="@+id/booking_status"
             android:layout_width="230dp"
             android:layout_height="33dp"
-            android:layout_marginLeft="-6dp"
-            android:layout_marginTop="190dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="15dp"
             android:layout_toRightOf="@+id/bstatus"
+            android:layout_below="@+id/booking_time"
             android:text="requested"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#000000" />
@@ -146,11 +152,10 @@
             android:layout_below="@+id/booking_status"
             android:layout_marginStart="130dp"
             android:layout_marginTop="11dp"
-            android:textColor="#FAF9F9"
-            android:textStyle="bold" />
+            android:textStyle="bold"
             android:text="CANCEL BOOKING"
             android:backgroundTint="@color/colorPrimary"
-            android:textColor="#FAF9F9"/>
+            android:textColor="#FAF9F9" />
 
 
 

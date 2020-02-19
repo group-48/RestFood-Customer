@@ -1,6 +1,7 @@
 package com.dash.restfood_customer;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.local.IndexedQueryEngine;
 import com.squareup.picasso.Picasso;
+
+import java.net.PortUnreachableException;
 
 public class ViewOrderAdapter extends FirestoreRecyclerAdapter<OrderFood, ViewOrderAdapter.ViewOrderHolder> {
 
@@ -55,6 +59,7 @@ public class ViewOrderAdapter extends FirestoreRecyclerAdapter<OrderFood, ViewOr
 
 
             });*/
+
             viewOrderHolder.btn_review.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -138,6 +143,7 @@ public class ViewOrderAdapter extends FirestoreRecyclerAdapter<OrderFood, ViewOr
             TextView tv_name,tv_price;
             ImageView iv_image;
             Button btn_review;
+
 
             public ViewOrderHolder(@NonNull View itemView) {
                 super(itemView);
