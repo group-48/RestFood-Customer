@@ -30,7 +30,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+        drawerLayout=findViewById(R.id.drawer);
         actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.nav_open,R.string.nav_close);
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -39,17 +39,23 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        NavigationView navigationView=(NavigationView)findViewById(R.id.nav_view);
+        NavigationView navigationView=findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         checkAuth();
         progressDialog=new ProgressDialog(this);
+
+
     }
 
     private void checkAuth() {
         firebaseAuth= FirebaseAuth.getInstance();
         FirebaseUser user=firebaseAuth.getCurrentUser();
         if(user==null){
+            progressDialog.setMessage("User not logged in");
+            progressDialog.show();
+            Intent intent=new Intent(this,LoginActivity.class);
+            startActivity(intent);
             //Toast.makeText(this,"no user",Toast.LENGTH_SHORT).show();
         }
         else{

@@ -82,6 +82,7 @@ public class CartAdapter extends FirestoreRecyclerAdapter<CartItem,CartAdapter.C
             btn_qty=itemView.findViewById(R.id.btn_qty);
             iv_image=itemView.findViewById(R.id.iv_image);
             btn_remove=itemView.findViewById(R.id.btn_remove);
+            btn_qty.setRange(1,100);
         }
     }
 }

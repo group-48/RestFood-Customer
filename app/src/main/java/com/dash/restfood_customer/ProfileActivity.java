@@ -51,6 +51,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     int dayOfMonth;
     Calendar calendar;
     int flag=0;
+    int phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +102,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     et_fname.setText(document.get("fName").toString());
                     et_phone.setText(document.get("phone").toString());
                     et_name.setText(document.get("fName").toString()+" "+document.get("lName").toString());
+                    phone=Integer.parseInt(document.get("phone").toString());
                     progressDialog.hide();
                 } else {
                     Log.d("Document", "No such document");
@@ -144,7 +146,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             }
             progressDialog.setMessage("Updating user profile");
             progressDialog.show();
-            updateUser();
+            //updateUser();
 
         }
         if(v==tv_booking){
@@ -178,7 +180,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             et_phone.setError("Phone No. cannot be empty");
             validity=0;
         }
-        if (!isGlobalPhoneNumber(phone) || phone.length()>10){
+        if (!isGlobalPhoneNumber(phone) || phone.length()>10 || phone.length()<9){
             et_phone.requestFocus();
             et_phone.setError("Invalid Phone number");
             validity=0;
@@ -212,20 +214,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         return true;
     }
 
-    private void updateUser() {
+    /*private void updateUser() {
         String fname=et_fname.getText().toString().trim();
         String lname=et_lname.getText().toString().trim();
         String dob=et_DOB.getText().toString().trim();
 
-        int phone=726655224;
+
         try
         {
-            phone=Integer.parseInt(et_phone.getText().toString());
+            phone=Integer.parseInt(et_phone.getText().toString().trim().replaceAll("\\p{C}", ""));
 
         }
         catch (NumberFormatException nfe)
         {
-            System.out.println("NumberFormatException: " + nfe.getMessage());
+            Log.d("Profile update","NumberFormatException: " + nfe.getMessage());
         }
 
         Customer customer=new Customer(user.getEmail(),fname,lname,phone,dob);
@@ -247,7 +249,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             }
 
         });
-    }
+    }*/
 
     @Override
     protected void onDestroy() {

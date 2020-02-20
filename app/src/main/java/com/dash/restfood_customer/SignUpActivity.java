@@ -26,10 +26,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.telephony.PhoneNumberUtils.isGlobalPhoneNumber;
 
@@ -44,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText et_lname;
     private TextView et_dob;
     private EditText et_phone;
+    private EditText et_no,et_street,et_city;
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     DatePickerDialog datePickerDialog;
@@ -82,31 +87,49 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         progressDialog=new ProgressDialog(this);
 
         //initializing ui components
-        btn_signup=(Button)findViewById(R.id.btn_signup);
-        et_email=(EditText)findViewById(R.id.et_email);
-        et_password=(EditText) findViewById(R.id.et_password);
-        tv_login=(TextView) findViewById(R.id.tv_login);
-        et_fname=(EditText)findViewById(R.id.et_fname);
+        btn_signup=findViewById(R.id.btn_signup);
+        et_email=findViewById(R.id.et_email);
+        et_password= findViewById(R.id.et_password);
+        tv_login= findViewById(R.id.tv_login);
+        et_fname=findViewById(R.id.et_fname);
         et_lname=findViewById(R.id.et_lname);
         et_dob=findViewById(R.id.et_dob);
-        et_phone=(EditText)findViewById(R.id.et_phone);
+        et_phone=findViewById(R.id.et_phone);
+        et_no=findViewById(R.id.et_no);
+        et_street=findViewById(R.id.et_street);
+        et_city=findViewById(R.id.et_city);
 
+        //setting click listeners for ui elements
         btn_signup.setOnClickListener(this);
         tv_login.setOnClickListener(this);
         et_dob.setOnClickListener(this);
 
     }
 
+    //save details of a registered user
     private void saveUserInfo() {
         String email=et_email.getText().toString().trim();
         String fname=et_fname.getText().toString().trim();
         String lname=et_lname.getText().toString().trim();
         String dob=et_dob.getText().toString().trim();
-        int phone=Integer.parseInt(et_phone.getText().toString().trim());
+        String street=et_street.getText().toString().trim();
+        String city=et_city.getText().toString().trim();
+        int no=Integer.parseInt(et_no.getText().toString());
+
+        int phone=Integer.parseInt(et_phone.getText().toString().replaceAll("\\p{C}", ""));
 
         FirebaseUser user=firebaseAuth.getCurrentUser();
-        Customer customer=new Customer(email,fname,lname,phone,dob);
+        //Customer customer=new Customer(email,fname,lname,phone,dob,no,street,city);
 
+
+        final Map<String,Object> customer=new HashMap<>();
+        customer.put("fName",fname);
+        customer.put("lName", lname);
+        customer.put("email", email);
+        customer.put("dob", dob);
+        customer.put("no", no);
+        customer.put("city",city);
+        customer.put("street",street);
 
 
         db.collection("users").document(user.getUid())
@@ -143,12 +166,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         progressDialog.setMessage("Registration in progress");
         progressDialog.show();
 
+        //user registration to firebase auth
         firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(SignUpActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
-
+                    //if user succesfully registered save his details
                     saveUserInfo();
 
                 }
@@ -212,12 +236,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             et_dob.setError("Date of Birth cannot be empty");
             validity=0;
         }
-        /*else if(Integer.parseInt(dob.substring(5,9))>(year-2)){
-            et_dob.requestFocus();
-            et_dob.setError("Invalid Date of Birth");
-            validity=0;
-        }*/
-
         if(!lname.matches(namePattern)){
             et_lname.requestFocus();
             et_lname.setError("Invalid Name");

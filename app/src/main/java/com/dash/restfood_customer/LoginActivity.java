@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener  {
 
     private Button btn_login;
-    //private Button btn_login;
     private EditText et_email;
     private EditText et_password;
     private TextView tv_signup;
@@ -44,14 +43,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         firebaseAuth=FirebaseAuth.getInstance();
 
         getSupportActionBar().hide();
+
+        //maintaining session to maintain qr code scan for each login
         session = new Session(this);
         session.setMenu(0);
 
-        btn_login=(Button) findViewById(R.id.btn_login);
-        et_email=(EditText)findViewById(R.id.et_email);
-        et_password=(EditText)findViewById(R.id.et_password);
-        tv_signup=(TextView)findViewById(R.id.tv_signup);
-        tv_forgot=(TextView)findViewById(R.id.tv_forgot);
+        btn_login=findViewById(R.id.btn_login);
+        et_email=findViewById(R.id.et_email);
+        et_password=findViewById(R.id.et_password);
+        tv_signup=findViewById(R.id.tv_signup);
+        tv_forgot=findViewById(R.id.tv_forgot);
 
         btn_login.setOnClickListener(this);
         tv_signup.setOnClickListener(this);
@@ -62,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    //signing in user
     private void signInUser(){
         String email = et_email.getText().toString().trim();
         String password=et_password.getText().toString().trim();

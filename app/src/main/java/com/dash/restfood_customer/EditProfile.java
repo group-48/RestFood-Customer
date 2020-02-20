@@ -23,6 +23,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class EditProfile extends BaseActivity implements View.OnClickListener {
+    //Testing update of user profile
+    //Not in use
+
+
     private EditText et_fname;
     private EditText et_lname;
     private EditText et_DOB;

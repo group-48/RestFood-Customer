@@ -1,9 +1,10 @@
 package com.dash.restfood_customer.models;
 
 public class Customer {
-    public String fName,lName,email;
-    public int phone;
-    public String DOB;
+    private String fName,lName,email;
+    private int phone;
+    private String DOB;
+
 
     public Customer(String email,String fName, String lName, int phone, String DOB) {
         this.email=email;
@@ -12,6 +13,7 @@ public class Customer {
         this.phone = phone;
         this.DOB = DOB;
     }
+
 
     public Customer(){
 

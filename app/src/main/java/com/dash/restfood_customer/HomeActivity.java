@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
   public class HomeActivity extends BaseActivity implements View.OnClickListener {
+      //Not in use
+      //Used for trying out different things
 
     private Button btn_menu;
     ImageView bgapp;

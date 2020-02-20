@@ -69,16 +69,17 @@ public class FoodDetail extends BaseActivity implements View.OnClickListener {
 
         //initialise view
 
-        food_name = (TextView) findViewById(R.id.food_name);
-        food_qty = (TextView) findViewById(R.id.food_qty);
-        food_description = (TextView) findViewById(R.id.food_description);
-        food_price=(TextView)findViewById(R.id.food_price);
-        food_image = (ImageView) findViewById(R.id.food_image);
-        btn_Cart = (ImageView) findViewById(R.id.btn_cart);
+        food_name =  findViewById(R.id.food_name);
+        food_qty =  findViewById(R.id.food_qty);
+        food_description =findViewById(R.id.food_description);
+        food_price=findViewById(R.id.food_price);
+        food_image =  findViewById(R.id.food_image);
+        btn_Cart =  findViewById(R.id.btn_cart);
         details=findViewById(R.id.tv_duartion);
         et_qty= findViewById(R.id.eb_qty);
         et_qty.setNumber("1");
         btn_review=findViewById(R.id.btn_reviews);
+        et_qty.setRange(1,100);
 
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Adding to cart");

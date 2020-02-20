@@ -342,21 +342,6 @@ public class ConfirmOrder extends BaseActivity implements View.OnClickListener {
                                             }
 
                                             db.collection("orders").document(docId).update("OrderId",docId);
-                                            /*for (QueryDocumentSnapshot document : task.getResult()) {
-                                                db.collection("users").document(user.getUid()).collection("cart")
-                                                        .document(document.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Log.d("CartActvity", "cdeleted");
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.d("CartActvity", "couldnt delete "+e);
-                                                    }
-                                                });
-                                                Log.d("CartActvity", "cart food"+document.getId());
-                                            }*/
                                             progressDialog.dismiss();
                                             Intent intent=new Intent(ConfirmOrder.this,TrackOrder.class);
                                             intent.putExtra("OrderId",docId);

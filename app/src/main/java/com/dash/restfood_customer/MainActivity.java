@@ -17,7 +17,6 @@ import androidx.cardview.widget.CardView;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
-   public MenuAdapter adapter;
    CardView cv_browse,cv_menu,cv_cart,cv_profile;
 
 
@@ -47,7 +46,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
 
-
+    //defining on click for dashboard icons
     @Override
     public void onClick(View v) {
         if(v==cv_cart){
